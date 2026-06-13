@@ -1,0 +1,71 @@
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid #e2e8f0;
+  transition: box-shadow 0.3s;
+}
+.header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+.header-container {
+  max-width: 1280px; margin: 0 auto;
+  padding: 0 24px; height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+.logo-title { font-family: 'Manrope', sans-serif; font-size: 18px; font-weight: 800; color: #0f172a; }
+.logo-subtitle { font-size: 11px; font-weight: 500; color: #64748b; letter-spacing: 0.5px; }
+.nav-links { display: flex; gap: 28px; }
+.nav-link {
+  font-size: 14px; font-weight: 500; color: #475569;
+  padding: 6px 0; position: relative; transition: color 0.25s;
+}
+.nav-link::after {
+  content: ''; position: absolute; bottom: -2px; left: 0;
+  width: 0; height: 2px; background: linear-gradient(90deg,#f59e0b,#d97706);
+  border-radius: 2px; transition: width 0.3s;
+}
+.nav-link:hover { color: #0f172a; }
+.nav-link:hover::after { width: 100%; }
+.btn-register-header {
+  font-size: 13px; font-weight: 600; padding: 9px 20px;
+  border-radius: 8px; color: #fff;
+  background: linear-gradient(135deg,#f59e0b,#d97706);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-register-header:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(245,158,11,0.35);
+}
+.btn-login-header {
+  font-size: 13px; font-weight: 600; padding: 9px 20px;
+  border-radius: 8px; color: #475569;
+  border: 1.5px solid #e2e8f0;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-login-header:hover {
+  border-color: #f59e0b;
+  color: #d97706;
+}
+.header-actions { display: flex; align-items: center; gap: 12px; }
+.mobile-menu-btn { display: none; flex-direction: column; gap: 5px; padding: 4px; cursor: pointer; }
+.mobile-menu-btn span {
+  width: 22px; height: 2px; background: #334155;
+  border-radius: 2px; transition: 0.3s; display: block;
+}
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 68px; left: 0; right: 0;
+    background: #fff; padding: 20px 24px; gap: 12px;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  }
+  .mobile-menu-btn { display: flex; }
+}
+@media (max-width: 600px) {
+  .header-container { padding: 0 16px; }
+  .btn-register-header { padding: 8px 14px; font-size: 12px; }
+}
