@@ -1,5 +1,6 @@
 import Navbar from './components/Navbar';
 import HomeHero from './components/HomeHero';
+import ImportantInfo from './components/ImportantInfo';
 
 function App() {
   const handleSelect = (category, item) => {
@@ -13,6 +14,7 @@ function App() {
       {/* Spacer for fixed navbar */}
       <div className="pt-16">
         <HomeHero />
+        <ImportantInfo />
       </div>
     </div>
   );
