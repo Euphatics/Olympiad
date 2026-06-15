@@ -178,9 +178,8 @@ export default function Navbar({ onSelect = () => { } }) {
                 </button>
 
                 {/* Olympiad Dropdown Panel */}
-                <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50 transition-all duration-200 origin-top ${
-                  activeDD === 'olympiads' ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'
-                }`}>
+                <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50 transition-all duration-200 origin-top ${activeDD === 'olympiads' ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'
+                  }`}>
                   <div className="bg-white rounded-xl border border-gray-200/80 shadow-xl shadow-gray-900/8 py-1.5 min-w-[280px]">
                     {/* Royal accent bar */}
                     <div className="h-[2.5px] bg-gradient-to-r from-royal-600 to-royal-800 mx-3 rounded-full mb-1.5" />
@@ -209,9 +208,8 @@ export default function Navbar({ onSelect = () => { } }) {
                         </button>
 
                         {/* Class-level flyout */}
-                        <div className={`absolute left-full top-0 ml-1.5 z-50 transition-all duration-200 origin-left ${
-                          hoveredCat === cat ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'
-                        }`}>
+                        <div className={`absolute left-full top-0 ml-1.5 z-50 transition-all duration-200 origin-left ${hoveredCat === cat ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'
+                          }`}>
                           <div className="bg-white rounded-xl border border-gray-200/80 shadow-xl shadow-gray-900/8 py-1.5 min-w-[180px] max-h-[380px] overflow-y-auto custom-scroll">
                             {CLASS_LEVELS.map((cls) => (
                               <button
@@ -255,9 +253,8 @@ export default function Navbar({ onSelect = () => { } }) {
                   />
                 </button>
 
-                <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50 transition-all duration-200 origin-top ${
-                  activeDD === 'faqs' ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'
-                }`}>
+                <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50 transition-all duration-200 origin-top ${activeDD === 'faqs' ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'
+                  }`}>
                   <div className="bg-white rounded-xl border border-gray-200/80 shadow-xl shadow-gray-900/8 py-1.5 min-w-[230px]">
                     <div className="h-[2.5px] bg-gradient-to-r from-royal-600 to-royal-800 mx-3 rounded-full mb-1.5" />
                     {FAQ_ITEMS.map((item) => (
@@ -300,9 +297,8 @@ export default function Navbar({ onSelect = () => { } }) {
                   />
                 </button>
 
-                <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50 transition-all duration-200 origin-top ${
-                  activeDD === 'preparations' ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'
-                }`}>
+                <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50 transition-all duration-200 origin-top ${activeDD === 'preparations' ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'
+                  }`}>
                   <div className="bg-white rounded-xl border border-gray-200/80 shadow-xl shadow-gray-900/8 py-1.5 min-w-[190px]">
                     <div className="h-[2.5px] bg-gradient-to-r from-royal-600 to-royal-800 mx-3 rounded-full mb-1.5" />
                     {PREPARATION_ITEMS.map((item) => (
@@ -362,17 +358,15 @@ export default function Navbar({ onSelect = () => { } }) {
          ═══════════════════════════════════════════════════════ */}
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] lg:hidden transition-opacity duration-300 ${
-          mobileOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-        }`}
+        className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] lg:hidden transition-opacity duration-300 ${mobileOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+          }`}
         onClick={() => setMobileOpen(false)}
       />
 
       {/* Panel */}
-      <div 
-        className={`fixed inset-y-0 right-0 z-[101] w-full max-w-[380px] bg-white shadow-2xl flex flex-col lg:hidden transition-transform duration-300 ease-out ${
-          mobileOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
+      <div
+        className={`fixed inset-y-0 right-0 z-[101] w-full max-w-[380px] bg-white shadow-2xl flex flex-col lg:hidden transition-transform duration-300 ease-out ${mobileOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
       >
         {/* ── Header ── */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
@@ -417,9 +411,8 @@ export default function Navbar({ onSelect = () => { } }) {
               />
             </button>
 
-            <div className={`overflow-hidden transition-all duration-300 ${
-              mobAccordion === 'olympiads' ? 'max-h-[800px] opacity-100 mt-1' : 'max-h-0 opacity-0'
-            }`}>
+            <div className={`overflow-hidden transition-all duration-300 ${mobAccordion === 'olympiads' ? 'max-h-[800px] opacity-100 mt-1' : 'max-h-0 opacity-0'
+              }`}>
               <div className="ml-3 border-l-2 border-royal-100 pl-2 space-y-0.5 pb-2">
                 {OLYMPIAD_CATEGORIES.map((cat) => (
                   <div key={cat}>
@@ -439,9 +432,8 @@ export default function Navbar({ onSelect = () => { } }) {
                       />
                     </button>
 
-                    <div className={`overflow-hidden transition-all duration-300 ${
-                      mobSubAccordion === cat ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
-                    }`}>
+                    <div className={`overflow-hidden transition-all duration-300 ${mobSubAccordion === cat ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+                      }`}>
                       <div className="ml-3 border-l-2 border-royal-100 pl-2 py-1 space-y-0.5">
                         {CLASS_LEVELS.map((cls) => (
                           <button
@@ -478,9 +470,8 @@ export default function Navbar({ onSelect = () => { } }) {
               />
             </button>
 
-            <div className={`overflow-hidden transition-all duration-300 ${
-              mobAccordion === 'preparations' ? 'max-h-[400px] opacity-100 mt-1' : 'max-h-0 opacity-0'
-            }`}>
+            <div className={`overflow-hidden transition-all duration-300 ${mobAccordion === 'preparations' ? 'max-h-[400px] opacity-100 mt-1' : 'max-h-0 opacity-0'
+              }`}>
               <div className="ml-3 border-l-2 border-royal-100 pl-2 space-y-0.5 pb-2">
                 {PREPARATION_ITEMS.map((item) => (
                   <button
@@ -513,9 +504,8 @@ export default function Navbar({ onSelect = () => { } }) {
               />
             </button>
 
-            <div className={`overflow-hidden transition-all duration-300 ${
-              mobAccordion === 'faqs' ? 'max-h-[500px] opacity-100 mt-1' : 'max-h-0 opacity-0'
-            }`}>
+            <div className={`overflow-hidden transition-all duration-300 ${mobAccordion === 'faqs' ? 'max-h-[500px] opacity-100 mt-1' : 'max-h-0 opacity-0'
+              }`}>
               <div className="ml-3 border-l-2 border-royal-100 pl-2 space-y-0.5 pb-2">
                 {FAQ_ITEMS.map((item) => (
                   <button
