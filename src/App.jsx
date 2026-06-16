@@ -1,6 +1,8 @@
 import Navbar from './components/Navbar';
 import HomeHero from './components/HomeHero';
 import ImportantInfo from './components/ImportantInfo';
+import SubjectsOffered from './components/SubjectsOffered';
+import AboutNTI from './components/AboutNTI';
 
 function App() {
   const handleSelect = (category, item) => {
@@ -15,6 +17,8 @@ function App() {
       <div className="pt-16">
         <HomeHero />
         <ImportantInfo />
+        <SubjectsOffered />
+        <AboutNTI />
       </div>
     </div>
   );
