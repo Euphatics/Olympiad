@@ -383,15 +383,15 @@ SubjectCard.displayName = 'SubjectCard';
 
 export default function SubjectsOffered() {
   return (
-    <section className="w-full bg-[#f9fafb] py-8 lg:py-12 border-b border-gray-200">
+    <section className="w-full bg-[#467fcf] py-8 lg:py-12 border-b border-blue-400">
       <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12">
 
         {/* Heading section styled to match Important Information exactly */}
         <div className="mb-6">
-          <h2 className="text-xl lg:text-2xl font-bold text-gray-800 tracking-tight">
-            1.4 Subjects Offered
+          <h2 className="text-xl lg:text-2xl font-bold text-white tracking-tight">
+            Subjects Offered
           </h2>
-          <div className="h-1 w-12 bg-[#007BFF] mt-1.5 rounded-full"></div>
+          <div className="h-1 w-12 bg-white mt-1.5 rounded-full"></div>
         </div>
 
         {/* Subjects horizontal grid */}

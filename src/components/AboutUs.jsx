@@ -18,12 +18,10 @@ export default function AboutUs() {
       <section className="w-full bg-royal-800 py-12 lg:py-16">
         <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12 text-center">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight">
-            About Olympiad India
+            About NTI Academy & Olympiad
           </h1>
           <p className="mt-3 text-sm sm:text-base text-royal-200 max-w-2xl mx-auto leading-relaxed">
-            Providing a platform where Indian students can compete with
-            international students in Olympiads and contests on similar
-            educational levels.
+            Empowering young minds through knowledge and innovation by identifying, encouraging, and nurturing the talent of students across India.
           </p>
         </div>
       </section>
@@ -41,26 +39,15 @@ export default function AboutUs() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
             <div className="lg:col-span-7">
+              <h3 className="text-xl font-bold text-gray-800 mb-3">Our Story & Mission</h3>
               <p className="text-[15px] leading-7 text-gray-600 mb-4">
-                <strong className="text-gray-800">Olympiad India</strong> aims
-                to provide a platform where Indian students can compete with
-                International students in Olympiads and contests on similar
-                educational levels.
+                <strong className="text-gray-800">NTI ACADEMY</strong> was founded in 2019 by Izhar Khan, an Engineering Graduate from the University of Mumbai and a Post Graduate from the University of Glasgow. After studying and working abroad, Izhar Khan realized that while Indian students possess immense potential, many lack the critical analytical and problem-solving skills required to compete on a global stage.
               </p>
               <p className="text-[15px] leading-7 text-gray-600 mb-4">
-                Olympiad Examinations help to identify a child's capability and
-                real potential that may help him survive better in today's modern
-                competitive world at the international level. They motivate
-                students to endeavor for a deeper understanding of scientific
-                facts to enhance their reasoning, analytical, and problem-solving
-                skills.
+                To bridge this gap, NTI Academy launched the <strong className="text-[#007BFF]">NTI Olympiad</strong>, a premier <strong className="text-gray-800">National Olympiad Competition</strong>. We conduct comprehensive <strong className="text-gray-800">School Olympiad Exams</strong> including the <strong className="text-gray-800">Maths Olympiad, Science Olympiad, English Olympiad, Information Technology, and Finance Olympiad</strong> for students from Classes 1 to 12 across India.
               </p>
               <p className="text-[15px] leading-7 text-gray-600">
-                Olympiad India is founded by like-minded people with vast
-                experience in Education. It is an initiative taken by{' '}
-                <strong className="text-gray-800">
-                  STEM OLYMPIAD INDIA – (Shrikant Chandrakant Thale HUF Firm)
-                </strong>.
+                Whether you are looking for an <strong className="text-gray-800">Online Olympiad for Students</strong> or an offline school-based test, our platform caters to all. As we gear up for the <strong className="text-gray-800">Olympiad Exam 2026</strong>, our mission remains to empower young minds through knowledge and innovation. By participating in the NTI Olympiad, students gain early exposure to national-level assessments, build confidence, and prepare for future academic challenges.
               </p>
             </div>
 
@@ -68,14 +55,14 @@ export default function AboutUs() {
             <div className="lg:col-span-5 flex flex-col justify-center">
               <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
                 <h4 className="text-sm font-bold text-gray-700 uppercase tracking-wider mb-4">
-                  At a Glance
+                  Why Participate?
                 </h4>
                 <ul className="space-y-3">
                   {[
-                    'Platform for national and international level competition',
-                    'Enhances reasoning, analytical & problem-solving skills',
-                    'Founded by experienced educators',
-                    'Initiative of STEM Olympiad India',
+                    'National-level Recognition & Medals',
+                    'Enhances Analytical & Problem-solving Skills',
+                    'Scholarship Opportunities for Top Achievers',
+                    'Builds Confidence for Future Academic Challenges',
                   ].map((item, idx) => (
                     <li key={idx} className="flex items-start gap-3">
                       <CheckCircle2 size={18} className="text-[#007BFF] mt-0.5 flex-shrink-0" strokeWidth={2.5} />
@@ -95,10 +82,10 @@ export default function AboutUs() {
           <div className="w-full bg-royal-700 text-white rounded-xl p-6 sm:p-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
-                { value: '5+', label: 'Subjects', icon: BookOpen },
-                { value: '10+', label: 'Class Levels', icon: GraduationCap },
-                { value: '150+', label: 'Countries', icon: Globe },
-                { value: '1000+', label: 'Awards Given', icon: Award },
+                { value: '5', label: 'Years of Excellence', icon: BookOpen },
+                { value: '100s', label: 'Schools Associated', icon: Globe },
+                { value: '1000s', label: 'Students Participated', icon: GraduationCap },
+                { value: 'Pan-India', label: 'Participants', icon: Award },
               ].map((item) => {
                 const IconComp = item.icon;
                 return (

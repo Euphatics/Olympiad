@@ -8,6 +8,9 @@ import AssociatedSchools from './components/AssociatedSchools';
 import Footer from './components/Footer';
 import ContactUs from './components/ContactUs';
 import AboutUs from './components/AboutUs';
+import FAQPage from './pages/FAQPage';
+import MathematicsClass1 from './pages/MathematicsClass1';
+import MarkingScheme from './pages/MarkingScheme';
 
 function App() {
   const [page, setPage] = useState('home'); // 'home' | 'contact' | 'about'
@@ -20,7 +23,16 @@ function App() {
     } else if (item === 'About Us') {
       setPage('about');
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    } else if (item === 'Marking Scheme') {
+      setPage('marking_scheme');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (item === 'FAQs' || category === 'FAQs') {
+      setPage('faq');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (category === 'Mathematics Olympiad' && item === 'Class 1') {
+      setPage('math_class_1');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else { }
   };
 
   const handleLogoClick = () => {
@@ -38,13 +50,16 @@ function App() {
           <>
             <HomeHero />
             <ImportantInfo />
-            <SubjectsOffered />
             <AboutNTI />
+            <SubjectsOffered />
             <AssociatedSchools />
           </>
         )}
         {page === 'contact' && <ContactUs />}
         {page === 'about' && <AboutUs />}
+        {page === 'faq' && <FAQPage />}
+        {page === 'math_class_1' && <MathematicsClass1 />}
+        {page === 'marking_scheme' && <MarkingScheme />}
         <Footer />
       </div>
     </div>
@@ -52,4 +67,3 @@ function App() {
 }
 
 export default App;
-

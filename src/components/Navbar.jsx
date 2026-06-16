@@ -30,7 +30,7 @@ const FAQ_ITEMS = [
   'Exam Dates',
   'Exam Syllabus',
   'Previous Year Papers',
-  'Marking Results',
+  'Marking Scheme',
   'Awards & Recognition',
   'Subject Rankers',
   'Contact Us',

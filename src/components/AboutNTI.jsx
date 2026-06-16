@@ -6,13 +6,14 @@ import {
   Globe,
   Eye,
   Target,
+  CheckCircle2,
 } from 'lucide-react';
 
 const stats = [
-  { value: '5',          label: 'Years of Excellence',    icon: Star,          color: 'bg-amber-500' },
-  { value: 'Thousands',  label: 'Students Participated',  icon: GraduationCap, color: 'bg-blue-500' },
-  { value: 'Hundreds',   label: 'Schools Associated',     icon: School,        color: 'bg-emerald-500' },
-  { value: 'Pan-India',  label: 'Participants From',      icon: Globe,         color: 'bg-purple-500' },
+  { value: '5+',          label: 'Years of Excellence',    icon: Star,          color: 'bg-amber-500' },
+  { value: '10,000+',     label: 'Students Participated',  icon: GraduationCap, color: 'bg-blue-500' },
+  { value: '400+',        label: 'Schools Associated',     icon: School,        color: 'bg-emerald-500' },
+  { value: 'Pan-India Presence', label: 'Participation Across the Country', icon: Globe, color: 'bg-purple-500' },
 ];
 
 export default function AboutNTI() {
@@ -30,49 +31,50 @@ export default function AboutNTI() {
 
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-8">
-
           {/* Left: Description */}
-          <div className="lg:col-span-8">
+          <div className="lg:col-span-7">
+            <p className="text-[15px] leading-7 text-gray-600 mb-3">
+              NTI Olympiad is a countrywide academic competition aimed at finding and encouraging talented students from Classes 1 to 12 in India. It helps the students assess their learning, improve their conceptual clarity, and receive recognition for academic brilliance.
+            </p>
+            <p className="text-[15px] leading-7 text-gray-600 mb-6">
+              The Olympiad is conducted in various subjects including Mathematics, Science, English, General Knowledge, and Logical Reasoning. NTI Olympiad will help students hone their logical reasoning and analytical skills by competing against other students from different institutions and backgrounds.
+            </p>
+
             <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">
-              India's Leading Academic Olympiad Platform
+              India's Top Academic Olympiad Forum
             </h3>
             <p className="text-[15px] leading-7 text-gray-600 mb-3">
-              NTI Olympiad is a <strong className="text-gray-800">national-level academic competition</strong> designed to identify, encourage and nurture the talent of students from <strong className="text-gray-800">Classes 1 to 12</strong>. For the past <strong className="text-[#007BFF]">5 years</strong>, NTI Olympiad has been inspiring young minds across India.
+              The NTI Olympiad has been motivating young talent and creating a positive learning environment for the past five years. Students of CBSE, ICSE, State Board, and International School boards can take part in the competition.
             </p>
-            <p className="text-[15px] leading-7 text-gray-600 mb-3">
-              Students from <strong className="text-gray-800">all boards — CBSE, ICSE, State Boards & International Schools</strong> can participate. Exams are conducted <strong className="text-gray-800">Offline (At Schools)</strong> and <strong className="text-gray-800">Online (From Home)</strong>, across School, Zonal, and National levels.
+            <p className="text-[15px] leading-7 text-gray-600 mb-4">
+              Students can register themselves either through Offline Mode at Schools or the Online Mode from Home. The examinations are conducted on three levels—School Level, Zonal Level, and National Level—that offer students an appropriate stage to prove their mettle.
             </p>
-            <p className="text-[14px] leading-7 text-gray-400 italic">
-              "We don't just conduct exams, we create opportunities that shape future achievers."
+            <p className="text-[14px] leading-7 text-gray-500 font-medium italic">
+              "We not only organize the exams, but also create opportunities that turn future achievers."
             </p>
           </div>
 
-          {/* Right: Vision & Mission stacked */}
-          <div className="lg:col-span-4 flex flex-col gap-4">
-            {/* Vision */}
-            <div className="border border-gray-200 rounded-xl p-5">
-              <div className="flex items-center gap-3 mb-2.5">
-                <div className="w-9 h-9 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
-                  <Eye size={18} strokeWidth={2} />
-                </div>
-                <h4 className="text-sm font-bold text-gray-800">Our Vision</h4>
-              </div>
-              <p className="text-[13px] leading-relaxed text-gray-500">
-                Empowering young minds through knowledge and innovation — every student deserves the chance to discover excellence and become a champion.
-              </p>
-            </div>
-
-            {/* Mission */}
-            <div className="border border-gray-200 rounded-xl p-5">
-              <div className="flex items-center gap-3 mb-2.5">
-                <div className="w-9 h-9 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center">
-                  <Target size={18} strokeWidth={2} />
-                </div>
-                <h4 className="text-sm font-bold text-gray-800">Our Mission</h4>
-              </div>
-              <p className="text-[13px] leading-relaxed text-gray-500">
-                To be India's fastest growing academic movement — identifying talent, building confidence, and preparing students for future challenges.
-              </p>
+          {/* Right: Why NTI Olympiad */}
+          <div className="lg:col-span-5 flex flex-col justify-center">
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
+              <h4 className="text-sm font-bold text-gray-700 uppercase tracking-wider mb-4">
+                Why NTI Olympiad?
+              </h4>
+              <ul className="space-y-3">
+                {[
+                  'Nationwide examinations and awards',
+                  'Exams for Classes 1-12',
+                  'Online/offline examination modes',
+                  'Subjects-wise Olympiads',
+                  'Ranking of participants',
+                  'Logical reasoning and academic excellence',
+                ].map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-3">
+                    <CheckCircle2 size={18} className="text-[#007BFF] mt-0.5 flex-shrink-0" strokeWidth={2.5} />
+                    <span className="text-[14px] text-gray-600 leading-snug">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>

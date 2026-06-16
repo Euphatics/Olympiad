@@ -145,8 +145,7 @@ function FAQItem({ item, color, searchQuery }) {
 
     return (
         <div
-            className="px-6 py-4 lg:px-8 lg:py-4 bg-white transition-all duration-200"
-            style={{ borderLeft: `3px solid ${color}` }}
+            className="px-6 py-4 lg:px-6 lg:py-4 bg-[#fafafa] border border-gray-200 rounded-lg transition-all duration-200 hover:border-gray-300"
         >
             <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -192,21 +191,18 @@ function FAQCategory({ category, openKey, setOpenKey, searchQuery, defaultOpen }
     return (
         <div className="w-full">
             {/* Category header */}
-            <div className="w-full flex items-center gap-4 px-6 py-5 lg:px-8 lg:py-6">
+            <div className="w-full flex items-center gap-4 px-2 py-4">
                 {categoryIcons[category.id] && React.createElement(categoryIcons[category.id], { size: 22, color: category.color, strokeWidth: 2 })}
                 <h3
                     className="text-base lg:text-lg font-bold tracking-wide text-gray-800"
                 >
                     {category.title}
                 </h3>
-                <span className="ml-3 text-xs font-semibold text-gray-500 bg-gray-100 px-2.5 py-0.5 rounded-full">
-                    {filteredItems.length}
-                </span>
             </div>
 
             {/* FAQ items */}
             <div className="overflow-hidden">
-                <div className="divide-y divide-gray-100 border-t border-gray-100">
+                <div className="flex flex-col gap-3">
                     {filteredItems.map((item, idx) => {
                         const key = `${category.id}-${idx}`;
                         return (
@@ -293,7 +289,7 @@ export default function FAQ() {
 
                 {/* ── FAQ Categories ── */}
                 {hasResults ? (
-                    <div className="bg-white border border-gray-200/80 rounded-2xl shadow-sm overflow-hidden max-w-7xl mx-auto divide-y divide-gray-200/80">
+                    <div className="w-full flex flex-col gap-2">
                         {faqCategories.map((category, index) => (
                             <FAQCategory
                                 key={category.id}
@@ -315,7 +311,7 @@ export default function FAQ() {
 
                 {/* ── Still Need Help? ── */}
                 <div
-                    className="mt-10 lg:mt-12 bg-white border border-gray-200/80 rounded-2xl px-6 py-7 lg:px-10 lg:py-8 flex flex-col lg:flex-row items-center justify-between gap-5 shadow-sm max-w-7xl mx-auto"
+                    className="mt-10 lg:mt-12 bg-white border border-gray-200/80 rounded-2xl px-6 py-7 lg:px-10 lg:py-8 flex flex-col lg:flex-row items-center justify-between gap-5 shadow-sm w-full"
                 >
                     <div className="flex items-center gap-4">
                         <Phone size={24} color="#007BFF" strokeWidth={1.8} />
