@@ -1,15 +1,215 @@
 import React from 'react';
 
+/* ── Decorative symbol definitions per subject ── */
+const mathDecorations = [
+  // Minus sign (top-left)
+  { type: 'line', x1: 0, y1: 2, x2: 14, y2: 2, top: '8%', left: '-2%', rotate: -12, size: 22 },
+  // Minus sign (bottom-left)
+  { type: 'line', x1: 0, y1: 2, x2: 14, y2: 2, top: '62%', left: '-3%', rotate: 8, size: 20 },
+  // X mark (top-right)
+  { type: 'x', top: '6%', right: '2%', rotate: 15, size: 26 },
+  // X mark (bottom-right)
+  { type: 'x', top: '72%', right: '0%', rotate: -20, size: 22 },
+  // Division sign (bottom-right area)
+  { type: 'division', top: '88%', right: '8%', rotate: 10, size: 18 },
+  // Plus (top center-right)
+  { type: 'plus', top: '2%', right: '30%', rotate: 20, size: 16 },
+];
+
+const itDecorations = [
+  // < bracket top-left
+  { type: 'text', content: '<', top: '6%', left: '2%', rotate: -10, size: 22 },
+  // > bracket top-right
+  { type: 'text', content: '>', top: '8%', right: '4%', rotate: 12, size: 24 },
+  // / slash bottom-left
+  { type: 'text', content: '/', top: '65%', left: '0%', rotate: -15, size: 20 },
+  // { curly brace bottom-right
+  { type: 'text', content: '{', top: '70%', right: '2%', rotate: 18, size: 22 },
+  // # hash top center
+  { type: 'text', content: '#', top: '2%', right: '32%', rotate: 22, size: 16 },
+  // } curly brace bottom
+  { type: 'text', content: '}', top: '88%', right: '10%', rotate: -8, size: 18 },
+];
+
+const scienceDecorations = [
+  // Atom ring (top-left)
+  { type: 'atom', top: '5%', left: '0%', rotate: -20, size: 24 },
+  // Flask (top-right)
+  { type: 'flask', top: '4%', right: '3%', rotate: 15, size: 26 },
+  // Dot molecule (bottom-left)
+  { type: 'molecule', top: '68%', left: '-2%', rotate: 10, size: 22 },
+  // Star / sparkle (bottom-right)
+  { type: 'star', top: '75%', right: '0%', rotate: -25, size: 20 },
+  // Wave (top center)
+  { type: 'wave', top: '0%', right: '28%', rotate: 0, size: 18 },
+  // Atom ring (bottom)
+  { type: 'atom', top: '90%', right: '12%', rotate: 30, size: 16 },
+];
+
+const englishDecorations = [
+  // Open quote (top-left)
+  { type: 'text', content: '"', top: '4%', left: '2%', rotate: -8, size: 26 },
+  // Close quote (top-right)
+  { type: 'text', content: '"', top: '6%', right: '4%', rotate: 12, size: 24 },
+  // A letter (bottom-left)
+  { type: 'text', content: 'A', top: '66%', left: '0%', rotate: -18, size: 20 },
+  // & ampersand (bottom-right)
+  { type: 'text', content: '&', top: '72%', right: '2%', rotate: 20, size: 22 },
+  // abc (top center-right)
+  { type: 'text', content: 'a', top: '1%', right: '30%', rotate: 15, size: 16 },
+  // Comma (bottom)
+  { type: 'text', content: ',', top: '90%', right: '14%', rotate: -10, size: 18 },
+];
+
+const financeDecorations = [
+  // Rupee sign (top-left)
+  { type: 'text', content: '₹', top: '6%', left: '2%', rotate: -12, size: 22 },
+  // Dollar (top-right)
+  { type: 'text', content: '$', top: '5%', right: '4%', rotate: 18, size: 26 },
+  // Percent (bottom-left)
+  { type: 'text', content: '%', top: '64%', left: '-1%', rotate: 10, size: 20 },
+  // Up arrow chart (bottom-right)
+  { type: 'chart', top: '72%', right: '0%', rotate: -15, size: 24 },
+  // Coin (top center)
+  { type: 'text', content: '¢', top: '2%', right: '28%', rotate: 22, size: 16 },
+  // Euro (bottom)
+  { type: 'text', content: '€', top: '88%', right: '10%', rotate: -8, size: 18 },
+];
+
+/* ── SVG renderers for each decoration type ── */
+const DecorationSVG = ({ deco, color }) => {
+  const style = {
+    position: 'absolute',
+    top: deco.top,
+    left: deco.left,
+    right: deco.right,
+    width: deco.size,
+    height: deco.size,
+    transform: `rotate(${deco.rotate}deg)`,
+    opacity: 0.35,
+    pointerEvents: 'none',
+    zIndex: 1,
+    transition: 'opacity 0.3s ease',
+  };
+
+  switch (deco.type) {
+    case 'line':
+      return (
+        <svg style={style} viewBox="0 0 14 4" fill="none">
+          <line x1="0" y1="2" x2="14" y2="2" stroke={color} strokeWidth="3" strokeLinecap="round" />
+        </svg>
+      );
+    case 'x':
+      return (
+        <svg style={style} viewBox="0 0 16 16" fill="none">
+          <line x1="2" y1="2" x2="14" y2="14" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+          <line x1="14" y1="2" x2="2" y2="14" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+        </svg>
+      );
+    case 'division':
+      return (
+        <svg style={style} viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="3" r="2" fill={color} />
+          <line x1="2" y1="8" x2="14" y2="8" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+          <circle cx="8" cy="13" r="2" fill={color} />
+        </svg>
+      );
+    case 'plus':
+      return (
+        <svg style={style} viewBox="0 0 16 16" fill="none">
+          <line x1="8" y1="2" x2="8" y2="14" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+          <line x1="2" y1="8" x2="14" y2="8" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+        </svg>
+      );
+    case 'atom':
+      return (
+        <svg style={style} viewBox="0 0 20 20" fill="none">
+          <ellipse cx="10" cy="10" rx="8" ry="3" stroke={color} strokeWidth="1.5" />
+          <ellipse cx="10" cy="10" rx="8" ry="3" stroke={color} strokeWidth="1.5" transform="rotate(60 10 10)" />
+          <ellipse cx="10" cy="10" rx="8" ry="3" stroke={color} strokeWidth="1.5" transform="rotate(120 10 10)" />
+          <circle cx="10" cy="10" r="2" fill={color} />
+        </svg>
+      );
+    case 'flask':
+      return (
+        <svg style={style} viewBox="0 0 20 22" fill="none">
+          <path d="M7 2h6v6l5 10a1 1 0 01-.9 1.5H2.9A1 1 0 012 18L7 8V2z" stroke={color} strokeWidth="1.5" strokeLinejoin="round" />
+          <line x1="6" y1="2" x2="14" y2="2" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      );
+    case 'molecule':
+      return (
+        <svg style={style} viewBox="0 0 20 20" fill="none">
+          <circle cx="10" cy="10" r="3" fill={color} />
+          <circle cx="3" cy="5" r="2" fill={color} opacity="0.6" />
+          <circle cx="17" cy="5" r="2" fill={color} opacity="0.6" />
+          <circle cx="5" cy="17" r="2" fill={color} opacity="0.6" />
+          <line x1="10" y1="10" x2="3" y2="5" stroke={color} strokeWidth="1" />
+          <line x1="10" y1="10" x2="17" y2="5" stroke={color} strokeWidth="1" />
+          <line x1="10" y1="10" x2="5" y2="17" stroke={color} strokeWidth="1" />
+        </svg>
+      );
+    case 'star':
+      return (
+        <svg style={style} viewBox="0 0 16 16" fill={color}>
+          <path d="M8 0l2 5h5l-4 3.5 1.5 5L8 11l-4.5 2.5L5 8.5 1 5h5z" />
+        </svg>
+      );
+    case 'wave':
+      return (
+        <svg style={style} viewBox="0 0 24 8" fill="none">
+          <path d="M0 4c3-4 5 4 8 0s5 4 8 0s5 4 8 0" stroke={color} strokeWidth="1.8" strokeLinecap="round" />
+        </svg>
+      );
+    case 'chart':
+      return (
+        <svg style={style} viewBox="0 0 20 20" fill="none">
+          <polyline points="2,16 7,10 11,13 18,4" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <polyline points="14,4 18,4 18,8" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case 'text':
+      return (
+        <span
+          style={{
+            ...style,
+            fontWeight: 800,
+            fontFamily: 'Inter, sans-serif',
+            color: color,
+            fontSize: deco.size * 1.1,
+            lineHeight: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: deco.size * 1.2,
+            height: deco.size * 1.2,
+            userSelect: 'none',
+          }}
+          aria-hidden="true"
+        >
+          {deco.content}
+        </span>
+      );
+    default:
+      return null;
+  }
+};
+
 const subjects = [
   {
     name: 'Mathematics',
-    color: '#3B82F6',
-    bgGradient: 'linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%)',
+    color: '#4F46E5', // Indigo-600
+    decorColor: '#818CF8', // Indigo-400
+    bgGradient: 'linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%)',
+    decorations: mathDecorations,
+    matteBg: '#6366F1', // Indigo-500
     topics: [
-      'Arithmetic & Numbers',
-      'Algebra & Equations',
-      'Geometry & Shapes',
-      'Number System & Data Handling'
+      'Syllabus',
+      'Sample Paper',
+      'Fees',
+      'Rankers',
+      'Exam Dates',
+      'Workbook'
     ],
     logo: (
       <img
@@ -21,13 +221,18 @@ const subjects = [
   },
   {
     name: 'Information Technology',
-    color: '#8B5CF6',
-    bgGradient: 'linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%)',
+    color: '#0D9488', // Teal-600
+    decorColor: '#2DD4BF', // Teal-400
+    bgGradient: 'linear-gradient(135deg, #F0FDFA 0%, #CCFBF1 100%)',
+    decorations: itDecorations,
+    matteBg: '#14B8A6', // Teal-500
     topics: [
-      'AI Basics',
-      'Coding Concepts',
-      'Cyber Safety',
-      'Digital Literacy'
+      'Syllabus',
+      'Sample Paper',
+      'Fees',
+      'Rankers',
+      'Exam Dates',
+      'Workbook'
     ],
     logo: (
       <svg viewBox="0 0 24 24" className="w-6 h-6 select-none" fill="white">
@@ -37,13 +242,18 @@ const subjects = [
   },
   {
     name: 'Science',
-    color: '#10B981',
-    bgGradient: 'linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%)',
+    color: '#059669', // Emerald-600
+    decorColor: '#34D399', // Emerald-400
+    bgGradient: 'linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%)',
+    decorations: scienceDecorations,
+    matteBg: '#10B981', // Emerald-500
     topics: [
-      'Conceptual Understanding',
-      'Scientific Reasoning',
-      'Practical Applications',
-      'Innovation Mindset'
+      'Syllabus',
+      'Sample Paper',
+      'Fees',
+      'Rankers',
+      'Exam Dates',
+      'Workbook'
     ],
     logo: (
       <svg viewBox="0 0 24 24" className="w-6 h-6 select-none" fill="white">
@@ -53,13 +263,18 @@ const subjects = [
   },
   {
     name: 'English',
-    color: '#EC4899',
-    bgGradient: 'linear-gradient(135deg, #FDF2F8 0%, #FCE7F3 100%)',
+    color: '#7C3AED', // Violet-600
+    decorColor: '#A78BFA', // Violet-400
+    bgGradient: 'linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%)',
+    decorations: englishDecorations,
+    matteBg: '#8B5CF6', // Violet-500
     topics: [
-      'Language Proficiency',
-      'Communication',
-      'Global Prespective',
-      'Confidence Building'
+      'Syllabus',
+      'Sample Paper',
+      'Fees',
+      'Rankers',
+      'Exam Dates',
+      'Workbook'
     ],
     logo: (
       <img
@@ -71,13 +286,18 @@ const subjects = [
   },
   {
     name: 'Finance',
-    color: '#F97316',
-    bgGradient: 'linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%)',
+    color: '#E11D48', // Rose-600
+    decorColor: '#FB7185', // Rose-400
+    bgGradient: 'linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 100%)',
+    decorations: financeDecorations,
+    matteBg: '#F43F5E', // Rose-500
     topics: [
-      'Banking Basics',
-      'Budgeting & Savings',
-      'Investment Awareness',
-      'Financial Literacy'
+      'Syllabus',
+      'Sample Paper',
+      'Fees',
+      'Rankers',
+      'Exam Dates',
+      'Workbook'
     ],
     logo: (
       <img
@@ -92,38 +312,69 @@ const subjects = [
 // Memoized SubjectCard component to prevent unnecessary re-renders
 const SubjectCard = React.memo(({ sub }) => {
   return (
-    <div className="group relative bg-white border border-gray-200/80 rounded-2xl p-5 lg:p-6 flex flex-col items-center gap-4 transition-all duration-300 shadow-sm hover:shadow-md cursor-default overflow-hidden">
-      {/* Subtle background gradient glow on card hover */}
-      <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0 pointer-events-none"
+    <div className="group flex flex-col w-full bg-white border border-gray-200/60 rounded-2xl transition-transform duration-300 ease-out hover:-translate-y-1 cursor-default overflow-hidden">
+      {/* Centered Header Section with custom gradient */}
+      <div 
+        className="w-full p-5 flex flex-col items-center gap-3 border-b border-gray-200/40"
         style={{ background: sub.bgGradient }}
-      />
-
-      {/* Circular Icon badge matching ImportantInfo.jsx style */}
-      <div
-        className="relative z-10 w-14 h-14 rounded-full flex items-center justify-center shadow-md group-hover:scale-110 group-hover:shadow-lg transition-all duration-300"
-        style={{ backgroundColor: sub.color }}
       >
-        {sub.logo}
+        {/* Circular Icon badge */}
+        <div
+          className="relative z-10 w-12 h-12 rounded-full flex items-center justify-center shadow-sm"
+          style={{ backgroundColor: sub.matteBg }}
+        >
+          {sub.logo}
+        </div>
+
+        {/* Subject Label */}
+        <h3 className="relative z-10 text-sm font-extrabold text-gray-800 text-center tracking-wide group-hover:text-gray-900 transition-colors duration-200">
+          {sub.name}
+        </h3>
       </div>
 
-      {/* Subject Label */}
-      <h3 className="relative z-10 text-base font-bold text-gray-800 text-center tracking-wide group-hover:text-gray-900 transition-colors duration-200">
-        {sub.name}
-      </h3>
-
-      {/* Topics / Syllabus items */}
-      <ul className="relative z-10 w-full text-xs text-gray-500 font-medium space-y-1.5 border-t border-gray-100 pt-3.5 mt-1">
-        {sub.topics.map((topic, idx) => (
-          <li key={idx} className="flex items-center gap-2">
-            <span
-              className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-              style={{ backgroundColor: sub.color }}
-            />
-            <span className="truncate">{topic}</span>
-          </li>
+      {/* Card Body */}
+      <div className="w-full p-5 flex flex-col gap-4 relative">
+        {/* Decorative subject-themed symbols scattered around the card */}
+        {sub.decorations && sub.decorations.map((deco, i) => (
+          <DecorationSVG key={i} deco={deco} color={sub.decorColor} />
         ))}
-      </ul>
+
+        {/* Topics / Syllabus items */}
+        <ul className="relative z-10 w-full text-xs text-black font-semibold space-y-2.5 pt-1">
+          {sub.topics.map((topic, idx) => (
+            <li key={idx} className="flex items-center gap-2">
+              <span
+                className="text-sm leading-none flex-shrink-0"
+                style={{ color: sub.color }}
+              >
+                ▸
+              </span>
+              <a
+                href="#"
+                onClick={(e) => e.preventDefault()}
+                className="truncate hover:underline hover:text-gray-600 transition-colors cursor-pointer"
+              >
+                {topic}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        {/* Divider line */}
+        <div className="border-t border-gray-200/60 my-1 w-full" />
+
+        {/* Know More Button */}
+        <button
+          type="button"
+          className="w-full py-2 px-4 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center hover:opacity-90 active:scale-[0.98] cursor-pointer"
+          style={{
+            backgroundColor: sub.matteBg,
+            color: '#FFFFFF'
+          }}
+        >
+          Know More
+        </button>
+      </div>
     </div>
   );
 });

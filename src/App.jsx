@@ -3,6 +3,8 @@ import HomeHero from './components/HomeHero';
 import ImportantInfo from './components/ImportantInfo';
 import SubjectsOffered from './components/SubjectsOffered';
 import AboutNTI from './components/AboutNTI';
+import AssociatedSchools from './components/AssociatedSchools';
+import Footer from './components/Footer';
 
 function App() {
   const handleSelect = (category, item) => {
@@ -19,6 +21,8 @@ function App() {
         <ImportantInfo />
         <SubjectsOffered />
         <AboutNTI />
+        <AssociatedSchools />
+        <Footer />
       </div>
     </div>
   );
