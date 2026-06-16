@@ -3,8 +3,8 @@ import React from 'react';
 const subjects = [
   {
     name: 'Mathematics',
-    color: '#3B82F6',
-    bgGradient: 'linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%)',
+    color: '#8A84A8',
+    bgGradient: 'linear-gradient(135deg, #EEEDF3 0%, #D8D6E4 100%)',
     topics: [
       'Arithmetic & Numbers',
       'Algebra & Equations',
@@ -21,8 +21,8 @@ const subjects = [
   },
   {
     name: 'Information Technology',
-    color: '#8B5CF6',
-    bgGradient: 'linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%)',
+    color: '#8BABC4',
+    bgGradient: 'linear-gradient(135deg, #EEF3F8 0%, #D6E3EE 100%)',
     topics: [
       'AI Basics',
       'Coding Concepts',
@@ -37,8 +37,8 @@ const subjects = [
   },
   {
     name: 'Science',
-    color: '#10B981',
-    bgGradient: 'linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%)',
+    color: '#8DD4A8',
+    bgGradient: 'linear-gradient(135deg, #EEF9F2 0%, #D4F0DF 100%)',
     topics: [
       'Conceptual Understanding',
       'Scientific Reasoning',
@@ -53,8 +53,8 @@ const subjects = [
   },
   {
     name: 'English',
-    color: '#EC4899',
-    bgGradient: 'linear-gradient(135deg, #FDF2F8 0%, #FCE7F3 100%)',
+    color: '#E2D9A0',
+    bgGradient: 'linear-gradient(135deg, #FAF8EF 0%, #F0ECDA 100%)',
     topics: [
       'Language Proficiency',
       'Communication',
@@ -71,8 +71,8 @@ const subjects = [
   },
   {
     name: 'Finance',
-    color: '#F97316',
-    bgGradient: 'linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%)',
+    color: '#D87C7C',
+    bgGradient: 'linear-gradient(135deg, #FAEFEF 0%, #F0D8D8 100%)',
     topics: [
       'Banking Basics',
       'Budgeting & Savings',
