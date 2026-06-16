@@ -62,6 +62,12 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Hide default Edge/IE password reveal button */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
 body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
