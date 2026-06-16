@@ -314,7 +314,7 @@ const SubjectCard = React.memo(({ sub }) => {
   return (
     <div className="group flex flex-col w-full bg-white border border-gray-200/60 rounded-2xl transition-transform duration-300 ease-out hover:-translate-y-1 cursor-default overflow-hidden">
       {/* Centered Header Section with custom gradient */}
-      <div 
+      <div
         className="w-full p-5 flex flex-col items-center gap-3 border-b border-gray-200/40"
         style={{ background: sub.bgGradient }}
       >
