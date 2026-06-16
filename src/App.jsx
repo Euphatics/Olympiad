@@ -7,21 +7,24 @@ import AboutNTI from './components/AboutNTI';
 import AssociatedSchools from './components/AssociatedSchools';
 import Footer from './components/Footer';
 import ContactUs from './components/ContactUs';
+import FAQ from './components/FAQ';
 
 function App() {
-  const [page, setPage] = useState('home'); // 'home' | 'contact'
+  const [page, setPage] = useState('home'); // 'home' | 'contact' | 'faq'
+
+  const navigateTo = (target) => {
+    setPage(target);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleSelect = (category, item) => {
     console.log('Selected:', category, '→', item);
-    if (item === 'Contact Us') {
-      setPage('contact');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    if (item === 'Contact Us') navigateTo('contact');
+    if (item === 'FAQ' || item === 'FAQs') navigateTo('faq');
   };
 
   const handleLogoClick = () => {
-    setPage('home');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigateTo('home');
   };
 
   return (
@@ -30,11 +33,17 @@ function App() {
 
       {/* Spacer for fixed navbar */}
       <div className="pt-16">
-        <HomeHero />
-        <ImportantInfo />
-        <SubjectsOffered />
-        <AboutNTI />
-        <AssociatedSchools />
+        {page === 'contact' && <ContactUs />}
+        {page === 'faq' && <FAQ />}
+        {page === 'home' && (
+          <>
+            <HomeHero />
+            <ImportantInfo />
+            <SubjectsOffered />
+            <AboutNTI />
+            <AssociatedSchools />
+          </>
+        )}
         <Footer />
       </div>
     </div>
