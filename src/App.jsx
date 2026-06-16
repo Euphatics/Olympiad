@@ -7,14 +7,19 @@ import AboutNTI from './components/AboutNTI';
 import AssociatedSchools from './components/AssociatedSchools';
 import Footer from './components/Footer';
 import ContactUs from './components/ContactUs';
+import AboutUs from './components/AboutUs';
 
 function App() {
-  const [page, setPage] = useState('home'); // 'home' | 'contact'
+  const [page, setPage] = useState('home'); // 'home' | 'contact' | 'about'
 
   const handleSelect = (category, item) => {
     console.log('Selected:', category, '→', item);
     if (item === 'Contact Us') {
       setPage('contact');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    if (item === 'About Us' || category === 'About') {
+      setPage('about');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
@@ -30,12 +35,21 @@ function App() {
 
       {/* Spacer for fixed navbar */}
       <div className="pt-16">
-        <HomeHero />
-        <ImportantInfo />
-        <SubjectsOffered />
-        <AboutNTI />
-        <AssociatedSchools />
-        <Footer />
+        {page === 'about' ? (
+          <>
+            <AboutUs />
+            <Footer />
+          </>
+        ) : (
+          <>
+            <HomeHero />
+            <ImportantInfo />
+            <SubjectsOffered />
+            <AboutNTI />
+            <AssociatedSchools />
+            <Footer />
+          </>
+        )}
       </div>
     </div>
   );
