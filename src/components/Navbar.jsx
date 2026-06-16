@@ -41,7 +41,7 @@ const PREPARATION_ITEMS = ['PYQs', 'Prep Books', 'Prep Guide'];
 /* ═══════════════════════════════════════════════════════════════
    NAVBAR COMPONENT
    ═══════════════════════════════════════════════════════════════ */
-export default function Navbar({ onSelect = () => { } }) {
+export default function Navbar({ onSelect = () => { }, onLogoClick }) {
   /* ── State ──────────────────────────────────────────────── */
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeDD, setActiveDD] = useState(null);
@@ -145,6 +145,7 @@ export default function Navbar({ onSelect = () => { } }) {
             <a
               href="/"
               id="nav-logo"
+              onClick={(e) => { if (onLogoClick) { e.preventDefault(); onLogoClick(); } }}
               className="text-base font-medium text-gray-800 select-none hover:text-royal-800 transition-colors duration-200"
             >
               Logo
