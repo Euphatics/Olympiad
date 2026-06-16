@@ -4,6 +4,8 @@ import HomeHero from './components/HomeHero';
 import ImportantInfo from './components/ImportantInfo';
 import SubjectsOffered from './components/SubjectsOffered';
 import AboutNTI from './components/AboutNTI';
+import AssociatedSchools from './components/AssociatedSchools';
+import Footer from './components/Footer';
 import ContactUs from './components/ContactUs';
 
 function App() {
@@ -28,16 +30,12 @@ function App() {
 
       {/* Spacer for fixed navbar */}
       <div className="pt-16">
-        {page === 'home' ? (
-          <>
-            <HomeHero />
-            <ImportantInfo />
-            <SubjectsOffered />
-            <AboutNTI />
-          </>
-        ) : (
-          <ContactUs />
-        )}
+        <HomeHero />
+        <ImportantInfo />
+        <SubjectsOffered />
+        <AboutNTI />
+        <AssociatedSchools />
+        <Footer />
       </div>
     </div>
   );
