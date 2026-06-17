@@ -10,6 +10,7 @@ import ContactUs from './components/ContactUs';
 import FAQPage from './pages/FAQPage';
 import MathematicsClass1 from './pages/MathematicsClass1';
 import MarkingScheme from './pages/MarkingScheme';
+import Gallery from './pages/Gallery';
 
 function App() {
   const [page, setPage] = useState('home'); // 'home' | 'contact'
@@ -27,6 +28,9 @@ function App() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (category === 'Mathematics Olympiad' && item === 'Class 1') {
       setPage('math_class_1');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (item === 'Gallery') {
+      setPage('gallery');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else { }
   };
@@ -55,6 +59,7 @@ function App() {
         {page === 'faq' && <FAQPage />}
         {page === 'math_class_1' && <MathematicsClass1 />}
         {page === 'marking_scheme' && <MarkingScheme />}
+        {page === 'gallery' && <Gallery />}
         <Footer />
       </div>
     </div>

@@ -316,13 +316,13 @@ export default function Navbar({ onSelect = () => { }, onLogoClick }) {
               </div>
 
               {/* Gallery */}
-              <a
-                href="#gallery"
+              <button
                 id="nav-gallery"
+                onClick={() => select('Gallery', 'Gallery')}
                 className="py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200"
               >
                 Gallery
-              </a>
+              </button>
 
 
             </div>
@@ -524,13 +524,12 @@ export default function Navbar({ onSelect = () => { }, onLogoClick }) {
           </div>
 
           {/* ── Gallery ── */}
-          <a
-            href="#gallery"
-            className="block px-3 py-3 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-            onClick={() => setMobileOpen(false)}
+          <button
+            onClick={() => select('Gallery', 'Gallery')}
+            className="w-full text-left block px-3 py-3 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors duration-200"
           >
             Gallery
-          </a>
+          </button>
 
 
         </div>
