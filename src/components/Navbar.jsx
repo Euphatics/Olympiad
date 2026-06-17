@@ -324,14 +324,7 @@ export default function Navbar({ onSelect = () => { }, onLogoClick }) {
                 Gallery
               </a>
 
-              {/* About Us */}
-              <button
-                id="nav-about-us"
-                onClick={() => select('About', 'About Us')}
-                className="py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200"
-              >
-                About Us
-              </button>
+
             </div>
 
             {/* ─── DESKTOP AUTH BUTTONS ─── */}
@@ -539,13 +532,7 @@ export default function Navbar({ onSelect = () => { }, onLogoClick }) {
             Gallery
           </a>
 
-          {/* ── About Us ── */}
-          <button
-            onClick={() => select('About', 'About Us')}
-            className="w-full text-left block px-3 py-3 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-          >
-            About Us
-          </button>
+
         </div>
 
         {/* Footer Auth */}

@@ -7,21 +7,17 @@ import AboutNTI from './components/AboutNTI';
 import AssociatedSchools from './components/AssociatedSchools';
 import Footer from './components/Footer';
 import ContactUs from './components/ContactUs';
-import AboutUs from './components/AboutUs';
 import FAQPage from './pages/FAQPage';
 import MathematicsClass1 from './pages/MathematicsClass1';
 import MarkingScheme from './pages/MarkingScheme';
 
 function App() {
-  const [page, setPage] = useState('home'); // 'home' | 'contact' | 'about'
+  const [page, setPage] = useState('home'); // 'home' | 'contact'
 
   const handleSelect = (category, item) => {
     console.log('Selected:', category, '→', item);
     if (item === 'Contact Us') {
       setPage('contact');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (item === 'About Us') {
-      setPage('about');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (item === 'Marking Scheme') {
       setPage('marking_scheme');
@@ -56,7 +52,6 @@ function App() {
           </>
         )}
         {page === 'contact' && <ContactUs />}
-        {page === 'about' && <AboutUs />}
         {page === 'faq' && <FAQPage />}
         {page === 'math_class_1' && <MathematicsClass1 />}
         {page === 'marking_scheme' && <MarkingScheme />}
