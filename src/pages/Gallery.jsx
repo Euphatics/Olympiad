@@ -104,7 +104,7 @@ export default function Gallery() {
         <h1 id="gallery-heading" className="text-3xl lg:text-4xl font-bold text-gray-800 mb-1">
           NTI Awards Gallery
         </h1>
-        <div className="h-[2px] bg-gradient-to-r from-[#007BFF] to-transparent mb-10"></div>
+        <div className="h-[2px] bg-gradient-to-r from-[#007BFF] to-transparent mb-16"></div>
 
         {/* ─── Viewer (only when a photo is clicked) ─── */}
         {current && (
@@ -112,7 +112,7 @@ export default function Gallery() {
             {/* Close button */}
             <button
               onClick={closeViewer}
-              className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 hover:text-gray-900 transition-colors"
+              className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-[#414a48] hover:opacity-90 flex items-center justify-center text-white transition-opacity cursor-pointer"
               aria-label="Close viewer"
             >
               <X size={20} />
@@ -122,7 +122,7 @@ export default function Gallery() {
               {/* Left Arrow */}
               <button
                 onClick={goPrev}
-                className="flex-shrink-0 w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-colors"
+                className="flex-shrink-0 w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-colors cursor-pointer"
                 aria-label="Previous photo"
               >
                 <ChevronLeft size={28} />
@@ -161,7 +161,7 @@ export default function Gallery() {
               {/* Right Arrow */}
               <button
                 onClick={goNext}
-                className="flex-shrink-0 w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-colors"
+                className="flex-shrink-0 w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-colors cursor-pointer"
                 aria-label="Next photo"
               >
                 <ChevronRight size={28} />
@@ -171,7 +171,7 @@ export default function Gallery() {
         )}
 
         {/* ─── Photo Grid (always visible) ─── */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
           {photos.map((photo, i) => (
             <button
               key={photo.id}

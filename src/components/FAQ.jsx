@@ -151,7 +151,7 @@ function FAQItem({ item, color, searchQuery }) {
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full flex items-center justify-between gap-3 text-left focus:outline-none py-1"
             >
-                <h4 className="text-[15px] lg:text-[16px] font-bold text-gray-900 pr-4">
+                <h4 className="text-[15px] lg:text-[16px] font-medium text-gray-800 pr-4">
                     <HighlightText text={item.q} highlight={searchQuery} />
                 </h4>
                 <svg
@@ -194,7 +194,7 @@ function FAQCategory({ category, openKey, setOpenKey, searchQuery, defaultOpen }
             <div className="w-full flex items-center gap-4 px-2 py-4">
                 {categoryIcons[category.id] && React.createElement(categoryIcons[category.id], { size: 22, color: category.color, strokeWidth: 2 })}
                 <h3
-                    className="text-base lg:text-lg font-bold tracking-wide text-gray-800"
+                    className="text-lg lg:text-xl font-bold tracking-wide text-gray-900 mb-1"
                 >
                     {category.title}
                 </h3>

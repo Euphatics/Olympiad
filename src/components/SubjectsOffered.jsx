@@ -204,8 +204,9 @@ const subjects = [
     decorations: mathDecorations,
     matteBg: '#6366F1', // Indigo-500
     topics: [
-      'Syllabus',
+      'About',
       'Sample Paper',
+      'Syllabus',
       'Fees',
       'Rankers',
       'Exam Dates',
@@ -227,8 +228,9 @@ const subjects = [
     decorations: itDecorations,
     matteBg: '#14B8A6', // Teal-500
     topics: [
-      'Syllabus',
+      'About',
       'Sample Paper',
+      'Syllabus',
       'Fees',
       'Rankers',
       'Exam Dates',
@@ -248,8 +250,9 @@ const subjects = [
     decorations: scienceDecorations,
     matteBg: '#10B981', // Emerald-500
     topics: [
-      'Syllabus',
+      'About',
       'Sample Paper',
+      'Syllabus',
       'Fees',
       'Rankers',
       'Exam Dates',
@@ -269,8 +272,9 @@ const subjects = [
     decorations: englishDecorations,
     matteBg: '#8B5CF6', // Violet-500
     topics: [
-      'Syllabus',
+      'About',
       'Sample Paper',
+      'Syllabus',
       'Fees',
       'Rankers',
       'Exam Dates',
@@ -292,8 +296,9 @@ const subjects = [
     decorations: financeDecorations,
     matteBg: '#F43F5E', // Rose-500
     topics: [
-      'Syllabus',
+      'About',
       'Sample Paper',
+      'Syllabus',
       'Fees',
       'Rankers',
       'Exam Dates',
@@ -327,7 +332,7 @@ const SubjectCard = React.memo(({ sub }) => {
         </div>
 
         {/* Subject Label */}
-        <h3 className="relative z-10 text-sm font-extrabold text-gray-800 text-center tracking-wide group-hover:text-gray-900 transition-colors duration-200">
+        <h3 className="relative z-10 text-base font-bold text-gray-800 text-center tracking-wide group-hover:text-gray-900 transition-colors duration-200">
           {sub.name}
         </h3>
       </div>
@@ -340,11 +345,11 @@ const SubjectCard = React.memo(({ sub }) => {
         ))}
 
         {/* Topics / Syllabus items */}
-        <ul className="relative z-10 w-full text-xs text-black font-semibold space-y-2.5 pt-1">
+        <ul className="relative z-10 w-full grid grid-cols-2 gap-x-1 gap-y-3 pt-2 pb-1">
           {sub.topics.map((topic, idx) => (
-            <li key={idx} className="flex items-center gap-2">
+            <li key={idx} className="flex items-center gap-1.5">
               <span
-                className="text-sm leading-none flex-shrink-0"
+                className="text-base leading-none flex-shrink-0"
                 style={{ color: sub.color }}
               >
                 ▸
@@ -352,7 +357,7 @@ const SubjectCard = React.memo(({ sub }) => {
               <a
                 href="#"
                 onClick={(e) => e.preventDefault()}
-                className="truncate hover:underline hover:text-gray-600 transition-colors cursor-pointer"
+                className="text-[13.5px] font-bold text-gray-800 truncate hover:underline hover:text-gray-600 transition-colors cursor-pointer"
               >
                 {topic}
               </a>
