@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { FloatingLabel } from 'flowbite-react';
 
-export default function LoginPage() {
+export default function LoginPage({ onSignUp }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -108,7 +108,7 @@ export default function LoginPage() {
               </div>
               <div className="login-signup-box">
                 <p className="login-no-account">No Account ?</p>
-                <a href="#" className="login-signup-link">Sign up</a>
+                <a href="#" onClick={(e) => { e.preventDefault(); if(onSignUp) onSignUp(); }} className="login-signup-link">Sign up</a>
               </div>
             </div>
 

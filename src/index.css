@@ -2,6 +2,8 @@
 @import "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ── Custom Theme ──────────────────────────────────────────── */
 @theme {
   --color-royal-50: #EFF6FF;
@@ -120,4 +122,17 @@ body {
 
 .custom-scroll::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+/* Override Flowbite Floating Labels background and text color */
+form label.absolute {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  pointer-events: none !important;
+}
+
+/* Specific fix to ensure text color inside flowbite floating inputs */
+form input {
+  color: #000000 !important;
+  background-color: transparent !important;
 }

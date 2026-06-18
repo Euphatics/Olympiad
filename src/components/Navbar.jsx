@@ -28,8 +28,7 @@ const CLASS_LEVELS = [
 const FAQ_ITEMS = [
   'FAQs',
   'Exam Dates',
-  'Exam Syllabus',
-  'Previous Year Papers',
+  'Exam Syllabus and PYQs',
   'Marking Scheme',
   'Awards & Recognition',
   'Subject Rankers',
