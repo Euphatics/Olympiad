@@ -331,12 +331,14 @@ export default function Navbar({ onSelect = () => { }, onLogoClick }) {
             <div className="hidden lg:flex items-center gap-3">
               <button
                 id="btn-login-desktop"
+                onClick={() => select('Login', 'Login')}
                 className="cursor-pointer px-6 py-2 text-[15px] font-medium text-gray-700 bg-white border border-[#007BFF] rounded-[4px] hover:bg-gray-50 transition-all duration-200"
               >
                 Log In
               </button>
               <button
                 id="btn-register-desktop"
+                onClick={() => select('Register', 'Register')}
                 className="cursor-pointer px-6 py-2 text-[15px] font-medium text-white bg-[#007BFF] rounded-[4px] hover:bg-[#0069D9] transition-all duration-200"
               >
                 Register
@@ -540,6 +542,7 @@ export default function Navbar({ onSelect = () => { }, onLogoClick }) {
 
             <button
               id="btn-login-mobile"
+              onClick={() => select('Login', 'Login')}
               className="cursor-pointer h-[42px] text-[15px] font-medium text-gray-700 bg-white border border-[#007BFF] rounded-[4px] hover:bg-gray-50 transition"
             >
               Log In
@@ -547,6 +550,7 @@ export default function Navbar({ onSelect = () => { }, onLogoClick }) {
 
             <button
               id="btn-register-mobile"
+              onClick={() => select('Register', 'Register')}
               className="cursor-pointer h-[42px] text-[15px] font-medium text-white bg-[#007BFF] rounded-[4px] hover:bg-[#0069D9] transition"
             >
               Register

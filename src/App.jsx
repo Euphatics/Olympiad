@@ -11,6 +11,8 @@ import FAQPage from './pages/FAQPage';
 import MathematicsClass1 from './pages/MathematicsClass1';
 import MarkingScheme from './pages/MarkingScheme';
 import Gallery from './pages/Gallery';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 function App() {
   const [page, setPage] = useState('home'); // 'home' | 'contact'
@@ -32,6 +34,10 @@ function App() {
     } else if (item === 'Gallery') {
       setPage('gallery');
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (item === 'Login' || item === 'Sign In') {
+      setPage('login');
+    } else if (item === 'Register' || item === 'Sign Up') {
+      setPage('register');
     } else { }
   };
 
@@ -60,6 +66,8 @@ function App() {
         {page === 'math_class_1' && <MathematicsClass1 />}
         {page === 'marking_scheme' && <MarkingScheme />}
         {page === 'gallery' && <Gallery />}
+        {page === 'login' && <LoginPage />}
+        {page === 'register' && <RegisterPage />}
         <Footer />
       </div>
     </div>
