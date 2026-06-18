@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Carousel } from "flowbite-react";
 import {
   User,
   Briefcase,
@@ -136,24 +137,14 @@ export default function HomeHero() {
           {/* ────────────────────────────────────────────────────────
               LEFT COLUMN: SLIDESHOW PLACEHOLDER
               ──────────────────────────────────────────────────────── */}
-          <div className="w-full lg:col-span-7 h-[250px] lg:h-auto bg-white border border-gray-200 rounded-2xl flex flex-col items-center justify-center text-gray-400 shadow-sm relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 z-0"></div>
-            
-            <div className="relative z-10 flex flex-col items-center">
-              <ImageIcon size={64} className="mb-4 text-gray-300 group-hover:scale-110 transition-transform duration-500" />
-              <h2 className="text-xl font-medium text-gray-500">Slideshow / Carousel</h2>
-              <p className="text-sm text-gray-400 mt-2 text-center max-w-sm px-4">
-                This empty container spans the left column. Insert your slider library (e.g. Swiper.js) here.
-              </p>
-            </div>
-            
-            {/* Fake pagination dots for visual effect */}
-            <div className="absolute bottom-6 flex gap-2 z-10">
-              <div className="w-2.5 h-2.5 rounded-full bg-[#007BFF]"></div>
-              <div className="w-2.5 h-2.5 rounded-full bg-gray-300"></div>
-              <div className="w-2.5 h-2.5 rounded-full bg-gray-300"></div>
-              <div className="w-2.5 h-2.5 rounded-full bg-gray-300"></div>
-            </div>
+          <div className="w-full lg:col-span-7 h-[250px] sm:h-[350px] lg:h-full rounded-2xl overflow-hidden shadow-sm border border-gray-200">
+            <Carousel>
+              <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="..." />
+              <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="..." />
+              <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" alt="..." />
+              <img src="https://flowbite.com/docs/images/carousel/carousel-4.svg" alt="..." />
+              <img src="https://flowbite.com/docs/images/carousel/carousel-5.svg" alt="..." />
+            </Carousel>
           </div>
 
           <div className="w-full lg:col-span-5 p-3 lg:p-4 relative overflow-hidden">

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
+import { FloatingLabel } from 'flowbite-react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -114,31 +115,26 @@ export default function LoginPage() {
             {/* Form */}
             <form onSubmit={handleSubmit} className="login-form">
               <div className="login-field">
-                <label className="login-label">Enter your username or email address</label>
-                <input
+                <FloatingLabel
+                  variant="outlined"
+                  label="Username or email address"
                   id="login-email"
                   type="text"
-                  placeholder="Username or email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  onFocus={() => setFocusedField('email')}
-                  onBlur={() => setFocusedField(null)}
-                  className={`login-input ${focusedField === 'email' ? 'login-input--focused' : ''}`}
                 />
               </div>
 
               <div className="login-field">
-                <label className="login-label">Enter your Password</label>
                 <div className="login-password-wrap">
-                  <input
+                  <FloatingLabel
+                    variant="outlined"
+                    label="Password"
                     id="login-password"
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    onFocus={() => setFocusedField('password')}
-                    onBlur={() => setFocusedField(null)}
-                    className={`login-input login-input--password ${focusedField === 'password' ? 'login-input--focused' : ''}`}
+                    className="pr-10"
                   />
                   <button
                     type="button"

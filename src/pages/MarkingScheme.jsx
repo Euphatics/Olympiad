@@ -1,4 +1,5 @@
 import React from 'react';
+import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 
 export default function MarkingScheme() {
   const subjects = [
@@ -37,40 +38,42 @@ export default function MarkingScheme() {
             <div key={idx} className="mb-12">
               <h3 className="text-[24px] font-bold text-[#28589c] mb-4">{subject} Olympiad</h3>
               <div className="overflow-x-auto shadow-sm rounded-sm border border-gray-200">
-                <table className="w-full text-left border-collapse min-w-[700px]">
-                  <thead>
-                    <tr className="bg-gray-50 text-[14px] text-gray-700 border-b-2 border-gray-300">
-                      <th className="py-4 px-6 font-semibold">Topic/Section</th>
-                      <th className="py-4 px-6 font-semibold">No. of Questions</th>
-                      <th className="py-4 px-6 font-semibold">Marks per Question</th>
-                      <th className="py-4 px-6 font-semibold">Total Marks</th>
-                      <th className="py-4 px-6 font-semibold">Total Time (in minutes)</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-[14px] text-gray-700">
-                    <tr className="border-b border-gray-200 hover:bg-gray-50 transition-colors">
-                      <td className="py-4 px-6">General Section</td>
-                      <td className="py-4 px-6">30</td>
-                      <td className="py-4 px-6">1</td>
-                      <td className="py-4 px-6">30</td>
-                      <td className="py-4 px-6"></td>
-                    </tr>
-                    <tr className="border-b border-gray-200 hover:bg-gray-50 transition-colors">
-                      <td className="py-4 px-6">Achiever's Section</td>
-                      <td className="py-4 px-6">10</td>
-                      <td className="py-4 px-6">2</td>
-                      <td className="py-4 px-6">20</td>
-                      <td className="py-4 px-6"></td>
-                    </tr>
-                    <tr className="bg-[#f4f8fc] font-bold text-[#111] border-b border-gray-300">
-                      <td className="py-4 px-6">Grand Total</td>
-                      <td className="py-4 px-6">40</td>
-                      <td className="py-4 px-6"></td>
-                      <td className="py-4 px-6">50</td>
-                      <td className="py-4 px-6 text-[#28589c]">60</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <Table hoverable>
+                  <TableHead>
+                    <TableHeadCell>Topic/Section</TableHeadCell>
+                    <TableHeadCell>No. of Questions</TableHeadCell>
+                    <TableHeadCell>Marks per Question</TableHeadCell>
+                    <TableHeadCell>Total Marks</TableHeadCell>
+                    <TableHeadCell>Total Time (in minutes)</TableHeadCell>
+                  </TableHead>
+                  <TableBody className="divide-y">
+                    <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                      <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                        General Section
+                      </TableCell>
+                      <TableCell>30</TableCell>
+                      <TableCell>1</TableCell>
+                      <TableCell>30</TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                    <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                      <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                        Achiever's Section
+                      </TableCell>
+                      <TableCell>10</TableCell>
+                      <TableCell>2</TableCell>
+                      <TableCell>20</TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                    <TableRow className="bg-[#f4f8fc] font-bold text-[#111] dark:bg-gray-700 dark:text-white">
+                      <TableCell className="whitespace-nowrap">Grand Total</TableCell>
+                      <TableCell>40</TableCell>
+                      <TableCell></TableCell>
+                      <TableCell>50</TableCell>
+                      <TableCell className="text-[#28589c] dark:text-blue-400">60</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </div>
             </div>
           ))}

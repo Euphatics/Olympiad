@@ -13,6 +13,7 @@ import {
   EyeOff,
   Check
 } from 'lucide-react';
+import { FloatingLabel } from 'flowbite-react';
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -204,65 +205,47 @@ export default function RegisterPage() {
             {/* Header */}
             <div className="mb-2">
               <h2 className="text-lg lg:text-xl font-bold text-gray-800 tracking-tight">School Registration</h2>
-              <div className="h-1 w-12 bg-[#007BFF] mt-1 rounded-full"></div>
-            </div>
-
-            <form className="space-y-3" onSubmit={handleSubmit}>
+              <div class            <form className="space-y-4" onSubmit={handleSubmit}>
               
               {/* Row 1: Name & Designation */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] font-semibold text-gray-700 mb-0">Candidate Name</label>
-                  <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <User size={16} className={getIconClass('name')} />
-                    </div>
-                    <input 
-                      type="text" 
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      placeholder="e.g. John Doe" 
-                      className={getInputClass('name')} 
-                    />
-                  </div>
+                  <FloatingLabel
+                    variant="outlined"
+                    label="Candidate Name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    color={(touched.name || submitted) && errors.name ? "error" : "default"}
+                  />
                   {renderError('name')}
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold text-gray-700 mb-0">Your Designation</label>
-                  <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Briefcase size={16} className={getIconClass('designation')} />
-                    </div>
-                    <input 
-                      type="text" 
-                      name="designation"
-                      value={formData.designation}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      placeholder="e.g. Principal, Teacher" 
-                      className={getInputClass('designation')} 
-                    />
-                  </div>
+                  <FloatingLabel
+                    variant="outlined"
+                    label="Your Designation"
+                    name="designation"
+                    value={formData.designation}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    color={(touched.designation || submitted) && errors.designation ? "error" : "default"}
+                  />
                   {renderError('designation')}
                 </div>
               </div>
 
               {/* Row 2: Country & Phone */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] font-semibold text-gray-700 mb-0">Select Country</label>
-                  <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <MapPin size={16} className={getIconClass('country')} />
-                    </div>
+                  <div className="relative group h-full flex flex-col justify-end">
                     <select 
                       name="country"
                       value={formData.country}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      className={getSelectClass('country')}
+                      className={getSelectClass('country') + " h-[50px] !pl-3"}
+                      style={{ paddingTop: '8px', paddingBottom: '8px' }}
                     >
                       <option value="" disabled>Select Country</option>
                       <option value="in" className="text-gray-800">India</option>
@@ -274,124 +257,94 @@ export default function RegisterPage() {
                   {renderError('country')}
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold text-gray-700 mb-0">WhatsApp / Mobile</label>
-                  <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Phone size={16} className={getIconClass('phone')} />
-                    </div>
-                    <input 
-                      type="tel" 
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      placeholder="+1 234 567 8900" 
-                      className={getInputClass('phone')} 
-                    />
-                  </div>
+                  <FloatingLabel
+                    variant="outlined"
+                    label="WhatsApp / Mobile"
+                    name="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    color={(touched.phone || submitted) && errors.phone ? "error" : "default"}
+                  />
                   {renderError('phone')}
                 </div>
               </div>
 
               {/* Section: School Details */}
-              <div>
-                <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 border-b border-gray-100 pb-0.5">School Details</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="pt-2">
+                <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-3 border-b border-gray-100 pb-0.5">School Details</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[11px] font-semibold text-gray-700 mb-0">School Name</label>
-                    <div className="relative group">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <GraduationCap size={16} className={getIconClass('schoolName')} />
-                      </div>
-                      <input 
-                        type="text" 
-                        name="schoolName"
-                        value={formData.schoolName}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        placeholder="Enter school name" 
-                        className={getInputClass('schoolName')} 
-                      />
-                    </div>
+                    <FloatingLabel
+                      variant="outlined"
+                      label="School Name"
+                      name="schoolName"
+                      value={formData.schoolName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      color={(touched.schoolName || submitted) && errors.schoolName ? "error" : "default"}
+                    />
                     {renderError('schoolName')}
                   </div>
                   <div>
-                    <label className="block text-[11px] font-semibold text-gray-700 mb-0">Official Email</label>
-                    <div className="relative group">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Mail size={16} className={getIconClass('email')} />
-                      </div>
-                      <input 
-                        type="email" 
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        placeholder="contact@school.edu" 
-                        className={getInputClass('email')} 
-                      />
-                    </div>
+                    <FloatingLabel
+                      variant="outlined"
+                      label="Official Email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      color={(touched.email || submitted) && errors.email ? "error" : "default"}
+                    />
                     {renderError('email')}
                   </div>
                 </div>
                 
                 {/* School Address */}
                 <div className="mt-4">
-                  <label className="block text-[11px] font-semibold text-gray-700 mb-0">School Address</label>
-                  <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <MapPin size={16} className={getIconClass('schoolAddress')} />
-                    </div>
-                    <input 
-                      type="text" 
-                      name="schoolAddress"
-                      value={formData.schoolAddress}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      placeholder="Enter full school address" 
-                      className={getInputClass('schoolAddress')} 
-                    />
-                  </div>
+                  <FloatingLabel
+                    variant="outlined"
+                    label="School Address"
+                    name="schoolAddress"
+                    value={formData.schoolAddress}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    color={(touched.schoolAddress || submitted) && errors.schoolAddress ? "error" : "default"}
+                  />
                   {renderError('schoolAddress')}
                 </div>
               </div>
 
               {/* Section: Login Credentials */}
-              <div>
-                <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 border-b border-gray-100 pb-0.5">Login Credentials</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="pt-2">
+                <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-3 border-b border-gray-100 pb-0.5">Login Credentials</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[11px] font-semibold text-gray-700 mb-0">Choose a Username</label>
-                    <div className="relative group">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <IdCard size={16} className={getIconClass('username')} />
-                      </div>
-                      <input 
-                        type="text" 
-                        name="username"
-                        value={formData.username}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        placeholder="e.g. schooladmin" 
-                        className={getInputClass('username')} 
-                      />
-                    </div>
+                    <FloatingLabel
+                      variant="outlined"
+                      label="Choose a Username"
+                      name="username"
+                      value={formData.username}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      color={(touched.username || submitted) && errors.username ? "error" : "default"}
+                    />
                     {renderError('username')}
                   </div>
                   <div>
-                    <label className="block text-[11px] font-semibold text-gray-700 mb-0">Set Password</label>
                     <div className="relative group">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Lock size={16} className={getIconClass('password')} />
-                      </div>
-                      <input 
-                        type={showPassword ? "text" : "password"}
+                      <FloatingLabel
+                        variant="outlined"
+                        label="Set Password"
                         name="password"
+                        type={showPassword ? "text" : "password"}
                         value={formData.password}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        placeholder="••••••••" 
-                        className={getInputClass('password')} 
+                        color={(touched.password || submitted) && errors.password ? "error" : "default"}
+                        className="pr-10"
                       />
                       <button 
                         type="button"
@@ -425,29 +378,25 @@ export default function RegisterPage() {
               </div>
 
               {/* Message Textarea */}
-              <div>
-                <label className="block text-[11px] font-semibold text-gray-700 mb-0">Your Message (Optional)</label>
+              <div className="pt-2">
                 <div className="relative group">
-                  <div className="absolute top-2.5 left-0 pl-3 flex items-start pointer-events-none">
-                    <MessageSquare size={14} className="text-gray-400 group-focus-within:text-[#007BFF] transition-colors" />
-                  </div>
                   <textarea 
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    placeholder="Write any additional details here..." 
+                    placeholder="Your Message (Optional)..." 
                     rows={2} 
-                    className="w-full pl-9 pr-3 py-1.5 text-[13px] border border-gray-300 rounded-md focus:ring-1 focus:ring-[#007BFF] focus:border-[#007BFF] outline-none transition-all placeholder:text-gray-300 resize-none custom-scroll"
+                    className="w-full px-4 py-3 text-[14px] border border-gray-300 rounded-lg focus:ring-1 focus:ring-[#007BFF] focus:border-[#007BFF] outline-none transition-all placeholder:text-gray-500 resize-none custom-scroll bg-gray-50 hover:bg-white focus:bg-white"
                   ></textarea>
                 </div>
               </div>
 
               {/* Submit Button */}
-              <div className="pt-1">
+              <div className="pt-3">
                 <button 
                   type="submit" 
-                  className="w-full py-2 text-[14px] font-bold text-white bg-[#007BFF] rounded-md hover:bg-[#0069D9] transition-colors shadow-md shadow-[#007BFF]/30"
+                  className="w-full py-3 text-[15px] font-bold text-white bg-[#007BFF] rounded-lg hover:bg-[#0069D9] transition-colors shadow-md shadow-[#007BFF]/30"
                 >
                   Submit Registration
                 </button>
