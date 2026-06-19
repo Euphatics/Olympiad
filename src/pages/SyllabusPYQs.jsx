@@ -1,4 +1,3 @@
-import React from 'react';
 
 const subjects = [
   { name: 'Mathematics Olympiad', abbr: 'NMO', label: 'NMO Syllabus' },

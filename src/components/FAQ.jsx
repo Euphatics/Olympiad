@@ -131,24 +131,24 @@ function HighlightText({ text, highlight }) {
 }
 
 /* ── Single FAQ item ── */
-function FAQItem({ item, color, searchQuery }) {
-    const [isOpen, setIsOpen] = React.useState(false);
+function FAQItem({ item, searchQuery }) {
+    const matchesSearch = searchQuery && (item.q.toLowerCase().includes(searchQuery) || item.a.toLowerCase().includes(searchQuery));
+    const [isCollapsed, setIsCollapsed] = React.useState(true);
+    const [prevSearch, setPrevSearch] = React.useState(searchQuery);
 
-    // Auto-open if searching
-    React.useEffect(() => {
-        if (searchQuery && (item.q.toLowerCase().includes(searchQuery) || item.a.toLowerCase().includes(searchQuery))) {
-            setIsOpen(true);
-        } else if (!searchQuery) {
-            setIsOpen(false);
-        }
-    }, [searchQuery, item]);
+    if (searchQuery !== prevSearch) {
+        setPrevSearch(searchQuery);
+        setIsCollapsed(!matchesSearch);
+    }
+
+    const isOpen = !isCollapsed;
 
     return (
         <div
             className="px-6 py-4 lg:px-6 lg:py-4 bg-[#fafafa] border border-gray-200 rounded-lg transition-all duration-200 hover:border-gray-300"
         >
             <button
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => setIsCollapsed(!isCollapsed)}
                 className="w-full flex items-center justify-between gap-3 text-left focus:outline-none py-1"
             >
                 <h4 className="text-[15px] lg:text-[16px] font-medium text-gray-800 pr-4">
@@ -176,7 +176,7 @@ function FAQItem({ item, color, searchQuery }) {
 }
 
 /* ── Category section ── */
-function FAQCategory({ category, openKey, setOpenKey, searchQuery, defaultOpen }) {
+function FAQCategory({ category, searchQuery }) {
     // Filter items by search query
     const filteredItems = category.items.filter(
         (item) =>
@@ -209,7 +209,6 @@ function FAQCategory({ category, openKey, setOpenKey, searchQuery, defaultOpen }
                             <FAQItem
                                 key={key}
                                 item={item}
-                                color={category.color}
                                 searchQuery={searchQuery}
                             />
                         );
@@ -222,7 +221,6 @@ function FAQCategory({ category, openKey, setOpenKey, searchQuery, defaultOpen }
 
 /* ── Main FAQ Component ── */
 export default function FAQ() {
-    const [openKey, setOpenKey] = React.useState('general-0');
     const [searchQuery, setSearchQuery] = React.useState('');
 
     const normalizedSearch = searchQuery.toLowerCase().trim();
@@ -290,14 +288,11 @@ export default function FAQ() {
                 {/* ── FAQ Categories ── */}
                 {hasResults ? (
                     <div className="w-full flex flex-col gap-2">
-                        {faqCategories.map((category, index) => (
+                        {faqCategories.map((category) => (
                             <FAQCategory
                                 key={category.id}
                                 category={category}
-                                openKey={openKey}
-                                setOpenKey={setOpenKey}
                                 searchQuery={normalizedSearch}
-                                defaultOpen={false}
                             />
                         ))}
                     </div>

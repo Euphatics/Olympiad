@@ -1,11 +1,8 @@
-import React from 'react';
 import {
   Star,
   School,
   GraduationCap,
   Globe,
-  Eye,
-  Target,
   CheckCircle2,
 } from 'lucide-react';
 

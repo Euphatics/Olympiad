@@ -1,4 +1,3 @@
-import React from 'react';
 
 const subjects = [
   { no: 1, name: 'NTI Mathematics Olympiad (NMO)', link: 'NMO' },

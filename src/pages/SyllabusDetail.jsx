@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const CLASSES = [
   'About',
@@ -17,20 +17,42 @@ const CLASSES = [
 export default function SyllabusDetail({ subjectName, onBack, onMarkingSchemeClick }) {
   const [activeClass, setActiveClass] = useState('About');
 
-  // Simple scroll spy logic
+  // Performant scroll spy using IntersectionObserver to avoid layout jank
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = CLASSES.map(cls => document.getElementById(cls.replace(/\s+/g, '-')));
-      let current = 'About';
-      for (const section of sections) {
-        if (section && window.scrollY >= section.offsetTop - 150) {
-          current = section.id.replace('-', ' ');
-        }
-      }
-      setActiveClass(current);
+    const observerOptions = {
+      root: null,
+      rootMargin: '-120px 0px -60% 0px',
+      threshold: 0
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    const sectionElements = CLASSES.map(cls => 
+      document.getElementById(cls.replace(/\s+/g, '-'))
+    ).filter(Boolean);
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          const cls = id.replace(/-/g, ' ');
+          setActiveClass(cls);
+        }
+      });
+    }, observerOptions);
+
+    sectionElements.forEach(el => observer.observe(el));
+
+    // Simple bottom-of-page detector to make sure Class 10 is highlighted
+    const handleScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50) {
+        setActiveClass('Class 10');
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      sectionElements.forEach(el => observer.unobserve(el));
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const scrollToSection = (className) => {

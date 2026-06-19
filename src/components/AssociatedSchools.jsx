@@ -1,4 +1,3 @@
-import React from 'react';
 import { School, Calendar, ClipboardCheck, Trophy, MessageSquareQuote, Images } from 'lucide-react';
 
 export default function AssociatedSchools() {

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   MapPin,
   Mail,
@@ -92,8 +91,8 @@ export default function Footer() {
                 name="f488841e3ecb939e0" 
                 title="fb:page Facebook Social Plugin" 
                 frameBorder="0" 
-                allowTransparency="true" 
-                allowFullScreen="true" 
+                allowtransparency="true" 
+                allowFullScreen={true} 
                 scrolling="no" 
                 allow="encrypted-media" 
                 src="https://www.facebook.com/v2.3/plugins/page.php?adapt_container_width=true&amp;app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Dffef7c6e0b9543a37%26domain%3Dsofworld.org%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Fsofworld.org%252Ff8a2c00b1a02934f8%26relation%3Dparent.parent&amp;container_width=500&amp;height=210&amp;hide_cover=false&amp;hide_cta=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fsofworld&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false&amp;tabs=timeline&amp;width=500" 

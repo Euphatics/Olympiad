@@ -274,7 +274,6 @@ export default function ContactUs() {
           </div>
         </div>
       </section>
-
       {/* ════════════════════════════════════════════════════
           MAP  —  Kurla, Mumbai
           ════════════════════════════════════════════════════ */}
@@ -302,31 +301,13 @@ export default function ContactUs() {
             width="100%"
             height="100%"
             style={{ border: 0, display: 'block' }}
-            allowFullScreen=""
+            allowFullScreen={true}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════════════
-          FOOTER  —  small placeholder
-          ════════════════════════════════════════════════════ */}
-      <footer
-        id="contact-footer"
-        className="w-full py-5 px-6 sm:px-10 lg:px-16 flex flex-col sm:flex-row items-center justify-between gap-3 border-t"
-        style={{ background: BG_SECTION, borderColor: BORDER_COL }}
-      >
-        <p className="text-xs" style={{ color: MUTED_COL }}>
-          © {new Date().getFullYear()} NTI Olympiad. All rights reserved.
-        </p>
-        <p
-          className="text-xs font-medium italic"
-          style={{ color: '#93C5FD' }}
-        >
-          Footer — Not made yet
-        </p>
-      </footer>
     </>
   );
 }

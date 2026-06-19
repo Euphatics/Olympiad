@@ -47,17 +47,9 @@ export default function Navbar({ onSelect = () => { }, onLogoClick }) {
   const [hoveredCat, setHoveredCat] = useState(null);
   const [mobAccordion, setMobAccordion] = useState(null);
   const [mobSubAccordion, setMobSubAccordion] = useState(null);
-  const [scrolled, setScrolled] = useState(false);
 
   const navRef = useRef(null);
   const closeRef = useRef(null);
-
-  /* ── Scroll shadow effect ──────────────────────────────── */
-  useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 8);
-    window.addEventListener('scroll', handler, { passive: true });
-    return () => window.removeEventListener('scroll', handler);
-  }, []);
 
   /* ── Click-outside to close desktop dropdown ───────────── */
   useEffect(() => {
