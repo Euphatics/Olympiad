@@ -59,6 +59,9 @@ export default function RegisterPage() {
         <meta name="twitter:description" content="Register your school or student profile for upcoming NTI Olympiad academic competitions." />
         <meta name="twitter:image" content="https://ntiolympiad.in/about_nti_banner.png" />
       </Helmet>
+      {/* Background layer */}
+      <div className="register-blue-bg"></div>
+
       {/* Content layer */}
       <div className="register-content">
         {/* ───────── LEFT SIDE ───────── */}

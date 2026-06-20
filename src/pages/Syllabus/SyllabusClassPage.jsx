@@ -282,7 +282,11 @@ export default function SyllabusClassPage() {
                       <img
                         src={section.image.src}
                         alt={section.image.alt}
-                        className="max-w-[420px] max-h-[200px] w-full h-auto object-contain rounded-md shadow-sm"
+                        className={
+                          section.image.src.includes('banner')
+                            ? "w-[60%] h-[140px] md:h-[180px] object-fill rounded-md shadow-sm"
+                            : "max-w-[320px] max-h-[200px] w-full h-auto object-contain rounded-md shadow-sm"
+                        }
                         loading="lazy"
                       />
                     </div>
