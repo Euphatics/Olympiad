@@ -120,6 +120,14 @@ export default function MathematicsClass1() {
                   NTI follows a structured examination and evaluation process that provides detailed performance insights. Students, parents, and teachers receive a clear understanding of a student's strengths and areas for improvement. This approach helps make mathematics more engaging while supporting continuous academic growth.
                 </p>
               </div>
+              <div className="mt-6 rounded-lg overflow-hidden">
+                <img
+                  src="/math_class_1_illustration.png"
+                  alt="Class 1 Mathematics Olympiad - Young students learning mathematics concepts"
+                  className="w-full max-w-[700px] h-auto rounded-lg shadow-md"
+                  loading="lazy"
+                />
+              </div>
             </section>
 
             {/* Benefits of Participating */}

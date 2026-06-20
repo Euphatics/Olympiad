@@ -43,6 +43,10 @@ export const syllabusData = {
         'olympiad-details': {
           heading: 'About the Olympiad',
           type: 'paragraphs',
+          image: {
+            src: '/math_class_1_illustration.png',
+            alt: 'Class 1 Mathematics Olympiad - Young students learning mathematics concepts',
+          },
           content: [
             'The NTI Class 1 Maths Olympiad is designed to help young learners build a strong foundation in mathematics while developing logical reasoning, critical thinking, and problem-solving skills. Based on the Class 1 curriculum, the Olympiad encourages students to apply mathematical concepts in different situations rather than simply memorizing them.',
             'The examination includes carefully designed questions that assess how well students understand key concepts and their ability to use these concepts to solve problems. Through participation, students gain exposure to national-level academic competition and have the opportunity to benchmark their performance against peers from different schools.',
@@ -95,6 +99,10 @@ export const syllabusData = {
         'how-to-apply': {
           heading: 'How to Apply',
           type: 'paragraphs',
+          image: {
+            src: '/nti_register_banner.png',
+            alt: 'Register for NTI Olympiad Exams - Mathematics, Science, English, IT, Finance - 1st to 10th',
+          },
           content: [
             'Schools can register their students by filling out the school registration form available on the NTI Olympiad website. Individual students can also register directly through the website with the help of their parents or guardians.',
             'After successful registration, students will receive their admit cards and examination details via email. Schools will be provided with bulk registration options and dedicated support.',
@@ -114,20 +122,34 @@ export const syllabusData = {
         },
         'exam-dates-and-fees': {
           heading: 'Exam Dates and Fees',
-          type: 'paragraphs',
-          content: [
-            'Exam dates and fee structure will be updated soon. Please check back regularly or register to receive notifications.',
+          type: 'table-with-notes',
+          intro: 'The exam dates for NTI Maths Olympiad for Class 1 for the Academic year 2026-27 are as given below:',
+          rows: [
+            { label: 'Level 1 Exam Dates', value: '1st December 2026\n5th December 2026' },
+            { label: 'Level 2 Exam Date', value: '30th January 2027\n1st February 2027' },
+            { label: 'Last Date for Registration', value: 'It is advisable to register for the exam before November.' },
+            { label: 'Level 1 Answer Key Dates', value: '9th - 10th December 2026' },
+            { label: 'Level 2 Answer Key Dates', value: '3rd - 4th February 2027' },
+            { label: 'Level 1 Result Date', value: 'Generally, the results are announced within 10 days after the last answer key date' },
+            { label: 'Level 2 Result Date', value: 'Typically, the results are announced within a month after the final answer key is released.' },
+          ],
+          notes: [
+            'Note: Check the NTI Olympiad website for other NTI Olympiad subjects as well.',
+            'The exam fee is INR 275 for students studying and enrolling from India. For students studying and residing outside of India, the fee is country specific.',
           ],
         },
         'how-to-prepare': {
           heading: 'How to Prepare',
-          type: 'list',
-          content: [
-            'Revise Class 1 mathematics concepts thoroughly',
-            'Practice previous year question papers',
-            'Use NTI preparation books and sample papers',
-            'Focus on understanding concepts rather than rote learning',
-            'Solve puzzles and logical reasoning exercises regularly',
+          type: 'prep-with-links',
+          intro: [
+            'To be a top performer in the Maths Olympiad exam then the Class 1 Maths Olympiad sample papers are a key requirement. To get a competitive edge, one must analyze previous years\' Maths Olympiad questions for class 1 and at the same time understand the syllabus. After this, proceed to the next steps of your preparation.',
+            'List down all the important topics in the Maths Olympiad syllabus and start preparing for them first. Learning to be focused and utilizing time efficiently is a key to success in preparation. Students can follow above tips to do well in the NTI Maths Olympiad exam for class 1. Students can also take advantage of the test series provided by NTI to have a deeper understanding of the types of questions.',
+          ],
+          materials: [
+            { label: 'Class 1 Maths Olympiad Sample Paper', link: '#', linkText: 'Check here' },
+            { label: 'Class 1 Maths Olympiad Previous Year Paper', link: '#', linkText: 'Check here' },
+            { label: 'Class 1 Maths Olympiad Workbook', link: '#', linkText: 'Check here' },
+            { label: 'Class 1 NTI Fundamentals', link: '#', linkText: 'Check Topics' },
           ],
         },
         'cut-off-and-answer-keys': {

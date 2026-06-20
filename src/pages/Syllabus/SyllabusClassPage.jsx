@@ -82,7 +82,7 @@ export default function SyllabusClassPage() {
     switch (section.type) {
       case 'paragraphs':
         return (
-          <div className="space-y-4 text-[14px] text-[#333] leading-[1.7]">
+          <div className="space-y-4 text-[14px] text-[#1a1a1a] leading-[1.7]">
             {section.content.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
@@ -91,27 +91,25 @@ export default function SyllabusClassPage() {
 
       case 'list':
         return (
-          <div className="text-[14px] text-[#333] leading-[1.8]">
+          <ul className="text-[14px] text-[#1a1a1a] leading-[1.8] list-disc pl-6 space-y-1">
             {section.content.map((item, i) => (
-              <p key={i}>{item}</p>
+              <li key={i}>{item}</li>
             ))}
-          </div>
+          </ul>
         );
 
       case 'ordered-list':
         return (
-          <div className="text-[14px] text-[#333] leading-[1.8] pl-4">
+          <ol className="text-[14px] text-[#1a1a1a] leading-[1.8] list-decimal pl-6 space-y-1">
             {section.content.map((item, i) => (
-              <p key={i}>
-                {String.fromCharCode(97 + i)}. {item}
-              </p>
+              <li key={i}>{item}</li>
             ))}
-          </div>
+          </ol>
         );
 
       case 'faq':
         return (
-          <div className="space-y-4 text-[14px] text-[#333] leading-[1.7]">
+          <div className="space-y-4 text-[14px] text-[#1a1a1a] leading-[1.7]">
             {section.content.map((faq, i) => (
               <div key={i}>
                 <p className="font-bold text-black">
@@ -120,6 +118,84 @@ export default function SyllabusClassPage() {
                 <p className="mt-1">{faq.answer}</p>
               </div>
             ))}
+          </div>
+        );
+
+      case 'table-with-notes':
+        return (
+          <div className="text-[14px] text-[#1a1a1a] leading-[1.7]">
+            {section.intro && (
+              <p className="mb-4">{section.intro}</p>
+            )}
+            <div className="border border-gray-200 rounded-md overflow-hidden mb-4">
+              {section.rows.map((row, i) => (
+                <div
+                  key={i}
+                  className={`flex flex-col sm:flex-row ${
+                    i % 2 === 0 ? 'bg-[#f8f9fa]' : 'bg-white'
+                  } ${i !== section.rows.length - 1 ? 'border-b border-gray-200' : ''}`}
+                >
+                  <div className="sm:w-[260px] flex-shrink-0 px-5 py-3.5 font-bold text-[#1a1a1a]">
+                    {row.label}
+                  </div>
+                  <div className="px-5 py-3.5 text-[#333] whitespace-pre-line">
+                    {row.value}
+                  </div>
+                </div>
+              ))}
+            </div>
+            {section.notes && section.notes.map((note, i) => (
+              <p key={i} className="mt-2">
+                {i === 0 ? <><strong>Note:</strong> {note.replace('Note: ', '')}</> : note}
+              </p>
+            ))}
+          </div>
+        );
+
+      case 'prep-with-links':
+        return (
+          <div className="text-[14px] text-[#1a1a1a] leading-[1.7]">
+            {section.intro && (
+              <div className="space-y-4 mb-6">
+                {section.intro.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
+            )}
+            {section.materials && (
+              <div className="border border-gray-200 rounded-md overflow-hidden">
+                {/* Header */}
+                <div className="flex bg-[#f0f0f0] border-b border-gray-200">
+                  <div className="flex-1 px-5 py-3 font-bold text-[#1a1a1a]">
+                    Preparation Material
+                  </div>
+                  <div className="w-[130px] flex-shrink-0 px-5 py-3 font-bold text-[#1a1a1a]">
+                    Link
+                  </div>
+                </div>
+                {/* Rows */}
+                {section.materials.map((item, i) => (
+                  <div
+                    key={i}
+                    className={`flex ${
+                      i % 2 === 0 ? 'bg-white' : 'bg-[#f8f9fa]'
+                    } ${i !== section.materials.length - 1 ? 'border-b border-gray-200' : ''}`}
+                  >
+                    <div className="flex-1 px-5 py-3.5">
+                      {item.label}
+                    </div>
+                    <div className="w-[130px] flex-shrink-0 px-5 py-3.5">
+                      <a
+                        href={item.link}
+                        className="text-[#007BFF] hover:text-[#0056b3] hover:underline"
+                      >
+                        {item.linkText}
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         );
 
@@ -201,6 +277,16 @@ export default function SyllabusClassPage() {
                     {section.heading}
                   </SectionHeading>
                   {renderSection(id, section)}
+                  {section.image && (
+                    <div className="mt-5 overflow-hidden">
+                      <img
+                        src={section.image.src}
+                        alt={section.image.alt}
+                        className="max-w-[420px] max-h-[200px] w-full h-auto object-contain rounded-md shadow-sm"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
                 </section>
               );
             })}
