@@ -2,16 +2,22 @@ export default function AuthSidebar({ title, className = '' }) {
   return (
     <div className={`auth-left ${className}`}>
       {/* Logo */}
-      <div className="auth-logo">Your Logo</div>
+      <div className="auth-logo flex items-center gap-2.5 select-none">
+        <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center shadow-sm">
+          <span className="text-royal-800 font-black text-sm">N</span>
+        </div>
+        <span className="text-lg font-bold tracking-tight text-white">
+          <span className="text-white">NTI</span>
+          <span className="text-blue-100 font-semibold ml-1">Olympiad</span>
+        </span>
+      </div>
 
       {/* Hero text */}
       <div className="auth-hero">
         <h1 className="auth-hero-title">{title}</h1>
-        <p className="auth-hero-subtitle">Lorem Ipsum is simply</p>
+        <p className="auth-hero-subtitle">NTI Olympiad Portal</p>
         <p className="auth-hero-desc">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text
-          ever since the 1500s.
+          Join India's premier academic competition platform. Challenge your reasoning, benchmark your performance, and achieve national excellence.
         </p>
       </div>
 

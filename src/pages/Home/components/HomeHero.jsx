@@ -13,7 +13,8 @@ import {
   EyeOff,
   Check
 } from 'lucide-react';
-import useSchoolRegistrationForm from '../hooks/useSchoolRegistrationForm';
+import { Helmet } from 'react-helmet-async';
+import useSchoolRegistrationForm from '../../../hooks/useSchoolRegistrationForm';
 
 export default function HomeHero() {
   const {
@@ -67,6 +68,65 @@ export default function HomeHero() {
 
   return (
     <section className="w-full bg-[#f9fafb] py-6 lg:py-8 border-b border-gray-200">
+      <Helmet>
+        <title>NTI Olympiad – Academic Excellence Starts Here</title>
+        <meta name="description" content="NTI Olympiad – India's premier academic competition platform for students from Nursery to Class 10." />
+        <link rel="canonical" href="https://ntiolympiad.in/" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="NTI Olympiad – Academic Excellence Starts Here" />
+        <meta property="og:description" content="NTI Olympiad – India's premier academic competition platform for students from Nursery to Class 10." />
+        <meta property="og:site_name" content="NTI Olympiad" />
+        <meta property="og:image" content="https://ntiolympiad.in/about_nti_banner.png" />
+        <meta property="og:url" content="https://ntiolympiad.in/" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="NTI Olympiad – Academic Excellence Starts Here" />
+        <meta name="twitter:description" content="NTI Olympiad – India's premier academic competition platform for students from Nursery to Class 10." />
+        <meta name="twitter:image" content="https://ntiolympiad.in/about_nti_banner.png" />
+
+        {/* WebSite Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "NTI Olympiad",
+            "url": "https://ntiolympiad.in/"
+          })}
+        </script>
+
+        {/* EducationalOrganization Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "EducationalOrganization",
+            "name": "National Talent Identification Olympiad (NTI)",
+            "alternateName": "NTI Olympiad",
+            "url": "https://ntiolympiad.in/",
+            "logo": "https://ntiolympiad.in/favicon.svg",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+91-7972621561",
+              "contactType": "customer service",
+              "email": "info@ntiolympiad.in",
+              "areaServed": "IN"
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Mumbai",
+              "addressRegion": "Maharashtra",
+              "addressCountry": "IN"
+            },
+            "sameAs": [
+              "https://www.facebook.com/ntiolympiad",
+              "https://www.instagram.com/ntiolympiad",
+              "https://twitter.com/ntiolympiad"
+            ]
+          })}
+        </script>
+      </Helmet>
       <div className="w-full px-6 sm:px-10 lg:px-16">
         
         {/* 2-Column Grid Layout */}
@@ -77,11 +137,11 @@ export default function HomeHero() {
               ──────────────────────────────────────────────────────── */}
           <div className="w-full lg:col-span-7 h-[250px] sm:h-[350px] lg:h-full rounded-2xl overflow-hidden shadow-sm border border-gray-200">
             <Carousel>
-              <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="..." />
-              <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="..." />
-              <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" alt="..." />
-              <img src="https://flowbite.com/docs/images/carousel/carousel-4.svg" alt="..." />
-              <img src="https://flowbite.com/docs/images/carousel/carousel-5.svg" alt="..." />
+              <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="Students participating in NTI Olympiad examination classroom" />
+              <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="Academic excellence certificates and gold medals ceremony" />
+              <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" alt="National Talent Identification Olympiad study materials and books" />
+              <img src="https://flowbite.com/docs/images/carousel/carousel-4.svg" alt="Interactive online test preparation portal dashboard" />
+              <img src="https://flowbite.com/docs/images/carousel/carousel-5.svg" alt="Happy school students celebrating academic success" />
             </Carousel>
           </div>
 

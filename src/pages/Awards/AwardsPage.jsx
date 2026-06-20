@@ -1,14 +1,35 @@
 
+import { Helmet } from 'react-helmet-async';
+
 export default function AwardsPage() {
   return (
     <div className="min-h-screen bg-white pb-20 font-sans">
+      <Helmet>
+        <title>Awards and Recognition – NTI Olympiad Winners</title>
+        <meta name="description" content="Discover student ranks, cash prizes, shields, gold/silver/bronze medals, and school certificates awarded by NTI Olympiad." />
+        <link rel="canonical" href="https://ntiolympiad.in/awards" />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Awards and Recognition – NTI Olympiad Winners" />
+        <meta property="og:description" content="Discover student ranks, cash prizes, shields, gold/silver/bronze medals, and school certificates awarded by NTI Olympiad." />
+        <meta property="og:site_name" content="NTI Olympiad" />
+        <meta property="og:image" content="https://ntiolympiad.in/about_nti_banner.png" />
+        <meta property="og:url" content="https://ntiolympiad.in/awards" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Awards and Recognition – NTI Olympiad Winners" />
+        <meta name="twitter:description" content="Discover student ranks, cash prizes, shields, gold/silver/bronze medals, and school certificates awarded by NTI Olympiad." />
+        <meta name="twitter:image" content="https://ntiolympiad.in/about_nti_banner.png" />
+      </Helmet>
       {/* ── Header ── */}
       <div className="w-full px-6 sm:px-10 lg:px-16 py-6 border-b border-gray-200">
         <h1 className="text-2xl text-gray-800">Awards & Recognition | Academic Year 2026-27</h1>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-8">
-        
+
         {/* Buttons at the top */}
         <div className="flex items-center gap-4 mb-10">
           <button className="text-lg text-[#007BFF] border-b-2 border-[#007BFF] font-medium pb-1">Students Awards</button>
@@ -29,7 +50,7 @@ export default function AwardsPage() {
         {/* ── Student Awards Table ── */}
         <h2 className="text-xl font-normal text-gray-800 mb-4">NTI Olympiads Awards for Students</h2>
         <p className="text-sm text-gray-600 mb-4">Awards for Students Appearing Online</p>
-        
+
         <div className="overflow-x-auto mb-10">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -46,9 +67,9 @@ export default function AwardsPage() {
                 <td className="py-4 px-4 border-r border-gray-200">International rankers from 1st to 3rd positions globally</td>
                 <td className="py-4 px-4 border-r border-gray-200">Grades 1-10</td>
                 <td className="py-4 px-4 leading-relaxed">
-                  <strong>International Rank 1:</strong> Gold Medal + Certificate of Excellence + Cash Prize<br/>
-                  <strong>International Rank 2:</strong> Silver Medal + Certificate of Excellence + Cash Prize<br/>
-                  <strong>International Rank 3:</strong> Bronze Medal + Certificate of Excellence + Cash Prize<br/>
+                  <strong>International Rank 1:</strong> Gold Medal + Certificate of Excellence + Cash Prize<br />
+                  <strong>International Rank 2:</strong> Silver Medal + Certificate of Excellence + Cash Prize<br />
+                  <strong>International Rank 3:</strong> Bronze Medal + Certificate of Excellence + Cash Prize<br />
                 </td>
               </tr>
               <tr className="border-b border-gray-200 hover:bg-gray-50">
@@ -56,9 +77,9 @@ export default function AwardsPage() {
                 <td className="py-4 px-4 border-r border-gray-200">Zonal rankers from 1st to 3rd positions in each zone</td>
                 <td className="py-4 px-4 border-r border-gray-200">Grades 1-10</td>
                 <td className="py-4 px-4 leading-relaxed">
-                  <strong>Zonal Rank 1:</strong> Zonal Gold Medal + Certificate of Excellence<br/>
-                  <strong>Zonal Rank 2:</strong> Zonal Silver Medal + Certificate of Excellence<br/>
-                  <strong>Zonal Rank 3:</strong> Zonal Bronze Medal + Certificate of Excellence<br/>
+                  <strong>Zonal Rank 1:</strong> Zonal Gold Medal + Certificate of Excellence<br />
+                  <strong>Zonal Rank 2:</strong> Zonal Silver Medal + Certificate of Excellence<br />
+                  <strong>Zonal Rank 3:</strong> Zonal Bronze Medal + Certificate of Excellence<br />
                 </td>
               </tr>
               <tr className="border-b border-gray-200 hover:bg-gray-50">
@@ -91,7 +112,7 @@ export default function AwardsPage() {
 
         {/* ── Teacher Awards Table ── */}
         <h2 className="text-xl font-normal text-gray-800 mb-4 mt-12">Awards for NTI International Teacher Olympiads</h2>
-        
+
         <div className="overflow-x-auto mb-10">
           <table className="w-full text-left border-collapse">
             <thead>

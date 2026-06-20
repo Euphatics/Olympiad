@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
+import { Helmet } from 'react-helmet-async';
+import { Breadcrumb, PageContainer, SectionHeading } from '../../components/ui';
 
 const subjects = [
   { name: 'Mathematics Olympiad', id: 'math' },
@@ -22,19 +24,35 @@ export default function MarkingScheme() {
 
   return (
     <div className="min-h-screen bg-white">
+      <Helmet>
+        <title>Marking Scheme and Exam Pattern – NTI Olympiad</title>
+        <meta name="description" content="Understand the marking criteria, distribution of marks, and total questions across classes for the NTI Olympiad." />
+        <link rel="canonical" href="https://ntiolympiad.in/marking-scheme" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Marking Scheme and Exam Pattern – NTI Olympiad" />
+        <meta property="og:description" content="Understand the marking criteria, distribution of marks, and total questions across classes for the NTI Olympiad." />
+        <meta property="og:site_name" content="NTI Olympiad" />
+        <meta property="og:image" content="https://ntiolympiad.in/about_nti_banner.png" />
+        <meta property="og:url" content="https://ntiolympiad.in/marking-scheme" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Marking Scheme and Exam Pattern – NTI Olympiad" />
+        <meta name="twitter:description" content="Understand the marking criteria, distribution of marks, and total questions across classes for the NTI Olympiad." />
+        <meta name="twitter:image" content="https://ntiolympiad.in/about_nti_banner.png" />
+      </Helmet>
       {/* ── Breadcrumb ── */}
-      <div className="w-full bg-[#f0f8ff] border-b border-blue-100 py-3 px-6 sm:px-10 lg:px-16">
-        <div className="text-[13px] sm:text-[14px] text-gray-500">
-          <a href="#" className="text-[#007BFF] hover:underline">Home</a>
-          <span className="mx-2">/</span>
-          <span className="text-gray-700">Marking Scheme</span>
-        </div>
-      </div>
+      <Breadcrumb items={[
+        { label: 'Home', path: '/' },
+        { label: 'Marking Scheme' }
+      ]} />
 
       {/* ── Main Layout ── */}
-      <div className="w-full px-6 sm:px-10 lg:px-16 py-8">
+      <PageContainer className="py-8">
         <div className="w-full border-b border-gray-300 pb-4 mb-8">
-          <h1 className="text-2xl lg:text-[28px] font-normal text-[#333]">Level 1 Exam Pattern and Marking Scheme</h1>
+          <SectionHeading level="h1">Level 1 Exam Pattern and Marking Scheme</SectionHeading>
         </div>
 
         <div className="flex flex-col md:flex-row gap-8 items-start relative">
@@ -118,7 +136,7 @@ export default function MarkingScheme() {
           </div>
 
         </div>
-      </div>
+      </PageContainer>
     </div>
   );
 }

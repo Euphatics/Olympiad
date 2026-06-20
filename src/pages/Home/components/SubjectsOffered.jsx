@@ -215,7 +215,7 @@ const subjects = [
     logo: (
       <img
         src="/icons8-math-50.png"
-        alt="Mathematics"
+        alt="NTI Mathematics Olympiad logo icon"
         className="w-7 h-7 object-contain select-none brightness-0 invert"
       />
     )
@@ -283,7 +283,7 @@ const subjects = [
     logo: (
       <img
         src="/auto_stories_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
-        alt="English"
+        alt="NTI English Olympiad book logo icon"
         className="w-7 h-7 object-contain select-none brightness-0 invert"
       />
     )
@@ -307,7 +307,7 @@ const subjects = [
     logo: (
       <img
         src="/finance_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
-        alt="Finance"
+        alt="NTI Finance Olympiad growth chart logo icon"
         className="w-7 h-7 object-contain select-none brightness-0 invert"
       />
     )

@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 /**
  * Gallery data structure.
@@ -65,39 +66,51 @@ const GALLERY_DATA = [
 ];
 
 export default function Gallery() {
-  const [photos] = useState(GALLERY_DATA);
   const [activeIndex, setActiveIndex] = useState(null); // null = grid view, number = viewer
-
-  // SEO
-  useEffect(() => {
-    document.title = 'Gallery – NTI Olympiad';
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) {
-      meta.setAttribute('content', 'Explore the photo gallery of NTI Olympiad achievers, events, and highlights.');
-    }
-  }, []);
 
   // Keyboard navigation (only when viewer is open)
   const handleKey = useCallback((e) => {
-    if (activeIndex === null) return;
-    if (e.key === 'Escape') setActiveIndex(null);
-    if (e.key === 'ArrowRight') setActiveIndex((i) => (i + 1) % photos.length);
-    if (e.key === 'ArrowLeft') setActiveIndex((i) => (i - 1 + photos.length) % photos.length);
-  }, [activeIndex, photos.length]);
+    if (e.key === 'Escape') {
+      setActiveIndex(null);
+    } else if (e.key === 'ArrowRight') {
+      setActiveIndex((i) => (i !== null ? (i + 1) % GALLERY_DATA.length : null));
+    } else if (e.key === 'ArrowLeft') {
+      setActiveIndex((i) => (i !== null ? (i - 1 + GALLERY_DATA.length) % GALLERY_DATA.length : null));
+    }
+  }, []);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKey);
     return () => document.removeEventListener('keydown', handleKey);
   }, [handleKey]);
 
-  const goPrev = () => setActiveIndex((i) => (i - 1 + photos.length) % photos.length);
-  const goNext = () => setActiveIndex((i) => (i + 1) % photos.length);
+  const goPrev = () => setActiveIndex((i) => (i !== null ? (i - 1 + GALLERY_DATA.length) % GALLERY_DATA.length : null));
+  const goNext = () => setActiveIndex((i) => (i !== null ? (i + 1) % GALLERY_DATA.length : null));
   const closeViewer = () => setActiveIndex(null);
 
-  const current = activeIndex !== null ? photos[activeIndex] : null;
+  const current = activeIndex !== null ? GALLERY_DATA[activeIndex] : null;
 
   return (
     <section className="w-full bg-[#f9fafb] py-8 lg:py-12" aria-labelledby="gallery-heading">
+      <Helmet>
+        <title>Gallery & Moments – NTI Olympiad</title>
+        <meta name="description" content="View photos and highlights from NTI Olympiad award ceremonies, events, and student achievements." />
+        <link rel="canonical" href="https://ntiolympiad.in/gallery" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Gallery & Moments – NTI Olympiad" />
+        <meta property="og:description" content="View photos and highlights from NTI Olympiad award ceremonies, events, and student achievements." />
+        <meta property="og:site_name" content="NTI Olympiad" />
+        <meta property="og:image" content={GALLERY_DATA[0]?.image || "https://ntiolympiad.in/about_nti_banner.png"} />
+        <meta property="og:url" content="https://ntiolympiad.in/gallery" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Gallery & Moments – NTI Olympiad" />
+        <meta name="twitter:description" content="View photos and highlights from NTI Olympiad award ceremonies, events, and student achievements." />
+        <meta name="twitter:image" content={GALLERY_DATA[0]?.image || "https://ntiolympiad.in/about_nti_banner.png"} />
+      </Helmet>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Title */}
@@ -172,7 +185,7 @@ export default function Gallery() {
 
         {/* ─── Photo Grid (always visible) ─── */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
-          {photos.map((photo, i) => (
+          {GALLERY_DATA.map((photo, i) => (
             <button
               key={photo.id}
               onClick={() => setActiveIndex(i)}

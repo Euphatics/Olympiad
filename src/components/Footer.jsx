@@ -27,13 +27,13 @@ export default function Footer() {
                     <MapPin size={16} />
                   </div>
                   <div className="leading-relaxed">
-                    Science Olympiad Foundation <br/>
-                    Plot no 99, Sector - 44, Gurugram (Haryana)<br/>
-                    India. Pin - 122003
+                    NTI Olympiad Centre <br/>
+                    Shop No.4, LBS Marg, Kurla West,<br/>
+                    Mumbai, Maharashtra, India. Pin - 400070
                     <br/><br/>
-                    <span className="font-bold text-white">Regd Office:</span> 406, Taj Apartment, Ring Road,<br/>
-                    Adjacent Safdarjung Hospital, New Delhi,<br/>
-                    India. Pin – 110029
+                    <span className="font-bold text-white">Regd Office:</span> Shop No.4, LBS Marg, Kurla West,<br/>
+                    Mumbai, Maharashtra, <br/>
+                    India. Pin – 400070
                   </div>
                 </div>
                 
@@ -42,7 +42,7 @@ export default function Footer() {
                   <div className="w-8 h-8 rounded-full bg-[#3a3a3a] flex items-center justify-center flex-shrink-0 text-white shadow-sm">
                     <Mail size={16} />
                   </div>
-                  <a href="mailto:info@sofworld.org" className="hover:text-white transition-colors">info@sofworld.org</a>
+                  <a href="mailto:info@ntiolympiad.in" className="hover:text-white transition-colors">info@ntiolympiad.in</a>
                 </div>
               </div>
 
@@ -54,9 +54,7 @@ export default function Footer() {
                     <Phone size={16} />
                   </div>
                   <div className="leading-relaxed">
-                    Landline: +91 124-4951200 <br/>
-                    Mobile1 +91 9312680855 <br/>
-                    Mobile2: +91 9312680857
+                    Mobile: +91 7972621561
                   </div>
                 </div>
 
@@ -68,7 +66,7 @@ export default function Footer() {
                   <div className="leading-relaxed">
                     All working Days From <br/>
                     Monday - Friday<br/>
-                    8:30 AM - 5:30 PM
+                    10:00 AM - 7:00 PM
                   </div>
                 </div>
 
@@ -95,7 +93,7 @@ export default function Footer() {
                 allowFullScreen={true} 
                 scrolling="no" 
                 allow="encrypted-media" 
-                src="https://www.facebook.com/v2.3/plugins/page.php?adapt_container_width=true&amp;app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Dffef7c6e0b9543a37%26domain%3Dsofworld.org%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Fsofworld.org%252Ff8a2c00b1a02934f8%26relation%3Dparent.parent&amp;container_width=500&amp;height=210&amp;hide_cover=false&amp;hide_cta=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fsofworld&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false&amp;tabs=timeline&amp;width=500" 
+                src="https://www.facebook.com/v2.3/plugins/page.php?adapt_container_width=true&amp;app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Dffef7c6e0b9543a37%26domain%3Dntiolympiad.in%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Fntiolympiad.in%252Ff8a2c00b1a02934f8%26relation%3Dparent.parent&amp;container_width=500&amp;height=210&amp;hide_cover=false&amp;hide_cta=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fntiolympiad&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false&amp;tabs=timeline&amp;width=500" 
                 style={{border: 'none', visibility: 'visible', width: '100%', height: '212px'}} 
               ></iframe>
             </div>
@@ -109,7 +107,7 @@ export default function Footer() {
         <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-7 py-4">
           <div className="flex flex-col gap-5">
             <p className="text-[12px] text-[#888] leading-relaxed">
-              Copyright © 2024 <span className="font-bold text-white">SCIENCE OLYMPIAD FOUNDATION</span> | All Rights Reserved | No part of this site including content and/or logo, may be copied and/or used in any manner without prior written consent of SOF
+              Copyright © 2026 <span className="font-bold text-white">NTI OLYMPIAD FOUNDATION</span> | All Rights Reserved | No part of this site including content and/or logo, may be copied and/or used in any manner without prior written consent of NTI
             </p>
             <div className="flex items-center gap-4">
               <span className="text-[12px] text-[#888]">Connect with us</span>

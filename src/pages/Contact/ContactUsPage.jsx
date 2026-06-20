@@ -1,4 +1,6 @@
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
+import { PageContainer, Input, TextArea, Button } from '../../components/ui';
 
 /* ═══════════════════════════════════════════════════════════
    DESIGN TOKENS  (matches site-wide theme)
@@ -71,14 +73,27 @@ export default function ContactUs() {
     // TODO: wire to backend / email service
   };
 
-  /* shared input class */
-  const inputCls =
-    'w-full px-4 py-2.5 text-sm border rounded-md outline-none transition-all ' +
-    'placeholder:text-gray-400 focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] ' +
-    'bg-gray-50 text-gray-800';
-
   return (
     <>
+      <Helmet>
+        <title>Contact Us – NTI Olympiad Support</title>
+        <meta name="description" content="Get in touch with NTI Olympiad support. We are here to answer questions about registrations, exam syllabus, dates, and results." />
+        <link rel="canonical" href="https://ntiolympiad.in/contact" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Contact Us – NTI Olympiad Support" />
+        <meta property="og:description" content="Get in touch with NTI Olympiad support. We are here to answer questions about registrations, exam syllabus, dates, and results." />
+        <meta property="og:site_name" content="NTI Olympiad" />
+        <meta property="og:image" content="https://ntiolympiad.in/about_nti_banner.png" />
+        <meta property="og:url" content="https://ntiolympiad.in/contact" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Contact Us – NTI Olympiad Support" />
+        <meta name="twitter:description" content="Get in touch with NTI Olympiad support. We are here to answer questions about registrations, exam syllabus, dates, and results." />
+        <meta name="twitter:image" content="https://ntiolympiad.in/about_nti_banner.png" />
+      </Helmet>
       {/* ════════════════════════════════════════════════════
           HERO BANNER
           ════════════════════════════════════════════════════ */}
@@ -125,7 +140,7 @@ export default function ContactUs() {
         className="w-full py-16 border-b"
         style={{ background: '#FFFFFF', borderColor: BORDER_COL }}
       >
-        <div className="max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16">
+        <PageContainer className="max-w-[1280px] mx-auto">
           {/*
             Two columns, vertically aligned at the TOP of each column.
             Column widths: 5/12 info | 7/12 form — gives form more breathing room.
@@ -211,76 +226,69 @@ export default function ContactUs() {
                 onSubmit={handleSubmit}
               >
                 {/* Name */}
-                <input
+                <Input
                   id="contact-name"
                   type="text"
                   name="name"
                   placeholder="Name"
                   required
-                  className={inputCls}
                   style={{ borderColor: BORDER_COL }}
                 />
 
                 {/* Email */}
-                <input
+                <Input
                   id="contact-email"
                   type="email"
                   name="email"
                   placeholder="Email Address"
                   required
-                  className={inputCls}
                   style={{ borderColor: BORDER_COL }}
                 />
 
                 {/* Subject */}
-                <input
+                <Input
                   id="contact-subject"
                   type="text"
                   name="subject"
                   placeholder="Subject"
-                  className={inputCls}
                   style={{ borderColor: BORDER_COL }}
                 />
 
                 {/* Message — resize-y so user can drag to resize */}
-                <textarea
+                <TextArea
                   id="contact-message"
                   name="message"
                   placeholder="Your Message"
                   rows={6}
-                  className={`${inputCls} resize-y custom-scroll`}
+                  className="resize-y custom-scroll"
                   style={{ borderColor: BORDER_COL, minHeight: '120px' }}
                 />
 
                 {/* Submit */}
                 <div className="pt-1">
-                  <button
+                  <Button
                     id="contact-submit"
                     type="submit"
-                    className="px-8 py-2.5 text-sm font-semibold text-white rounded-md transition-all duration-200 active:scale-[0.98]"
                     style={{
-                      background: '#1E3A8A',
                       boxShadow: '0 2px 8px rgba(30,58,138,0.20)',
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = '#172554')}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = '#1E3A8A')}
                   >
                     Send Message
-                  </button>
+                  </Button>
                 </div>
               </form>
             </div>
 
           </div>
-        </div>
+        </PageContainer>
       </section>
       {/* ════════════════════════════════════════════════════
           MAP  —  Kurla, Mumbai
           ════════════════════════════════════════════════════ */}
       <section id="contact-map" className="w-full border-b" style={{ borderColor: BORDER_COL }}>
         {/* Map label strip — teal-green label text */}
-        <div
-          className="w-full py-5 px-6 sm:px-10 lg:px-16 flex items-center gap-3"
+        <PageContainer
+          className="py-5 flex items-center gap-3"
           style={{ background: BG_SECTION }}
         >
           <MapPin size={17} style={{ color: LABEL_COLOR }} strokeWidth={2.5} />
@@ -290,7 +298,7 @@ export default function ContactUs() {
           >
             Find us on the map — Kurla, Mumbai
           </p>
-        </div>
+        </PageContainer>
 
         {/* Google Maps iframe */}
         <div className="w-full h-[420px]">

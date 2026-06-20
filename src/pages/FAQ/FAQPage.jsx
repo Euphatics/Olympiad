@@ -1,5 +1,6 @@
 import React from 'react';
 import { Info, ClipboardCheck, Monitor, Award, Phone } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 /* ── Icon map for category headers ── */
 const categoryIcons = {
@@ -236,6 +237,43 @@ export default function FAQ() {
 
     return (
         <section className="w-full bg-[#f9fafb] py-8 lg:py-14 border-b border-gray-200">
+            <Helmet>
+                <title>Frequently Asked Questions – NTI Olympiad</title>
+                <meta name="description" content="Find answers to common questions about NTI Olympiad registrations, marking schemes, syllabi, and student performance rankings." />
+                <link rel="canonical" href="https://ntiolympiad.in/faq" />
+                
+                {/* Open Graph / Facebook */}
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="Frequently Asked Questions – NTI Olympiad" />
+                <meta property="og:description" content="Find answers to common questions about NTI Olympiad registrations, marking schemes, syllabi, and student performance rankings." />
+                <meta property="og:site_name" content="NTI Olympiad" />
+                <meta property="og:image" content="https://ntiolympiad.in/about_nti_banner.png" />
+                <meta property="og:url" content="https://ntiolympiad.in/faq" />
+
+                {/* Twitter */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Frequently Asked Questions – NTI Olympiad" />
+                <meta name="twitter:description" content="Find answers to common questions about NTI Olympiad registrations, marking schemes, syllabi, and student performance rankings." />
+                <meta name="twitter:image" content="https://ntiolympiad.in/about_nti_banner.png" />
+
+                {/* FAQPage JSON-LD Schema */}
+                <script type="application/ld+json">
+                  {JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "FAQPage",
+                    "mainEntity": faqCategories.flatMap(category => 
+                      category.items.map(item => ({
+                        "@type": "Question",
+                        "name": item.q,
+                        "acceptedAnswer": {
+                          "@type": "Answer",
+                          "text": item.a
+                        }
+                      }))
+                    )
+                  })}
+                </script>
+            </Helmet>
             <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12">
 
                 {/* ── FAQ Header ── */}

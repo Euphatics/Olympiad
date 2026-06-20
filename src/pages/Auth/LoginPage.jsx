@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { FloatingLabel } from 'flowbite-react';
-import AuthSidebar from '../components/AuthSidebar';
+import { Helmet } from 'react-helmet-async';
+import AuthSidebar from '../../components/AuthSidebar';
 
 export default function LoginPage({ onSignUp }) {
   const [email, setEmail] = useState('');
@@ -15,6 +16,26 @@ export default function LoginPage({ onSignUp }) {
 
   return (
     <div className="login-page">
+      <Helmet>
+        <title>Sign In – NTI Olympiad Portal</title>
+        <meta name="description" content="Access your NTI Olympiad student or school coordinator portal to view registrations and results." />
+        <meta name="robots" content="noindex, follow" />
+        <link rel="canonical" href="https://ntiolympiad.in/login" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Sign In – NTI Olympiad Portal" />
+        <meta property="og:description" content="Access your NTI Olympiad student or school coordinator portal to view registrations and results." />
+        <meta property="og:site_name" content="NTI Olympiad" />
+        <meta property="og:image" content="https://ntiolympiad.in/about_nti_banner.png" />
+        <meta property="og:url" content="https://ntiolympiad.in/login" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Sign In – NTI Olympiad Portal" />
+        <meta name="twitter:description" content="Access your NTI Olympiad student or school coordinator portal to view registrations and results." />
+        <meta name="twitter:image" content="https://ntiolympiad.in/about_nti_banner.png" />
+      </Helmet>
       {/* Blue background that covers top ~55% */}
       <div className="login-blue-bg" />
 
@@ -30,7 +51,7 @@ export default function LoginPage({ onSignUp }) {
             <div className="login-form-header">
               <div>
                 <p className="login-welcome">
-                  Welcome to <span className="login-brand">LOREM</span>
+                  Welcome to <span className="login-brand">NTI Olympiad</span>
                 </p>
                 <h2 className="login-signin-title">Sign in</h2>
               </div>

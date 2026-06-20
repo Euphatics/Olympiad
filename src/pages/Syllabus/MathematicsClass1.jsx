@@ -1,4 +1,6 @@
 
+import { Helmet } from 'react-helmet-async';
+
 export default function MathematicsClass1() {
   const navLinks = [
     { label: "Olympiad Details", id: "olympiad-details" },
@@ -16,6 +18,53 @@ export default function MathematicsClass1() {
 
   return (
     <div className="min-h-screen bg-white">
+      <Helmet>
+        <title>Mathematics Class 1 Olympiad Syllabus – NTI</title>
+        <meta name="description" content="Detailed syllabus and guidelines for the NTI Mathematics Class 1 Olympiad exam." />
+        <link rel="canonical" href="https://ntiolympiad.in/math-class-1" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Mathematics Class 1 Olympiad Syllabus – NTI" />
+        <meta property="og:description" content="Detailed syllabus and guidelines for the NTI Mathematics Class 1 Olympiad exam." />
+        <meta property="og:site_name" content="NTI Olympiad" />
+        <meta property="og:image" content="https://ntiolympiad.in/about_nti_banner.png" />
+        <meta property="og:url" content="https://ntiolympiad.in/math-class-1" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Mathematics Class 1 Olympiad Syllabus – NTI" />
+        <meta name="twitter:description" content="Detailed syllabus and guidelines for the NTI Mathematics Class 1 Olympiad exam." />
+        <meta name="twitter:image" content="https://ntiolympiad.in/about_nti_banner.png" />
+
+        {/* BreadcrumbList Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://ntiolympiad.in/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "About Maths Olympiad",
+                "item": "https://ntiolympiad.in/math-class-1"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Maths Olympiad Class 1",
+                "item": "https://ntiolympiad.in/math-class-1"
+              }
+            ]
+          })}
+        </script>
+      </Helmet>
       {/* ── Breadcrumb Bar ── */}
       <div className="w-full bg-[#f0f8ff] border-b border-blue-100 py-3 px-6 sm:px-10 lg:px-16">
         <div className="text-[13px] sm:text-[14px] text-gray-500">

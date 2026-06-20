@@ -4,8 +4,9 @@ import {
   Check
 } from 'lucide-react';
 import { FloatingLabel } from 'flowbite-react';
-import AuthSidebar from '../components/AuthSidebar';
-import useSchoolRegistrationForm from '../hooks/useSchoolRegistrationForm';
+import { Helmet } from 'react-helmet-async';
+import AuthSidebar from '../../components/AuthSidebar';
+import useSchoolRegistrationForm from '../../hooks/useSchoolRegistrationForm';
 
 export default function RegisterPage() {
   const {
@@ -38,6 +39,26 @@ export default function RegisterPage() {
 
   return (
     <div className="register-page">
+      <Helmet>
+        <title>School Registration Portal – NTI Olympiad</title>
+        <meta name="description" content="Register your school or student profile for upcoming NTI Olympiad academic competitions." />
+        <meta name="robots" content="noindex, follow" />
+        <link rel="canonical" href="https://ntiolympiad.in/register" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="School Registration Portal – NTI Olympiad" />
+        <meta property="og:description" content="Register your school or student profile for upcoming NTI Olympiad academic competitions." />
+        <meta property="og:site_name" content="NTI Olympiad" />
+        <meta property="og:image" content="https://ntiolympiad.in/about_nti_banner.png" />
+        <meta property="og:url" content="https://ntiolympiad.in/register" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="School Registration Portal – NTI Olympiad" />
+        <meta name="twitter:description" content="Register your school or student profile for upcoming NTI Olympiad academic competitions." />
+        <meta name="twitter:image" content="https://ntiolympiad.in/about_nti_banner.png" />
+      </Helmet>
       {/* Content layer */}
       <div className="register-content">
         {/* ───────── LEFT SIDE ───────── */}
