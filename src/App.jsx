@@ -17,6 +17,9 @@ const SyllabusClassPage = lazy(() => import('./pages/Syllabus/SyllabusClassPage'
 const AwardsPage = lazy(() => import('./pages/Awards/AwardsPage'));
 const SubjectRankersPage = lazy(() => import('./pages/Rankers/SubjectRankersPage'));
 const RankersListPage = lazy(() => import('./pages/Rankers/RankersListPage'));
+const PreviousYearPage = lazy(() => import('./pages/PreviousYear/PreviousYearPage'));
+const SubjectPreviousYearPage = lazy(() => import('./pages/PreviousYear/SubjectPreviousYearPage'));
+const PreviousYearDetailPage = lazy(() => import('./pages/PreviousYear/PreviousYearDetailPage'));
 const NotFound = lazy(() => import('./pages/NotFound/NotFound'));
 
 function App() {
@@ -40,6 +43,8 @@ function App() {
       navigate(ROUTES.markingScheme);
     } else if (item === 'Exam Syllabus and PYQs') {
       navigate(ROUTES.syllabusPyqs);
+    } else if (item === 'PYQs') {
+      navigate(ROUTES.previousYear);
     } else if (item === 'Awards & Recognition') {
       navigate(ROUTES.awards);
     } else if (item === 'Subject Rankers') {
@@ -84,6 +89,9 @@ function App() {
           />
         } />
         <Route path="/syllabus/:subjectSlug/:classSlug" element={<SyllabusClassPage />} />
+        <Route path="/previous-year" element={<PreviousYearPage />} />
+        <Route path="/previous-year/:subjectSlug" element={<SubjectPreviousYearPage />} />
+        <Route path="/previous-year/:subjectSlug/:classSlug/:year" element={<PreviousYearDetailPage />} />
         <Route path="/awards" element={<AwardsPage />} />
         <Route path="/subject-rankers" element={
           <SubjectRankersPage 

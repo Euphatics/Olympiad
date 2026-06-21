@@ -19,6 +19,12 @@ export const ROUTES = {
   syllabusClass: (subjectSlug, classSlug) =>
     `/syllabus/${subjectSlug}/${classSlug}`,
 
+  // Previous Year Papers
+  previousYear: '/previous-year',
+  subjectPreviousYear: (subjectSlug) => `/previous-year/${subjectSlug}`,
+  previousYearDetail: (subjectSlug, classSlug, year) =>
+    `/previous-year/${subjectSlug}/${classSlug}/${year}`,
+
   // Rankers
   subjectRankers: '/subject-rankers',
   rankersList: (subjectName) =>
