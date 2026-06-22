@@ -271,8 +271,8 @@ function ImportModal({ open, onClose, onImport, subjectLabel }) {
       {/* Modal */}
       <div className="fixed inset-0 z-[201] flex items-center justify-center p-4">
         <div
-          className="bg-white rounded-2xl shadow-2xl w-full max-w-[520px] overflow-hidden"
-          style={{ animation: 'dropdown 0.25s cubic-bezier(0.16, 1, 0.3, 1)' }}
+          className="bg-white rounded-sm shadow-2xl w-full max-w-[520px] overflow-hidden border"
+          style={{ animation: 'dropdown 0.25s cubic-bezier(0.16, 1, 0.3, 1)', borderColor: BORDER_COL }}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
@@ -285,7 +285,7 @@ function ImportModal({ open, onClose, onImport, subjectLabel }) {
             </div>
             <button
               onClick={handleClose}
-              className="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+              className="p-1.5 rounded-md text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
             >
               <X size={18} strokeWidth={2} />
             </button>
@@ -320,12 +320,12 @@ function ImportModal({ open, onClose, onImport, subjectLabel }) {
                 <label
                   htmlFor="csv-upload"
                   className="flex flex-col items-center justify-center gap-3 py-8 border-2 border-dashed
-                    rounded-xl cursor-pointer transition-colors duration-200
+                    rounded-md cursor-pointer transition-colors duration-200
                     hover:border-[#007BFF] hover:bg-blue-50/30"
                   style={{ borderColor: '#D1D5DB' }}
                 >
                   <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center"
+                    className="w-12 h-12 rounded-md flex items-center justify-center"
                     style={{ background: ICON_BG }}
                   >
                     <Upload size={22} style={{ color: ICON_COL }} strokeWidth={2} />
@@ -365,7 +365,7 @@ function ImportModal({ open, onClose, onImport, subjectLabel }) {
                       value={sheetsUrl}
                       onChange={(e) => setSheetsUrl(e.target.value)}
                       placeholder="https://docs.google.com/spreadsheets/d/..."
-                      className="w-full pl-9 pr-3 py-2.5 text-[13px] border rounded-lg outline-none
+                      className="w-full pl-9 pr-3 py-2.5 text-[13px] border rounded-md outline-none
                         transition-all text-gray-800 placeholder:text-gray-400
                         border-gray-300 focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF]"
                     />
@@ -373,7 +373,7 @@ function ImportModal({ open, onClose, onImport, subjectLabel }) {
                   <button
                     onClick={handleSheetsImport}
                     disabled={!sheetsUrl.trim() || loading}
-                    className="px-4 py-2.5 text-[13px] font-semibold text-white rounded-lg
+                    className="px-4 py-2.5 text-[13px] font-semibold text-white rounded-md
                       transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed
                       hover:shadow-md active:scale-[0.97]"
                     style={{ background: PRIMARY_BLUE }}
@@ -387,7 +387,7 @@ function ImportModal({ open, onClose, onImport, subjectLabel }) {
             {/* Status message */}
             {status && (
               <div
-                className={`flex items-start gap-2 mt-4 px-3 py-2.5 rounded-lg text-xs leading-relaxed border ${
+                className={`flex items-start gap-2 mt-4 px-3 py-2.5 rounded-sm text-xs leading-relaxed border ${
                   status.type === 'success'
                     ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                     : 'bg-red-50 text-red-700 border-red-200'
@@ -500,6 +500,17 @@ export default function SchoolPanelPage() {
   };
 
   const activeTab = SUBJECT_TABS.find((t) => t.key === activeSubject);
+
+  // --- Calculate Quick Stats ---
+  const totalStudents = Object.values(studentsBySubject).reduce((acc, rows) => {
+    return acc + rows.filter(r => r.studentName && r.studentName.trim() !== '').length;
+  }, 0);
+
+  const activeSubjectsCount = Object.values(studentsBySubject).filter(rows => 
+    rows.some(r => r.studentName && r.studentName.trim() !== '')
+  ).length;
+
+  const totalFee = totalStudents * 150; // Assuming ₹150 per student
 
   return (
     <>
@@ -631,6 +642,113 @@ export default function SchoolPanelPage() {
       </section>
 
       {/* ════════════════════════════════════════════════════════
+          QUICK STATS SECTION
+          ════════════════════════════════════════════════════════ */}
+      <section className="w-full py-8 border-b" style={{ background: '#F8FAFC', borderColor: BORDER_COL }}>
+        <PageContainer className="max-w-[1280px] mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            {/* Stat Card 1 */}
+            <div className="bg-white rounded-sm border p-5 flex items-center gap-4 transition-shadow hover:shadow-md" style={{ borderColor: BORDER_COL }}>
+              <User size={26} style={{ color: '#6B7280' }} strokeWidth={1.5} className="flex-shrink-0" />
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Total Students</p>
+                <p className="text-2xl font-extrabold text-gray-900 leading-none">{totalStudents}</p>
+              </div>
+            </div>
+
+            {/* Stat Card 2 */}
+            <div className="bg-white rounded-sm border p-5 flex items-center gap-4 transition-shadow hover:shadow-md" style={{ borderColor: BORDER_COL }}>
+              <BookOpen size={26} style={{ color: '#6B7280' }} strokeWidth={1.5} className="flex-shrink-0" />
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Active Subjects</p>
+                <p className="text-2xl font-extrabold text-gray-900 leading-none">{activeSubjectsCount} <span className="text-sm font-medium text-gray-400">/ {SUBJECT_TABS.length}</span></p>
+              </div>
+            </div>
+
+            {/* Stat Card 3 */}
+            <div className="bg-white rounded-sm border p-5 flex items-center gap-4 transition-shadow hover:shadow-md" style={{ borderColor: BORDER_COL }}>
+              <AlertCircle size={26} style={{ color: '#6B7280' }} strokeWidth={1.5} className="flex-shrink-0" />
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Pending Fee</p>
+                <p className="text-2xl font-extrabold text-gray-900 leading-none">₹{totalFee.toLocaleString('en-IN')}</p>
+              </div>
+            </div>
+
+            {/* Stat Card 4 */}
+            <div className="bg-white rounded-sm border p-5 flex items-center gap-4 transition-shadow hover:shadow-md" style={{ borderColor: BORDER_COL }}>
+              <CalendarDays size={26} style={{ color: '#6B7280' }} strokeWidth={1.5} className="flex-shrink-0" />
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Registration Ends</p>
+                <p className="text-lg font-bold text-gray-900 leading-none mt-1">15 Oct 2024</p>
+              </div>
+            </div>
+
+          </div>
+        </PageContainer>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+          PROGRESS TRACKER
+          ════════════════════════════════════════════════════════ */}
+      <section className="w-full py-8 border-b" style={{ background: '#FFFFFF', borderColor: BORDER_COL }}>
+        <PageContainer className="max-w-[1000px] mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 relative">
+            
+            {/* Connecting Line */}
+            <div className="hidden md:block absolute top-[16px] left-[50px] right-[50px] h-[2px] z-0" style={{ background: '#E5E7EB' }}>
+              <div className="h-full transition-all duration-500" style={{ width: '33%', background: PRIMARY_BLUE }} />
+            </div>
+
+            {/* Step 1: Complete Profile */}
+            <div className="relative z-10 flex flex-col items-center gap-2.5 bg-white px-2">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-sm" style={{ background: '#10B981' }}>
+                <CheckCircle2 size={16} strokeWidth={3} />
+              </div>
+              <div className="text-center">
+                <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: '#10B981' }}>Step 1</p>
+                <p className="text-[13px] font-semibold text-gray-600 mt-0.5">Complete Profile</p>
+              </div>
+            </div>
+
+            {/* Step 2: Register Students */}
+            <div className="relative z-10 flex flex-col items-center gap-2.5 bg-white px-2">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-sm ring-4 ring-blue-50" style={{ background: PRIMARY_BLUE }}>
+                2
+              </div>
+              <div className="text-center">
+                <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: PRIMARY_BLUE }}>Step 2</p>
+                <p className="text-[13px] font-bold text-gray-900 mt-0.5">Register Students</p>
+              </div>
+            </div>
+
+            {/* Step 3: Complete Fee Payment */}
+            <div className="relative z-10 flex flex-col items-center gap-2.5 bg-white px-2">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-50 text-gray-400 text-sm font-bold border-2 border-gray-200">
+                3
+              </div>
+              <div className="text-center">
+                <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400">Step 3</p>
+                <p className="text-[13px] font-medium text-gray-400 mt-0.5">Complete Fee Payment</p>
+              </div>
+            </div>
+
+            {/* Step 4: Download Admit Cards */}
+            <div className="relative z-10 flex flex-col items-center gap-2.5 bg-white px-2">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-50 text-gray-400 text-sm font-bold border-2 border-gray-200">
+                4
+              </div>
+              <div className="text-center">
+                <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400">Step 4</p>
+                <p className="text-[13px] font-medium text-gray-400 mt-0.5">Download Admit Cards</p>
+              </div>
+            </div>
+
+          </div>
+        </PageContainer>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
           SUBJECT TABS + STUDENT TABLE
           ════════════════════════════════════════════════════════ */}
       <section
@@ -656,8 +774,8 @@ export default function SchoolPanelPage() {
               </div>
             </div>
 
-            {/* Tab pills */}
-            <div className="flex flex-wrap gap-2">
+            {/* Tabs (Underline style, non-pill) */}
+            <div className="flex flex-wrap gap-1 border-b" style={{ borderColor: BORDER_COL }}>
               {SUBJECT_TABS.map((tab) => {
                 const isActive = activeSubject === tab.key;
                 return (
@@ -666,11 +784,11 @@ export default function SchoolPanelPage() {
                     id={`tab-${tab.key}`}
                     onClick={() => setActiveSubject(tab.key)}
                     className={`
-                      px-5 py-2.5 rounded-lg text-[13px] font-semibold
-                      transition-all duration-200 border
+                      px-5 py-3 text-[13px] font-semibold transition-all duration-200
+                      border-b-2 -mb-px
                       ${isActive
-                        ? 'bg-[#1E3A8A] text-white border-[#1E3A8A] shadow-md shadow-[#1E3A8A]/20'
-                        : 'bg-white text-gray-600 border-gray-200 hover:border-[#007BFF] hover:text-[#007BFF] hover:shadow-sm'
+                        ? 'border-[#007BFF] text-[#007BFF]'
+                        : 'border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-300'
                       }
                     `}
                   >
@@ -708,7 +826,7 @@ export default function SchoolPanelPage() {
                 id="btn-import-csv"
                 onClick={() => setImportOpen(true)}
                 className="inline-flex items-center gap-1.5 px-4 py-2 text-[13px] font-medium
-                  bg-white border rounded-lg transition-all duration-200
+                  bg-white border rounded-md transition-all duration-200
                   text-gray-600 hover:border-[#007BFF] hover:text-[#007BFF] hover:shadow-sm
                   active:scale-[0.97]"
                 style={{ borderColor: BORDER_COL }}
@@ -720,7 +838,7 @@ export default function SchoolPanelPage() {
                 id="btn-add-row"
                 onClick={addRow}
                 className="inline-flex items-center gap-1.5 px-4 py-2 text-[13px] font-medium
-                  text-white rounded-lg transition-all duration-200
+                  text-white rounded-md transition-all duration-200
                   hover:shadow-md active:scale-[0.97]"
                 style={{ background: PRIMARY_BLUE }}
                 onMouseEnter={(e) => (e.currentTarget.style.background = HOVER_BLUE)}
@@ -733,7 +851,7 @@ export default function SchoolPanelPage() {
           </div>
 
           {/* ── Student Table ────────────────────────────────── */}
-          <div className="bg-white rounded-xl border overflow-hidden shadow-sm" style={{ borderColor: BORDER_COL }}>
+          <div className="bg-white rounded-sm border overflow-hidden shadow-sm" style={{ borderColor: BORDER_COL }}>
             {/* Table header */}
             <div
               className="grid items-center px-4 py-3 text-[11px] font-bold uppercase tracking-wider border-b"
@@ -863,7 +981,7 @@ export default function SchoolPanelPage() {
               <button
                 id="btn-download"
                 className="inline-flex items-center gap-1.5 px-5 py-2.5 text-[13px] font-medium
-                  bg-white border rounded-lg transition-all duration-200
+                  bg-white border rounded-md transition-all duration-200
                   text-gray-600 hover:border-gray-400 hover:text-gray-800 hover:shadow-sm"
                 style={{ borderColor: BORDER_COL }}
               >
@@ -874,7 +992,7 @@ export default function SchoolPanelPage() {
                 id="btn-save"
                 onClick={handleSave}
                 className="inline-flex items-center gap-1.5 px-6 py-2.5 text-[13px] font-semibold
-                  text-white rounded-lg transition-all duration-200
+                  text-white rounded-md transition-all duration-200
                   hover:shadow-lg active:scale-[0.97]"
                 style={{
                   background: '#1E3A8A',
@@ -890,7 +1008,7 @@ export default function SchoolPanelPage() {
           </div>
 
           {/* Note */}
-          <div className="mt-8 px-4 py-3 rounded-lg border" style={{ borderColor: '#BFDBFE', background: '#EFF6FF' }}>
+          <div className="mt-8 px-4 py-3 rounded-sm border" style={{ borderColor: '#BFDBFE', background: '#EFF6FF' }}>
             <p className="text-xs leading-relaxed" style={{ color: '#1D4ED8' }}>
               <span className="font-bold">Note:</span> Please ensure all student details are accurate before submitting.
               Each subject registration will be submitted separately. You can switch between subjects using the tabs above
