@@ -20,6 +20,7 @@ const RankersListPage = lazy(() => import('./pages/Rankers/RankersListPage'));
 const PreviousYearPage = lazy(() => import('./pages/PreviousYear/PreviousYearPage'));
 const SubjectPreviousYearPage = lazy(() => import('./pages/PreviousYear/SubjectPreviousYearPage'));
 const PreviousYearDetailPage = lazy(() => import('./pages/PreviousYear/PreviousYearDetailPage'));
+const SchoolPanelPage = lazy(() => import('./pages/SchoolPanel/SchoolPanelPage'));
 const NotFound = lazy(() => import('./pages/NotFound/NotFound'));
 
 function App() {
@@ -93,6 +94,7 @@ function App() {
         <Route path="/previous-year/:subjectSlug" element={<SubjectPreviousYearPage />} />
         <Route path="/previous-year/:subjectSlug/:classSlug/:year" element={<PreviousYearDetailPage />} />
         <Route path="/awards" element={<AwardsPage />} />
+        <Route path="/school-panel" element={<SchoolPanelPage />} />
         <Route path="/subject-rankers" element={
           <SubjectRankersPage 
             onSelectSubject={(subjectName) => {

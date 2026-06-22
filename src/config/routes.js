@@ -12,6 +12,7 @@ export const ROUTES = {
   awards: '/awards',
   login: '/login',
   register: '/register',
+  schoolPanel: '/school-panel',
 
   // Syllabus
   syllabusPyqs: '/syllabus-pyqs',
