@@ -36,54 +36,6 @@ export default function RegisterPage() {
     return null;
   };
 
-  const steps = [
-    {
-      num: 1,
-      title: 'Register Your School',
-      desc: 'Fill out the School Registration Form with your school and coordinator details. It takes less than 5 minutes!',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="15" height="15">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-          <polyline points="9 22 9 12 15 12 15 22"/>
-        </svg>
-      )
-    },
-    {
-      num: 2,
-      title: 'Login & Add Students',
-      desc: 'Use your credentials to log in to your School Admin Panel.',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="15" height="15">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-        </svg>
-      )
-    },
-    {
-      num: 3,
-      title: 'Make Payment',
-      desc: 'Based on the number of students enrolled, make the payment securely through the online gateway.',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="15" height="15">
-          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-          <line x1="1" y1="10" x2="23" y2="10"/>
-        </svg>
-      )
-    },
-    {
-      num: 4,
-      title: 'Activate Students',
-      desc: 'Activate student accounts to start practicing for the olympiad.',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="15" height="15">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-          <circle cx="12" cy="7" r="4"/>
-          <polyline points="16 11 18 13 22 9"/>
-        </svg>
-      )
-    }
-  ];
-
   return (
     <div className="register-page">
       <Helmet>
@@ -113,98 +65,147 @@ export default function RegisterPage() {
       {/* Content layer */}
       <div className="register-content">
 
-        {/* ───────── LEFT SIDE — How to Get Started ───────── */}
+        {/* ───────── LEFT SIDE — Information ───────── */}
         <div className="register-left">
           <div className="register-info-card rgs-panel">
 
             {/* Logo */}
-          <div className="rgs-logo">
-            <div className="rgs-logo-icon">
-              <span>N</span>
+            <div className="rgs-logo">
+              <div className="rgs-logo-icon">
+                <span>N</span>
+              </div>
+              <span className="rgs-logo-text">
+                NTI<span className="rgs-logo-sub">Olympiad</span>
+              </span>
             </div>
-            <span className="rgs-logo-text">
-              NTI<span className="rgs-logo-sub">Olympiad</span>
-            </span>
-          </div>
 
-          {/* Title block */}
-          <div className="rgs-title-block">
-            <h1 className="rgs-main-title">SCHOOL REGISTRATION</h1>
-            <p className="rgs-sub-title">How to Get Started?</p>
-            <div className="rgs-divider" />
-          </div>
+            {/* Title block */}
+            <div className="rgs-title-block">
+              <h1 className="rgs-main-title">SCHOOL REGISTRATION</h1>
+              <p className="rgs-sub-title">How to Get Started?</p>
+              <div className="rgs-divider" />
+            </div>
 
-          {/* Steps */}
-          <div className="rgs-steps">
-            {steps.map((step, i) => (
-              <div key={step.num} className={`rgs-step${i === steps.length - 1 ? ' rgs-step--last' : ''}`}>
-                {/* Number bubble */}
-                <div className={`rgs-step-num${i === steps.length - 1 ? ' rgs-step-num--accent' : ''}`}>
-                  {step.num}
-                </div>
-
-                {/* Body */}
+            {/* Steps */}
+            <div className="rgs-steps">
+              {/* Step 1 */}
+              <div className="rgs-step">
+                <div className="rgs-step-num">1</div>
                 <div className="rgs-step-body">
                   <div className="rgs-step-icon-wrap">
-                    {step.icon}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                      <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
                   </div>
                   <div>
-                    <h4 className="rgs-step-title">{step.title}</h4>
-                    <p className="rgs-step-desc">{step.desc}</p>
+                    <h4 className="rgs-step-title">Register Your School</h4>
+                    <p className="rgs-step-desc">Fill out the form with school and coordinator details. Less than 5 minutes!</p>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+              
+              {/* Step 2 */}
+              <div className="rgs-step">
+                <div className="rgs-step-num">2</div>
+                <div className="rgs-step-body">
+                  <div className="rgs-step-icon-wrap">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="rgs-step-title">Login &amp; Add Students</h4>
+                    <p className="rgs-step-desc">Use credentials to log in to your School Admin Panel.</p>
+                  </div>
+                </div>
+              </div>
 
-          {/* ── Why Register card ── */}
-          <div className="rgs-why-card">
-            <p className="rgs-why-heading">Why schools choose NTI?</p>
-            <ul className="rgs-why-list">
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg>
-                Free dashboard &amp; student management tools
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg>
-                CBSE &amp; ICSE aligned question bank
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg>
-                Certificates &amp; medals for top performers
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg>
-                Dedicated coordinator support
-              </li>
-            </ul>
-          </div>
+              {/* Step 3 */}
+              <div className="rgs-step">
+                <div className="rgs-step-num">3</div>
+                <div className="rgs-step-body">
+                  <div className="rgs-step-icon-wrap">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                      <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                      <line x1="1" y1="10" x2="23" y2="10"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="rgs-step-title">Make Payment</h4>
+                    <p className="rgs-step-desc">Securely pay through the online gateway based on enrollment.</p>
+                  </div>
+                </div>
+              </div>
 
-          {/* Divider */}
-          <div className="rgs-divider rgs-divider--bottom" />
-
-          {/* Contact Info */}
-          <div className="rgs-contact">
-            <div className="rgs-contact-item">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="rgs-contact-icon" width="17" height="17">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                <polyline points="22,6 12,13 2,6"/>
-              </svg>
-              <div>
-                <span className="rgs-contact-label">Email Id: </span>
-                <span className="rgs-contact-value">Olympiad[at]cscacademy[dot]org</span>
+              {/* Step 4 */}
+              <div className="rgs-step">
+                <div className="rgs-step-num">4</div>
+                <div className="rgs-step-body">
+                  <div className="rgs-step-icon-wrap">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                      <polyline points="16 11 18 13 22 9"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="rgs-step-title">Activate Students</h4>
+                    <p className="rgs-step-desc">Activate student accounts to start practicing.</p>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="rgs-contact-item">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="rgs-contact-icon" width="17" height="17">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.55a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-              </svg>
-              <div>
-                <span className="rgs-contact-label">Phone No.: </span>
-                <span className="rgs-contact-value">011-49754923/24</span>
+
+            {/* Why Choose NTI (Small) */}
+            <div className="rgs-why-small">
+              <p className="rgs-why-small-title">Why Choose NTI?</p>
+              <div className="rgs-why-small-grid">
+                <div className="rgs-why-small-item">
+                  <Check size={14} className="text-green-400" strokeWidth={3} />
+                  Free Dashboard
+                </div>
+                <div className="rgs-why-small-item">
+                  <Check size={14} className="text-green-400" strokeWidth={3} />
+                  CBSE/ICSE Aligned
+                </div>
+                <div className="rgs-why-small-item">
+                  <Check size={14} className="text-green-400" strokeWidth={3} />
+                  Certificates &amp; Medals
+                </div>
+                <div className="rgs-why-small-item">
+                  <Check size={14} className="text-green-400" strokeWidth={3} />
+                  Coordinator Support
+                </div>
               </div>
             </div>
+
+            <div className="rgs-divider rgs-divider--bottom" />
+
+            {/* Contact Info */}
+            <div className="rgs-contact">
+              <div className="rgs-contact-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="rgs-contact-icon" width="17" height="17">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                <div>
+                  <span className="rgs-contact-label">Email Id: </span>
+                  <span className="rgs-contact-value">Olympiad[at]cscacademy[dot]org</span>
+                </div>
+              </div>
+              <div className="rgs-contact-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="rgs-contact-icon" width="17" height="17">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.55a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                <div>
+                  <span className="rgs-contact-label">Phone No.: </span>
+                  <span className="rgs-contact-value">011-49754923/24</span>
+                </div>
+              </div>
             </div>
+            
           </div>
         </div>
 
@@ -456,13 +457,11 @@ export default function RegisterPage() {
 
         .register-info-card {
           width: 100%;
-          max-width: 500px;
-          background: #fff;
-          border-radius: 20px;
-          padding: 32px 32px 40px;
-          box-shadow: 0 4px 32px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.05);
+          max-width: 440px;
+          padding: 32px 0 40px;
           display: flex;
           flex-direction: column;
+          margin-right: auto;
         }
 
         /* ── RIGHT ── */
@@ -471,7 +470,7 @@ export default function RegisterPage() {
           display: flex;
           align-items: flex-start;
           justify-content: flex-start;
-          padding: 32px 44px 40px 36px;
+          padding: 32px 44px 40px 20px;
         }
 
         .register-form-card {
@@ -484,7 +483,7 @@ export default function RegisterPage() {
         }
 
         /* ──────────────────────────────────────
-           HOW TO GET STARTED PANEL
+           LEFT PANEL STYLES
         ────────────────────────────────────── */
         .rgs-panel {
           display: flex;
@@ -495,15 +494,15 @@ export default function RegisterPage() {
         .rgs-logo {
           display: flex;
           align-items: center;
-          gap: 10px;
-          margin-bottom: 32px;
+          gap: 12px;
+          margin-bottom: 36px;
           user-select: none;
         }
         .rgs-logo-icon {
-          width: 34px;
-          height: 34px;
-          border-radius: 10px;
-          background: rgba(255,255,255,0.95);
+          width: 38px;
+          height: 38px;
+          border-radius: 8px;
+          background: #ffffff;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -512,207 +511,180 @@ export default function RegisterPage() {
         .rgs-logo-icon span {
           font-family: 'Poppins', sans-serif;
           font-weight: 900;
-          font-size: 14px;
-          color: #1E3A8A;
+          font-size: 18px;
+          color: #1976D2;
         }
         .rgs-logo-text {
           font-family: 'Poppins', sans-serif;
-          font-size: 18px;
+          font-size: 22px;
           font-weight: 700;
-          color: #1f2937;
+          color: #ffffff;
           letter-spacing: 0.3px;
         }
         .rgs-logo-sub {
-          font-weight: 500;
-          color: #4b5563;
+          font-weight: 400;
+          color: rgba(255, 255, 255, 0.9);
           margin-left: 4px;
         }
 
         /* Title */
         .rgs-title-block {
-          margin-bottom: 4px;
+          margin-bottom: 12px;
         }
         .rgs-main-title {
           font-family: 'Poppins', sans-serif !important;
-          font-size: 19px;
+          font-size: 22px;
           font-weight: 800;
           letter-spacing: 0.05em;
-          color: #1f2937;
-          margin: 0 0 3px 0;
-          line-height: 1.2;
+          color: #ffffff;
+          margin: 0 0 5px 0;
+          text-transform: uppercase;
         }
         .rgs-sub-title {
           font-family: 'Poppins', sans-serif;
-          font-size: 14.5px;
+          font-size: 16px;
           font-weight: 600;
-          color: #4b5563;
-          margin: 0 0 10px 0;
+          color: rgba(255, 255, 255, 0.9);
+          margin: 0 0 16px 0;
         }
 
         /* Divider */
         .rgs-divider {
           width: 100%;
           height: 1px;
-          background: #E5E7EB;
-          margin: 8px 0 20px 0;
+          background: rgba(255, 255, 255, 0.2);
+          margin: 16px 0;
           border-radius: 999px;
         }
         .rgs-divider--bottom {
-          margin: 18px 0 14px 0;
+          margin: 24px 0 20px 0;
         }
 
         /* Steps list */
         .rgs-steps {
           display: flex;
           flex-direction: column;
-          flex: 1;
+          gap: 0;
         }
-
         .rgs-step {
           display: flex;
           align-items: flex-start;
           gap: 14px;
-          padding: 13px 0;
-          border-bottom: 1px solid #F3F4F6;
-          transition: opacity 0.15s;
         }
-        .rgs-step:hover {
-          opacity: 0.95;
-        }
-        .rgs-step--last {
-          border-bottom: none;
-        }
-
-        /* Step number bubble */
         .rgs-step-num {
           flex-shrink: 0;
-          width: 34px;
-          height: 34px;
+          width: 30px;
+          height: 30px;
           border-radius: 50%;
-          background: #EFF6FF;
-          border: 2px solid #BFDBFE;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          background: rgba(255, 255, 255, 0.1);
           display: flex;
           align-items: center;
           justify-content: center;
           font-family: 'Poppins', sans-serif;
-          font-size: 14px;
+          font-size: 13px;
           font-weight: 700;
-          color: #007BFF;
-          transition: transform 0.2s ease, background 0.2s ease;
-          margin-top: 1px;
-        }
-        .rgs-step:hover .rgs-step-num {
-          background: #DBEAFE;
-          transform: scale(1.07);
-        }
-        .rgs-step-num--accent {
-          background: #DBEAFE;
-          border-color: #93C5FD;
-        }
-
-        /* Step body */
-        .rgs-step-body {
-          display: flex;
-          align-items: flex-start;
-          gap: 10px;
+          color: #ffffff;
+          margin-top: 2px;
         }
         .rgs-step-icon-wrap {
           flex-shrink: 0;
-          width: 30px;
-          height: 30px;
+          width: 32px;
+          height: 32px;
           border-radius: 8px;
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background: rgba(255, 255, 255, 0.1);
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #007BFF;
-          margin-top: 2px;
-          transition: background 0.2s ease;
+          color: #ffffff;
+          margin-top: 1px;
         }
-        .rgs-step:hover .rgs-step-icon-wrap {
-          background: #F1F5F9;
+        .rgs-step-body {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          flex: 1;
+          padding-bottom: 14px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+          margin-bottom: 14px;
+        }
+        .rgs-step:last-child .rgs-step-body {
+          border-bottom: none;
+          padding-bottom: 0;
+          margin-bottom: 0;
         }
         .rgs-step-title {
           font-family: 'Poppins', sans-serif !important;
-          font-size: 13px;
+          font-size: 13.5px;
           font-weight: 700;
-          color: #1f2937;
+          color: #ffffff;
           margin: 0 0 3px 0;
           line-height: 1.3;
         }
         .rgs-step-desc {
-          font-size: 12px;
-          color: #64748b;
-          line-height: 1.55;
+          font-size: 11.5px;
+          color: rgba(255, 255, 255, 0.85);
+          line-height: 1.5;
           margin: 0;
-          max-width: 280px;
+        }
+
+        /* Why Choose NTI (Small) */
+        .rgs-why-small {
+          margin-top: 20px;
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 12px;
+          padding: 12px 14px;
+        }
+        .rgs-why-small-title {
+          font-family: 'Poppins', sans-serif;
+          font-size: 10px;
+          font-weight: 700;
+          color: rgba(255, 255, 255, 0.6);
+          text-transform: uppercase;
+          margin: 0 0 8px 0;
+          letter-spacing: 0.5px;
+        }
+        .rgs-why-small-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 6px 12px;
+        }
+        .rgs-why-small-item {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 11.5px;
+          color: rgba(255, 255, 255, 0.9);
+          font-weight: 500;
         }
 
         /* Contact info */
         .rgs-contact {
           display: flex;
           flex-direction: column;
-          gap: 10px;
+          gap: 12px;
         }
         .rgs-contact-item {
           display: flex;
           align-items: center;
-          gap: 10px;
+          gap: 12px;
         }
         .rgs-contact-icon {
           flex-shrink: 0;
-          color: #007BFF;
+          color: #ffffff;
+          opacity: 0.9;
         }
         .rgs-contact-label {
-          font-size: 12.5px;
-          font-weight: 700;
-          color: #1f2937;
+          font-size: 13.5px;
+          font-weight: 600;
+          color: rgba(255, 255, 255, 0.85);
           font-family: 'Poppins', sans-serif;
         }
         .rgs-contact-value {
-          font-size: 12px;
-          color: #4b5563;
+          font-size: 13.5px;
+          color: #ffffff;
+          font-weight: 500;
           word-break: break-word;
-        }
-
-        /* ── Why NTI card ── */
-        .rgs-why-card {
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
-          border-radius: 14px;
-          padding: 16px 18px;
-          margin-bottom: 4px;
-        }
-        .rgs-why-heading {
-          font-family: 'Poppins', sans-serif;
-          font-size: 12.5px;
-          font-weight: 700;
-          color: #1f2937;
-          margin: 0 0 10px 0;
-          letter-spacing: 0.1px;
-          text-transform: uppercase;
-        }
-        .rgs-why-list {
-          list-style: none;
-          margin: 0;
-          padding: 0;
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-        }
-        .rgs-why-list li {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 12.5px;
-          color: #4b5563;
-          line-height: 1.4;
-        }
-        .rgs-why-list li svg {
-          flex-shrink: 0;
-          color: #10B981;
-          stroke: #10B981;
         }
       `}</style>
     </div>
