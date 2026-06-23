@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 /* ── Decorative symbol definitions per subject ── */
 const mathDecorations = [
@@ -354,13 +355,23 @@ const SubjectCard = React.memo(({ sub }) => {
               >
                 ▸
               </span>
-              <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
-                className="text-[13.5px] font-bold text-gray-800 truncate hover:underline hover:text-gray-600 transition-colors cursor-pointer"
-              >
-                {topic}
-              </a>
+              {topic === 'Exam Dates' ? (
+                <Link
+                  to="/exam-dates"
+                  className="text-[13.5px] font-bold truncate hover:underline transition-colors cursor-pointer"
+                  style={{ color: sub.color, textDecoration: 'none' }}
+                >
+                  {topic}
+                </Link>
+              ) : (
+                <a
+                  href="#"
+                  onClick={(e) => e.preventDefault()}
+                  className="text-[13.5px] font-bold text-gray-800 truncate hover:underline hover:text-gray-600 transition-colors cursor-pointer"
+                >
+                  {topic}
+                </a>
+              )}
             </li>
           ))}
         </ul>

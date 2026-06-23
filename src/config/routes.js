@@ -7,6 +7,7 @@ export const ROUTES = {
   home: '/',
   contact: '/contact',
   faq: '/faq',
+  examDates: '/exam-dates',
   gallery: '/gallery',
   markingScheme: '/marking-scheme',
   awards: '/awards',

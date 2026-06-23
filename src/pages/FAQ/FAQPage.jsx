@@ -32,7 +32,7 @@ const faqCategories = [
             },
             {
                 q: 'What time of year does the examination take place?',
-                a: 'Examinations are scheduled during the November to January window each academic session. Confirmed dates for the current cycle are published on the official portal and shared with all partner schools.',
+                a: 'Examinations are scheduled during the December to February window each academic session — registration opens in December, students participate in January, and examinations are held in February. View the full schedule on our Exam Dates page.',
             },
             {
                 q: 'Do all participants receive a certificate?',

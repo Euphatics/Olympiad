@@ -20,6 +20,7 @@ const PreviousYearPage = lazy(() => import('./pages/PreviousYear/PreviousYearPag
 const SubjectPreviousYearPage = lazy(() => import('./pages/PreviousYear/SubjectPreviousYearPage'));
 const PreviousYearDetailPage = lazy(() => import('./pages/PreviousYear/PreviousYearDetailPage'));
 const SchoolPanelPage = lazy(() => import('./pages/SchoolPanel/SchoolPanelPage'));
+const ExamDatesPage = lazy(() => import('./pages/ExamDates/ExamDatesPage'));
 const NotFound = lazy(() => import('./pages/NotFound/NotFound'));
 
 function App() {
@@ -88,6 +89,7 @@ function App() {
           />
         } />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/exam-dates" element={<ExamDatesPage />} />
 
         {/* Legacy redirect: /math-class-1 → /syllabus/mathematics/class-1 */}
         <Route

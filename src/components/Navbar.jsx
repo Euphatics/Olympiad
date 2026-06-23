@@ -30,7 +30,8 @@ const FAQ_ITEMS = [
 ];
 
 const getFAQItemPath = (item) => {
-  if (item === 'FAQs' || item === 'Exam Dates') return '/faq';
+  if (item === 'FAQs') return '/faq';
+  if (item === 'Exam Dates') return '/exam-dates';
   if (item === 'Exam Syllabus and PYQs') return '/syllabus-pyqs';
   if (item === 'Marking Scheme') return '/marking-scheme';
   if (item === 'Awards & Recognition') return '/awards';
