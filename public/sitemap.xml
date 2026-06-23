@@ -16,7 +16,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ntiolympiad.in/math-class-1</loc>
+    <loc>https://ntiolympiad.in/syllabus/mathematics/class-1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -36,27 +36,27 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ntiolympiad.in/syllabus/Mathematics%20Olympiad</loc>
+    <loc>https://ntiolympiad.in/syllabus/mathematics</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ntiolympiad.in/syllabus/Science%20Olympiad</loc>
+    <loc>https://ntiolympiad.in/syllabus/science</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ntiolympiad.in/syllabus/English%20Olympiad</loc>
+    <loc>https://ntiolympiad.in/syllabus/english</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ntiolympiad.in/syllabus/Information%20Technology%20Olympiad</loc>
+    <loc>https://ntiolympiad.in/syllabus/information-technology</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ntiolympiad.in/syllabus/Finance%20Olympiad</loc>
+    <loc>https://ntiolympiad.in/syllabus/finance</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

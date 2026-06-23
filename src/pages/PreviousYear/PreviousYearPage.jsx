@@ -1,6 +1,5 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { SUBJECTS } from '../../config/subjects';
 import { ROUTES } from '../../config/routes';
 import { Breadcrumb, PageContainer, SectionHeading } from '../../components/ui';
 

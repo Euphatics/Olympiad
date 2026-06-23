@@ -2,7 +2,6 @@ import { lazy } from 'react';
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import { ROUTES } from './config/routes';
-import { getSubjectByName } from './config/subjects';
 
 const HomePage = lazy(() => import('./pages/Home/HomePage'));
 const ContactUs = lazy(() => import('./pages/Contact/ContactUsPage'));
@@ -28,37 +27,6 @@ function App() {
 
   const handleSelect = (category, item) => {
     console.log('Selected:', category, '→', item);
-
-    // Check if this is a subject + class selection from Olympiad menu
-    const subject = getSubjectByName(category);
-    if (subject && item.startsWith('Class ')) {
-      const classSlug = item.toLowerCase().replace(/\s+/g, '-');
-      navigate(ROUTES.syllabusClass(subject.slug, classSlug));
-      return;
-    }
-
-    // Static page navigation
-    if (item === 'Contact Us') {
-      navigate(ROUTES.contact);
-    } else if (item === 'Marking Scheme') {
-      navigate(ROUTES.markingScheme);
-    } else if (item === 'Exam Syllabus and PYQs') {
-      navigate(ROUTES.syllabusPyqs);
-    } else if (item === 'PYQs') {
-      navigate(ROUTES.previousYear);
-    } else if (item === 'Awards & Recognition') {
-      navigate(ROUTES.awards);
-    } else if (item === 'Subject Rankers') {
-      navigate(ROUTES.subjectRankers);
-    } else if (item === 'FAQs' || category === 'FAQs') {
-      navigate(ROUTES.faq);
-    } else if (item === 'Gallery') {
-      navigate(ROUTES.gallery);
-    } else if (item === 'Login' || item === 'Sign In') {
-      navigate(ROUTES.login);
-    } else if (item === 'Register' || item === 'Sign Up') {
-      navigate(ROUTES.register);
-    }
   };
 
   return (

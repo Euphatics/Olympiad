@@ -92,7 +92,7 @@ export const syllabusData = {
           content: [
             'Students interested in taking the Maths Olympiad test for class 1 can do the registration either through their schools or on their own.',
             'Candidates from all around the world are welcome to apply for the exam.',
-            'The test for class Nursery is performed in 1 level.',
+            'The test for class 1 is performed in 1 level.',
             'Only class 1 students can apply to it.',
           ],
         },

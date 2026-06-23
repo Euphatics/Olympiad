@@ -1,6 +1,7 @@
 import React from 'react';
 import { Info, ClipboardCheck, Monitor, Award, Phone } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 
 /* ── Icon map for category headers ── */
 const categoryIcons = {
@@ -23,7 +24,7 @@ const faqCategories = [
             },
             {
                 q: 'Who is eligible to take part?',
-                a: 'Any student currently enrolled in Class 1 through Class 12 at a recognized Indian school may participate. There is no prerequisite score or prior qualification needed to sign up.',
+                a: 'Any student currently enrolled in Class 1 through Class 10 at a recognized Indian school may participate. There is no prerequisite score or prior qualification needed to sign up.',
             },
             {
                 q: 'What disciplines does the Olympiad cover?',
@@ -383,15 +384,16 @@ export default function FAQ() {
                         </a>
 
                         {/* Contact Us button */}
-                        <button
-                            className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 cursor-pointer hover:shadow-lg active:scale-95"
+                        <Link
+                            to="/contact"
+                            className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 cursor-pointer hover:shadow-lg active:scale-95 flex items-center justify-center"
                             style={{
                                 background: 'linear-gradient(135deg, #007BFF 0%, #0056b3 100%)',
-                                border: 'none',
+                                textDecoration: 'none',
                             }}
                         >
                             Contact Us
-                        </button>
+                        </Link>
                     </div>
                 </div>
 

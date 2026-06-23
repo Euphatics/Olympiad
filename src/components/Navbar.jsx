@@ -218,17 +218,17 @@ export default function Navbar({ onSelect = () => { } }) {
                               const classSlug = toClassSlug(cls);
                               const subjectSlug = getSubjectSlug(cat);
                               return (
-                              <Link
-                                key={cls}
-                                to={ROUTES.syllabusClass(subjectSlug, classSlug)}
-                                onClick={() => {
-                                  select(cat, cls);
-                                }}
-                                className="w-full text-left px-4 py-2 text-[13px] text-gray-600 font-medium hover:bg-royal-50 hover:text-royal-800 transition-colors duration-150 block"
-                              >
-                                {cls}
-                              </Link>
-                            );
+                                <Link
+                                  key={cls}
+                                  to={ROUTES.syllabusClass(subjectSlug, classSlug)}
+                                  onClick={() => {
+                                    select(cat, cls);
+                                  }}
+                                  className="w-full text-left px-4 py-2 text-[13px] text-gray-600 font-medium hover:bg-royal-50 hover:text-royal-800 transition-colors duration-150 block"
+                                >
+                                  {cls}
+                                </Link>
+                              );
                             })}
                           </div>
                         </div>
@@ -317,9 +317,7 @@ export default function Navbar({ onSelect = () => { } }) {
                         key={item}
                         to={item === 'PYQs' ? ROUTES.previousYear : '#'}
                         onClick={(e) => {
-                          if (item !== 'PYQs') {
-                            e.preventDefault();
-                          }
+                          if (item !== 'PYQs') e.preventDefault();
                           select('Preparations', item);
                         }}
                         className="w-full text-left px-4 py-2.5 text-[13px] font-medium text-gray-600 hover:bg-royal-50 hover:text-royal-800 transition-colors duration-150 block"
@@ -463,17 +461,17 @@ export default function Navbar({ onSelect = () => { } }) {
                           const classSlug = toClassSlug(cls);
                           const subjectSlug = getSubjectSlug(cat);
                           return (
-                          <Link
-                            key={cls}
-                            to={ROUTES.syllabusClass(subjectSlug, classSlug)}
-                            onClick={() => {
-                              select(cat, cls);
-                            }}
-                            className="w-full text-left px-3 py-2 rounded-lg text-[13px] font-medium text-gray-500 hover:bg-royal-50 hover:text-royal-800 transition-colors duration-150 block"
-                          >
-                            {cls}
-                          </Link>
-                        );
+                            <Link
+                              key={cls}
+                              to={ROUTES.syllabusClass(subjectSlug, classSlug)}
+                              onClick={() => {
+                                select(cat, cls);
+                              }}
+                              className="w-full text-left px-3 py-2 rounded-lg text-[13px] font-medium text-gray-500 hover:bg-royal-50 hover:text-royal-800 transition-colors duration-150 block"
+                            >
+                              {cls}
+                            </Link>
+                          );
                         })}
                       </div>
                     </div>
@@ -509,9 +507,7 @@ export default function Navbar({ onSelect = () => { } }) {
                     key={item}
                     to={item === 'PYQs' ? ROUTES.previousYear : '#'}
                     onClick={(e) => {
-                      if (item !== 'PYQs') {
-                        e.preventDefault();
-                      }
+                      if (item !== 'PYQs') e.preventDefault();
                       select('Preparations', item);
                     }}
                     className="w-full text-left px-3 py-2.5 rounded-lg text-[13px] font-medium text-gray-600 hover:bg-royal-50 hover:text-royal-800 transition-colors duration-150 block"

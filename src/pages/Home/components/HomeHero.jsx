@@ -70,13 +70,13 @@ export default function HomeHero() {
     <section className="w-full bg-[#f9fafb] py-6 lg:py-8 border-b border-gray-200">
       <Helmet>
         <title>NTI Olympiad – Academic Excellence Starts Here</title>
-        <meta name="description" content="NTI Olympiad – India's premier academic competition platform for students from Nursery to Class 10." />
+        <meta name="description" content="NTI Olympiad – India's premier academic competition platform for students from Class 1 to Class 10." />
         <link rel="canonical" href="https://ntiolympiad.in/" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:title" content="NTI Olympiad – Academic Excellence Starts Here" />
-        <meta property="og:description" content="NTI Olympiad – India's premier academic competition platform for students from Nursery to Class 10." />
+        <meta property="og:description" content="NTI Olympiad – India's premier academic competition platform for students from Class 1 to Class 10." />
         <meta property="og:site_name" content="NTI Olympiad" />
         <meta property="og:image" content="https://ntiolympiad.in/about_nti_banner.png" />
         <meta property="og:url" content="https://ntiolympiad.in/" />
@@ -84,7 +84,7 @@ export default function HomeHero() {
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="NTI Olympiad – Academic Excellence Starts Here" />
-        <meta name="twitter:description" content="NTI Olympiad – India's premier academic competition platform for students from Nursery to Class 10." />
+        <meta name="twitter:description" content="NTI Olympiad – India's premier academic competition platform for students from Class 1 to Class 10." />
         <meta name="twitter:image" content="https://ntiolympiad.in/about_nti_banner.png" />
 
         {/* WebSite Schema */}

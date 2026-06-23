@@ -4,6 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import { getSubjectBySlug, getSubjectByName, CLASS_LEVELS } from '../../config/subjects';
 import { ROUTES } from '../../config/routes';
 import { Breadcrumb, PageContainer, SectionHeading, Button } from '../../components/ui';
+import { getSyllabusData } from '../../data/syllabusData';
 
 const CLASSES = ['About', ...CLASS_LEVELS.map((c) => c.name)];
 
@@ -69,7 +70,7 @@ export default function SyllabusDetail({ subjectName: propSubjectName, onMarking
       <Helmet>
         <title>{`NTI ${subjectName} Syllabus – All Classes`}</title>
         <meta name="description" content={`Detailed syllabus breakdown, topics, and exam guides for NTI ${subjectName} from Class 1 to 10.`} />
-        <link rel="canonical" href={`https://ntiolympiad.in/syllabus/${encodeURIComponent(subjectName)}`} />
+        <link rel="canonical" href={`https://ntiolympiad.in/syllabus/${resolvedSlug}`} />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
@@ -77,7 +78,7 @@ export default function SyllabusDetail({ subjectName: propSubjectName, onMarking
         <meta property="og:description" content={`Detailed syllabus breakdown, topics, and exam guides for NTI ${subjectName} from Class 1 to 10.`} />
         <meta property="og:site_name" content="NTI Olympiad" />
         <meta property="og:image" content="https://ntiolympiad.in/about_nti_banner.png" />
-        <meta property="og:url" content={`https://ntiolympiad.in/syllabus/${encodeURIComponent(subjectName)}`} />
+        <meta property="og:url" content={`https://ntiolympiad.in/syllabus/${resolvedSlug}`} />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
@@ -107,7 +108,7 @@ export default function SyllabusDetail({ subjectName: propSubjectName, onMarking
                 "@type": "ListItem",
                 "position": 3,
                 "name": `NTI ${subjectName} Syllabus`,
-                "item": `https://ntiolympiad.in/syllabus/${encodeURIComponent(subjectName)}`
+                "item": `https://ntiolympiad.in/syllabus/${resolvedSlug}`
               }
             ]
           })}
@@ -177,28 +178,37 @@ export default function SyllabusDetail({ subjectName: propSubjectName, onMarking
                   </p>
                 </>
               ) : (
-                <>
-                  <h2 className="text-[28px] font-normal text-gray-900 mb-6">
-                    {subjectName.split(' ')[0]} Olympiad Syllabus for {cls}
-                  </h2>
-                  
-                  <div className="space-y-4 text-[14px] text-gray-800 leading-relaxed mb-6">
-                    <p>
-                      <strong>Topics Covered:</strong> Basic Concepts on Comparison (Big and Small, Tall and Short, Open and Close, Sit and Stand, Same and Different), Numbers (Numbers 1–50, What Comes After, What Comes Before), Shapes (Circle, Square, Triangle, Rectangle).
-                    </p>
-                  </div>
+                (() => {
+                  const classSlug = cls.toLowerCase().replace(/\s+/g, '-');
+                  const classData = getSyllabusData(resolvedSlug, classSlug);
+                  const topics = classData?.sections?.syllabus?.content || [];
+                  return (
+                    <>
+                      <h2 className="text-[28px] font-normal text-gray-900 mb-6">
+                        {subjectName.split(' ')[0]} Olympiad Syllabus for {cls}
+                      </h2>
+                      
+                      <div className="space-y-4 text-[14px] text-gray-800 leading-relaxed mb-6">
+                        <p>
+                          <strong>Topics Covered:</strong> {topics.length > 0 ? topics.join(', ') : 'Syllabus topics to be updated.'}
+                        </p>
+                      </div>
 
-                  <div className="flex gap-3">
-                    <Button variant="secondary">Sample Paper</Button>
-                    <Button 
-                      variant="secondary"
-                      onClick={(e) => { e.preventDefault(); onMarkingSchemeClick && onMarkingSchemeClick(); }}
-                    >
-                      Marking Scheme
-                    </Button>
-                    <Button variant="secondary">PYQs</Button>
-                  </div>
-                </>
+                      <div className="flex gap-3">
+                        <Button variant="secondary">Sample Paper</Button>
+                        <Button 
+                          variant="secondary"
+                          onClick={(e) => { e.preventDefault(); onMarkingSchemeClick && onMarkingSchemeClick(); }}
+                        >
+                          Marking Scheme
+                        </Button>
+                        <Link to={ROUTES.subjectPreviousYear(resolvedSlug)}>
+                          <Button variant="secondary">PYQs</Button>
+                        </Link>
+                      </div>
+                    </>
+                  );
+                })()
               )}
             </div>
           ))}
