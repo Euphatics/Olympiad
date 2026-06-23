@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
-import { FloatingLabel } from 'flowbite-react';
+import { Eye, EyeOff, LogIn, UserPlus, ArrowRight } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import AuthSidebar from '../../components/AuthSidebar';
 
@@ -47,43 +46,56 @@ export default function LoginPage({ onSignUp }) {
         {/* ───────── RIGHT SIDE ───────── */}
         <div className="login-right">
           <div className="login-form-card">
+            
+            {/* Toggle Bar */}
+            <div className="login-toggle-bar">
+              <button className="login-toggle-btn active">
+                <LogIn size={18} className="login-toggle-icon" /> Log In
+              </button>
+              <button 
+                className="login-toggle-btn inactive" 
+                onClick={(e) => { e.preventDefault(); if(onSignUp) onSignUp(); }}
+              >
+                <UserPlus size={18} className="login-toggle-icon" /> Register
+              </button>
+            </div>
+
             {/* Header */}
-            <div className="login-form-header">
-              <div>
-                <p className="login-welcome">
-                  Welcome to <span className="login-brand">NTI Olympiad</span>
-                </p>
-                <h2 className="login-signin-title">Sign in</h2>
-              </div>
-              <div className="login-signup-box">
-                <p className="login-no-account">No Account ?</p>
-                <a href="#" onClick={(e) => { e.preventDefault(); if(onSignUp) onSignUp(); }} className="login-signup-link">Sign up</a>
-              </div>
+            <div className="login-center-header">
+              <h2 className="login-signin-title">LOG IN</h2>
+              <p className="login-subtitle">
+                Log into your <span className="login-underline">NTI</span> account.
+              </p>
             </div>
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="login-form">
               <div className="login-field">
-                <FloatingLabel
-                  variant="outlined"
-                  label="Username or email address"
+                <label className="login-label">
+                  EMAIL OR USER ID <span className="login-asterisk">*</span>
+                </label>
+                <input
                   id="login-email"
                   type="text"
+                  className="login-input"
+                  placeholder="Enter your Email or Organization User ID"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
               <div className="login-field">
+                <label className="login-label">
+                  PASSWORD <span className="login-asterisk">*</span>
+                </label>
                 <div className="login-password-wrap">
-                  <FloatingLabel
-                    variant="outlined"
-                    label="Password"
+                  <input
                     id="login-password"
                     type={showPassword ? 'text' : 'password'}
+                    className="login-input pr-10"
+                    placeholder="Enter your Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pr-10"
                   />
                   <button
                     type="button"
@@ -95,14 +107,21 @@ export default function LoginPage({ onSignUp }) {
                   </button>
                 </div>
                 <div className="login-forgot-row">
-                  <a href="#" className="login-forgot-link">Forgot Password</a>
+                  <a href="#" className="login-forgot-link">Forgot Password?</a>
                 </div>
               </div>
 
-              <button id="login-submit" type="submit" className="login-submit-btn">
-                Sign in
-              </button>
+              <div className="login-submit-row">
+                <button id="login-submit" type="submit" className="login-submit-btn">
+                  LOGIN <ArrowRight size={18} />
+                </button>
+              </div>
             </form>
+            
+            <div className="login-bottom-text">
+              <p>You can use the same email and password to log in all Olympiads or switch between them from your dashboard.</p>
+            </div>
+
           </div>
         </div>
       </div>
@@ -154,91 +173,129 @@ export default function LoginPage({ onSignUp }) {
 
         .login-form-card {
           width: 100%;
-          max-width: 420px;
+          max-width: 440px;
           background: #fff;
-          border-radius: 20px;
-          padding: 40px 36px 44px;
-          box-shadow: 0 4px 32px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
+          border-radius: 12px;
+          padding: 36px 40px 40px;
+          box-shadow: 0 4px 32px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
           margin-top: 16px;
         }
 
-        .login-form-header {
+        /* Toggle Bar */
+        .login-toggle-bar {
           display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          margin-bottom: 36px;
+          background: #F3F4F6;
+          border-radius: 8px;
+          padding: 4px;
+          margin-bottom: 40px;
         }
-
-        .login-welcome {
+        .login-toggle-btn {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 10px 0;
+          font-family: 'Inter', sans-serif;
+          font-weight: 600;
           font-size: 14px;
+          border-radius: 6px;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+        .login-toggle-btn.active {
+          background: #1976D2;
+          color: #fff;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .login-toggle-btn.inactive {
+          background: transparent;
           color: #6B7280;
-          margin: 0;
-          font-weight: 500;
+        }
+        .login-toggle-btn.inactive:hover {
+          color: #374151;
+          background: #E5E7EB;
         }
 
-        .login-brand {
-          color: #2563EB;
-          font-weight: 700;
+        /* Center Header */
+        .login-center-header {
+          text-align: center;
+          margin-bottom: 32px;
         }
-
         .login-signin-title {
+          font-family: 'Inter', sans-serif;
           font-size: 32px;
-          font-weight: 700;
-          margin: 6px 0 0;
-          color: #111827;
-          font-family: 'Poppins', sans-serif;
+          font-weight: 400;
+          color: #374151;
+          margin: 0 0 12px 0;
+          letter-spacing: 0.5px;
         }
-
-        .login-signup-box {
-          text-align: right;
-        }
-
-        .login-no-account {
-          font-size: 13px;
+        .login-subtitle {
+          font-family: 'Inter', sans-serif;
+          font-size: 14px;
           color: #9CA3AF;
           margin: 0;
-          font-weight: 500;
         }
-
-        .login-signup-link {
-          font-size: 13px;
-          color: #2563EB;
-          font-weight: 600;
-          text-decoration: none;
-          cursor: pointer;
-        }
-        .login-signup-link:hover {
+        .login-underline {
           text-decoration: underline;
+          text-decoration-color: #9CA3AF;
+          text-underline-offset: 3px;
         }
 
-        /* ── Form ── */
+        /* Form Fields */
         .login-form {
           display: flex;
           flex-direction: column;
           gap: 24px;
         }
-
         .login-field {
           display: flex;
           flex-direction: column;
           gap: 8px;
         }
-
         .login-label {
-          font-size: 14px;
-          font-weight: 500;
-          color: #111827;
+          font-family: 'Inter', sans-serif;
+          font-size: 11.5px;
+          font-weight: 600;
+          color: #4B5563;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
         }
-
-
+        .login-asterisk {
+          color: #EF4444;
+          margin-left: 2px;
+        }
+        .login-input {
+          width: 100%;
+          padding: 12px 14px;
+          font-size: 14px;
+          color: #1F2937;
+          background: #fff;
+          border: 1px solid #D1D5DB;
+          border-radius: 6px;
+          outline: none;
+          transition: border-color 0.2s, box-shadow 0.2s;
+          font-family: 'Inter', sans-serif;
+        }
+        .login-input::placeholder {
+          color: #9CA3AF;
+          font-weight: 400;
+        }
+        .login-input:focus {
+          border-color: #1976D2;
+          box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
 
         .login-password-wrap {
           position: relative;
         }
-
+        .login-input.pr-10 {
+          padding-right: 40px;
+        }
         .login-eye-btn {
           position: absolute;
-          right: 14px;
+          right: 12px;
           top: 50%;
           transform: translateY(-50%);
           background: none;
@@ -251,42 +308,53 @@ export default function LoginPage({ onSignUp }) {
 
         .login-forgot-row {
           text-align: right;
-          margin-top: 2px;
+          margin-top: 4px;
         }
-
         .login-forgot-link {
-          font-size: 13px;
-          color: #2563EB;
+          font-size: 12.5px;
+          color: #EF4444;
           font-weight: 500;
           text-decoration: none;
-          cursor: pointer;
         }
         .login-forgot-link:hover {
           text-decoration: underline;
         }
 
+        /* Submit Button */
+        .login-submit-row {
+          display: flex;
+          justify-content: flex-end;
+          margin-top: 4px;
+        }
         .login-submit-btn {
-          width: 100%;
-          padding: 15px 0;
-          font-size: 16px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 24px;
+          font-size: 14px;
           font-weight: 600;
           color: #fff;
-          background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+          background: #1976D2;
           border: none;
-          border-radius: 10px;
+          border-radius: 6px;
           cursor: pointer;
-          transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
-          box-shadow: 0 4px 14px rgba(33,150,243,0.35);
+          transition: all 0.2s;
           font-family: 'Inter', sans-serif;
-          margin-top: 8px;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
         }
         .login-submit-btn:hover {
-          opacity: 0.92;
+          background: #1565C0;
           transform: translateY(-1px);
-          box-shadow: 0 6px 20px rgba(33,150,243,0.4);
+          box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
         }
-        .login-submit-btn:active {
-          transform: translateY(0);
+
+        .login-bottom-text {
+          margin-top: 32px;
+          font-size: 13px;
+          color: #6B7280;
+          line-height: 1.5;
+          text-align: left;
         }
       `}</style>
     </div>
