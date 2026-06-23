@@ -114,9 +114,10 @@ export default function RegisterPage() {
       <div className="register-content">
 
         {/* ───────── LEFT SIDE — How to Get Started ───────── */}
-        <div className="register-left rgs-panel">
+        <div className="register-left">
+          <div className="register-info-card rgs-panel">
 
-          {/* Logo */}
+            {/* Logo */}
           <div className="rgs-logo">
             <div className="rgs-logo-icon">
               <span>N</span>
@@ -202,6 +203,7 @@ export default function RegisterPage() {
                 <span className="rgs-contact-label">Phone No.: </span>
                 <span className="rgs-contact-value">011-49754923/24</span>
               </div>
+            </div>
             </div>
           </div>
         </div>
@@ -446,26 +448,21 @@ export default function RegisterPage() {
         /* ── LEFT ── */
         .register-left {
           flex: 0 0 44%;
-          padding: 32px 0 40px 44px;
+          padding: 32px 20px 40px 44px;
           display: flex;
-          flex-direction: column;
-          position: relative;
+          align-items: flex-start;
+          justify-content: flex-end;
         }
 
-        /* Subtle vertical separator */
-        .register-left::after {
-          content: '';
-          position: absolute;
-          right: 0;
-          top: 10%;
-          height: 80%;
-          width: 1px;
-          background: linear-gradient(to bottom,
-            transparent 0%,
-            rgba(255,255,255,0.25) 20%,
-            rgba(255,255,255,0.25) 80%,
-            transparent 100%
-          );
+        .register-info-card {
+          width: 100%;
+          max-width: 500px;
+          background: #fff;
+          border-radius: 20px;
+          padding: 32px 32px 40px;
+          box-shadow: 0 4px 32px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.05);
+          display: flex;
+          flex-direction: column;
         }
 
         /* ── RIGHT ── */
@@ -522,12 +519,12 @@ export default function RegisterPage() {
           font-family: 'Poppins', sans-serif;
           font-size: 18px;
           font-weight: 700;
-          color: #fff;
+          color: #1f2937;
           letter-spacing: 0.3px;
         }
         .rgs-logo-sub {
           font-weight: 500;
-          color: rgba(255,255,255,0.85);
+          color: #4b5563;
           margin-left: 4px;
         }
 
@@ -540,16 +537,15 @@ export default function RegisterPage() {
           font-size: 19px;
           font-weight: 800;
           letter-spacing: 0.05em;
-          color: #fff;
+          color: #1f2937;
           margin: 0 0 3px 0;
           line-height: 1.2;
-          text-shadow: 0 1px 6px rgba(0,0,0,0.1);
         }
         .rgs-sub-title {
           font-family: 'Poppins', sans-serif;
           font-size: 14.5px;
           font-weight: 600;
-          color: rgba(255,255,255,0.9);
+          color: #4b5563;
           margin: 0 0 10px 0;
         }
 
@@ -557,7 +553,7 @@ export default function RegisterPage() {
         .rgs-divider {
           width: 100%;
           height: 1px;
-          background: rgba(255,255,255,0.22);
+          background: #E5E7EB;
           margin: 8px 0 20px 0;
           border-radius: 999px;
         }
@@ -577,7 +573,7 @@ export default function RegisterPage() {
           align-items: flex-start;
           gap: 14px;
           padding: 13px 0;
-          border-bottom: 1px solid rgba(255,255,255,0.13);
+          border-bottom: 1px solid #F3F4F6;
           transition: opacity 0.15s;
         }
         .rgs-step:hover {
@@ -593,26 +589,25 @@ export default function RegisterPage() {
           width: 34px;
           height: 34px;
           border-radius: 50%;
-          background: rgba(255,255,255,0.15);
-          border: 2px solid rgba(255,255,255,0.4);
+          background: #EFF6FF;
+          border: 2px solid #BFDBFE;
           display: flex;
           align-items: center;
           justify-content: center;
           font-family: 'Poppins', sans-serif;
           font-size: 14px;
           font-weight: 700;
-          color: #fff;
-          backdrop-filter: blur(4px);
+          color: #007BFF;
           transition: transform 0.2s ease, background 0.2s ease;
           margin-top: 1px;
         }
         .rgs-step:hover .rgs-step-num {
-          background: rgba(255,255,255,0.25);
+          background: #DBEAFE;
           transform: scale(1.07);
         }
         .rgs-step-num--accent {
-          background: rgba(255,255,255,0.2);
-          border-color: rgba(255,255,255,0.55);
+          background: #DBEAFE;
+          border-color: #93C5FD;
         }
 
         /* Step body */
@@ -626,29 +621,29 @@ export default function RegisterPage() {
           width: 30px;
           height: 30px;
           border-radius: 8px;
-          background: rgba(255,255,255,0.12);
-          border: 1px solid rgba(255,255,255,0.25);
+          background: #F8FAFC;
+          border: 1px solid #E2E8F0;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(255,255,255,0.9);
+          color: #007BFF;
           margin-top: 2px;
           transition: background 0.2s ease;
         }
         .rgs-step:hover .rgs-step-icon-wrap {
-          background: rgba(255,255,255,0.22);
+          background: #F1F5F9;
         }
         .rgs-step-title {
           font-family: 'Poppins', sans-serif !important;
           font-size: 13px;
           font-weight: 700;
-          color: #fff;
+          color: #1f2937;
           margin: 0 0 3px 0;
           line-height: 1.3;
         }
         .rgs-step-desc {
           font-size: 12px;
-          color: rgba(255,255,255,0.8);
+          color: #64748b;
           line-height: 1.55;
           margin: 0;
           max-width: 280px;
@@ -667,34 +662,33 @@ export default function RegisterPage() {
         }
         .rgs-contact-icon {
           flex-shrink: 0;
-          color: rgba(255,255,255,0.82);
+          color: #007BFF;
         }
         .rgs-contact-label {
           font-size: 12.5px;
           font-weight: 700;
-          color: #fff;
+          color: #1f2937;
           font-family: 'Poppins', sans-serif;
         }
         .rgs-contact-value {
           font-size: 12px;
-          color: rgba(255,255,255,0.82);
+          color: #4b5563;
           word-break: break-word;
         }
 
         /* ── Why NTI card ── */
         .rgs-why-card {
-          background: rgba(255,255,255,0.07);
-          border: 1px solid rgba(255,255,255,0.16);
+          background: #F8FAFC;
+          border: 1px solid #E2E8F0;
           border-radius: 14px;
           padding: 16px 18px;
           margin-bottom: 4px;
-          backdrop-filter: blur(4px);
         }
         .rgs-why-heading {
           font-family: 'Poppins', sans-serif;
           font-size: 12.5px;
           font-weight: 700;
-          color: rgba(255,255,255,0.95);
+          color: #1f2937;
           margin: 0 0 10px 0;
           letter-spacing: 0.1px;
           text-transform: uppercase;
@@ -712,13 +706,13 @@ export default function RegisterPage() {
           align-items: center;
           gap: 8px;
           font-size: 12.5px;
-          color: rgba(255,255,255,0.82);
+          color: #4b5563;
           line-height: 1.4;
         }
         .rgs-why-list li svg {
           flex-shrink: 0;
-          color: #7EE8A2;
-          stroke: #7EE8A2;
+          color: #10B981;
+          stroke: #10B981;
         }
       `}</style>
     </div>
