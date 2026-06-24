@@ -42,7 +42,7 @@ const infoItems = [
 export default function ImportantInfo() {
   return (
     <section className="w-full bg-[#f9fafb] py-8 lg:py-12 border-b border-gray-200">
-      <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12">
+      <div className="w-full px-6 sm:px-10 lg:px-16">
 
         {/* Section Heading */}
         <div className="mb-6">

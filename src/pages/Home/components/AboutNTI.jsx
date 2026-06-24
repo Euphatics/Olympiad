@@ -16,14 +16,14 @@ const stats = [
 export default function AboutNTI() {
   return (
     <section id="about-nti" className="w-full bg-white py-10 lg:py-14 border-b border-gray-200">
-      <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12">
+      <div className="w-full px-6 sm:px-10 lg:px-16">
 
         {/* Section Heading */}
-        <div className="mb-6">
-          <h2 className="text-xl lg:text-2xl font-bold text-gray-800 tracking-tight">
+        <div className="mb-8">
+          <h2 className="text-3xl lg:text-4xl xl:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
             About NTI Olympiad
           </h2>
-          <div className="h-1 w-12 bg-[#007BFF] mt-1.5 rounded-full"></div>
+          <div className="h-1.5 w-16 bg-[#007BFF] mt-3 rounded-full"></div>
         </div>
 
         {/* Main Content */}
@@ -37,7 +37,7 @@ export default function AboutNTI() {
               The Olympiad is conducted in various subjects including Mathematics, Science, English, General Knowledge, and Logical Reasoning. NTI Olympiad will help students hone their logical reasoning and analytical skills by competing against other students from different institutions and backgrounds.
             </p>
 
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-5 leading-tight">
               India's Top Academic Olympiad Forum
             </h3>
             <p className="text-[15px] leading-7 text-gray-600 mb-3">

@@ -400,7 +400,7 @@ SubjectCard.displayName = 'SubjectCard';
 export default function SubjectsOffered() {
   return (
     <section className="w-full bg-[#467fcf] py-8 lg:py-12 border-b border-blue-400">
-      <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12">
+      <div className="w-full px-6 sm:px-10 lg:px-16">
 
         {/* Heading section styled to match Important Information exactly */}
         <div className="mb-6">

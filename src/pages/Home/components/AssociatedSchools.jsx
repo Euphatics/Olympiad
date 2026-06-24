@@ -1,15 +1,16 @@
-import { School, Calendar, ClipboardCheck, Trophy, MessageSquareQuote, Images } from 'lucide-react';
+import { School, Calendar, BookOpen, ClipboardList, FileText, HelpCircle } from 'lucide-react';
 
 export default function AssociatedSchools() {
   // 8 placeholder items to repeat for the seamless loop
   const placeholders = Array.from({ length: 8 }, (_, idx) => idx);
 
   const quickLinks = [
-    { icon: Calendar, title: 'Schedule' },
-    { icon: ClipboardCheck, title: 'Results' },
-    { icon: Trophy, title: 'Achievers' },
-    { icon: MessageSquareQuote, title: 'Testimonials' },
-    { icon: Images, title: 'Gallery' },
+    { icon: Calendar, title: 'Exam Dates' },
+    { icon: BookOpen, title: 'Syllabus' },
+    { icon: ClipboardList, title: 'Exam Pattern' },
+    { icon: FileText, title: 'Sample Papers' },
+    { icon: School, title: 'School Registration' },
+    { icon: HelpCircle, title: 'FAQs' },
   ];
 
   return (
@@ -32,10 +33,10 @@ export default function AssociatedSchools() {
         }
       `}</style>
 
-      <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12 flex flex-col items-center">
+      <div className="w-full px-6 sm:px-10 lg:px-16 flex flex-col items-start">
         
         {/* Quick Links Menu (Upar Wala Feature) */}
-        <div className="w-full max-w-5xl grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 mb-12">
+        <div className="w-full max-w-6xl self-center grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-8 mb-12">
           {quickLinks.map((item, idx) => {
             const IconComponent = item.icon;
             return (
