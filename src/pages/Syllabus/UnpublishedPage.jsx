@@ -66,7 +66,7 @@ export default function UnpublishedPage({ subjectName, className, subjectSlug })
           </div>
 
           <h1 className="text-2xl lg:text-3xl font-semibold text-gray-800 mb-3">
-            {title}
+            {subjectName} Olympiad for <strong className="font-bold">{className}</strong>
           </h1>
           <p className="text-[15px] text-gray-500 leading-relaxed mb-8">
             This syllabus is currently being prepared and will be published soon.

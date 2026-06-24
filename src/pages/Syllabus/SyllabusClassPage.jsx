@@ -225,7 +225,15 @@ export default function SyllabusClassPage() {
         {/* ── Page Header ── */}
         <div className="w-full border-b border-gray-300 pb-4 mb-8">
           <SectionHeading level="h1">
-            {pageData.title}
+            {pageData.title ? (
+              pageData.title.split(new RegExp(`(${classLevel.name})`, 'i')).map((part, i) =>
+                part.toLowerCase() === classLevel.name.toLowerCase() ? (
+                  <strong key={i} className="font-bold">{part}</strong>
+                ) : (
+                  part
+                )
+              )
+            ) : null}
           </SectionHeading>
         </div>
 
