@@ -1,9 +1,71 @@
-
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Breadcrumb, PageContainer, SectionHeading } from '../../components/ui';
+import { 
+  Trophy, 
+  Medal, 
+  Award, 
+  BookOpen, 
+  Users, 
+  GraduationCap 
+} from 'lucide-react';
+
+const AWARDS_SECTIONS = [
+  { slug: 'guidelines', label: 'Key Guidelines' },
+  { slug: 'student-awards', label: 'Student Ranks & Prizes' },
+  { slug: 'school-awards', label: 'School Excellence' },
+  { slug: 'educator-awards', label: 'Educator Recognition' },
+];
 
 export default function AwardsPage() {
+  const [activeSection, setActiveSection] = useState(AWARDS_SECTIONS[0].slug);
+
+  // Scrollspy observer for sidebar highlighting
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-120px 0px -60% 0px',
+      threshold: 0
+    };
+
+    const sectionElements = AWARDS_SECTIONS.map(sec => 
+      document.getElementById(sec.slug)
+    ).filter(Boolean);
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    }, observerOptions);
+
+    sectionElements.forEach(el => observer.observe(el));
+
+    // Bottom-of-page detector to make sure last item is highlighted
+    const handleScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100) {
+        setActiveSection(AWARDS_SECTIONS[AWARDS_SECTIONS.length - 1].slug);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      sectionElements.forEach(el => observer.unobserve(el));
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const scrollToSection = (slug) => {
+    setActiveSection(slug);
+    const element = document.getElementById(slug);
+    if (element) {
+      window.scrollTo({ top: element.offsetTop - 100, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-white pb-20 font-sans">
+    <div className="min-h-screen bg-white pb-20 font-sans text-slate-800 text-left">
       <Helmet>
         <title>Awards and Recognition – NTI Olympiad Winners</title>
         <meta name="description" content="Discover student ranks, cash prizes, shields, gold/silver/bronze medals, and school certificates awarded by NTI Olympiad." />
@@ -23,177 +85,263 @@ export default function AwardsPage() {
         <meta name="twitter:description" content="Discover student ranks, cash prizes, shields, gold/silver/bronze medals, and school certificates awarded by NTI Olympiad." />
         <meta name="twitter:image" content="https://ntiolympiad.in/about_nti_banner.png" />
       </Helmet>
-      {/* ── Header ── */}
-      <div className="w-full px-6 sm:px-10 lg:px-16 py-6 border-b border-gray-200">
-        <h1 className="text-2xl text-gray-800">Awards & Recognition | Academic Year 2026-27</h1>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-8">
+      <Breadcrumb items={[
+        { label: 'Home', path: '/' },
+        { label: 'Awards & Recognition' }
+      ]} />
 
-        {/* Buttons at the top */}
-        <div className="flex flex-wrap items-center gap-4 mb-10">
-          <a href="#student-awards" className="text-lg text-[#007BFF] border-b-2 border-[#007BFF] font-medium pb-1">Students Awards</a>
-          <span className="text-gray-300 text-xl font-light">|</span>
-          <a href="#school-awards" className="text-lg text-gray-500 border-b-2 border-transparent hover:text-[#007BFF] hover:border-[#007BFF] font-medium pb-1 transition-colors">School Awards</a>
+      <PageContainer className="py-8">
+        {/* Header Block */}
+        <div className="w-full border-b-2 border-gray-300 pb-4 mb-6">
+          <SectionHeading level="h1" className="font-normal text-gray-900">
+            Awards & Recognition – Academic Year 2026-27
+          </SectionHeading>
         </div>
 
-        <div id="student-awards" className="scroll-mt-24">
-          {/* ── Key Pointers ── */}
-          <div className="bg-[#f8fbff] border border-[#d1e6ff] rounded-xl p-6 md:p-8 mb-10">
-            <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">Key Pointers for NTI Olympiads Awards</h2>
-            <ul className="list-disc pl-5 text-[15px] text-gray-700 space-y-2.5 max-w-4xl">
-              <li>For students in classes 1-10, the awards include medals, certificates, and exciting cash prizes for top performers.</li>
-              <li>Ranking is determined based on the total score. In case of a tie, the time taken to complete the test will be considered.</li>
-              <li>Top 3 International rankers will receive special Gold, Silver, and Bronze medals respectively.</li>
-              <li>Top 3 Zonal rankers will also receive Zonal Medals and Certificates of Excellence.</li>
-              <li>Every participating student receives a digital participation certificate. These will be available online in the student dashboard.</li>
-            </ul>
-          </div>
+        <p className="text-[15px] text-gray-600 leading-relaxed max-w-4xl mb-8">
+          The National Testing Initiative (NTI) celebrates academic excellence and hard work. 
+          Both students and schools are recognized with prestigious awards, medals, certificates, and scholarships based on national and global metrics.
+        </p>
 
-          {/* ── Student Awards Table ── */}
-          <h2 className="text-xl font-bold text-gray-800 mb-2">NTI Olympiads Awards for Students</h2>
-          <p className="text-[15px] text-gray-600 mb-6">Awards for Students Appearing Online</p>
-
-          <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden mb-16">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse whitespace-nowrap md:whitespace-normal">
-                <thead>
-                  <tr className="bg-gray-50 border-b border-gray-200">
-                    <th className="py-4 px-6 text-[14px] font-bold text-gray-900 w-16">Sl No.</th>
-                    <th className="py-4 px-6 text-[14px] font-bold text-gray-900">Ranking Criteria</th>
-                    <th className="py-4 px-6 text-[14px] font-bold text-gray-900 w-32">Grades</th>
-                    <th className="py-4 px-6 text-[14px] font-bold text-gray-900">Awards</th>
-                  </tr>
-                </thead>
-                <tbody className="text-[14px] text-gray-600 divide-y divide-gray-100">
-                  <tr className="hover:bg-blue-50/50 transition-colors">
-                    <td className="py-5 px-6 font-medium text-gray-900">1</td>
-                    <td className="py-5 px-6">International rankers from 1st to 3rd positions globally</td>
-                    <td className="py-5 px-6">Grades 1-10</td>
-                    <td className="py-5 px-6 leading-relaxed">
-                      <strong className="text-gray-900">International Rank 1:</strong> Gold Medal + Certificate of Excellence + Cash Prize<br />
-                      <strong className="text-gray-900">International Rank 2:</strong> Silver Medal + Certificate of Excellence + Cash Prize<br />
-                      <strong className="text-gray-900">International Rank 3:</strong> Bronze Medal + Certificate of Excellence + Cash Prize
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-blue-50/50 transition-colors">
-                    <td className="py-5 px-6 font-medium text-gray-900">2</td>
-                    <td className="py-5 px-6">Zonal rankers from 1st to 3rd positions in each zone</td>
-                    <td className="py-5 px-6">Grades 1-10</td>
-                    <td className="py-5 px-6 leading-relaxed">
-                      <strong className="text-gray-900">Zonal Rank 1:</strong> Zonal Gold Medal + Certificate of Excellence<br />
-                      <strong className="text-gray-900">Zonal Rank 2:</strong> Zonal Silver Medal + Certificate of Excellence<br />
-                      <strong className="text-gray-900">Zonal Rank 3:</strong> Zonal Bronze Medal + Certificate of Excellence
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-blue-50/50 transition-colors">
-                    <td className="py-5 px-6 font-medium text-gray-900">3</td>
-                    <td className="py-5 px-6">Top 10% students</td>
-                    <td className="py-5 px-6">Grades 1-10</td>
-                    <td className="py-5 px-6">
-                      <strong className="text-[#007BFF]">Medal of Distinction + Merit Certificate</strong>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-blue-50/50 transition-colors">
-                    <td className="py-5 px-6 font-medium text-gray-900">4</td>
-                    <td className="py-5 px-6">Top 25% students</td>
-                    <td className="py-5 px-6">Grades 1-10</td>
-                    <td className="py-5 px-6">
-                      Commendation Certificate
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-blue-50/50 transition-colors">
-                    <td className="py-5 px-6 font-medium text-gray-900">5</td>
-                    <td className="py-5 px-6">All other participants</td>
-                    <td className="py-5 px-6">Grades 1-10</td>
-                    <td className="py-5 px-6">
-                      Digital Participation Certificate
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <div id="school-awards" className="scroll-mt-24 pt-8 border-t border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8">School Awards & Recognition</h2>
-
-          <div className="bg-[#f8fbff] border border-[#d1e6ff] rounded-xl p-6 md:p-8 mb-12">
-            <div className="flex flex-col gap-3">
-              <h3 className="text-xl md:text-2xl font-bold text-gray-900">
-                Excellence Driven by Participation
-              </h3>
-              <p className="text-gray-700 leading-relaxed text-[15px] md:text-base max-w-4xl mt-2">
-                <strong className="text-gray-900 font-bold">NTI Olympiad proudly rewards schools that demonstrate exceptional commitment to academic excellence.</strong> 
-                <br className="hidden md:block mt-1" />
-                Our prestigious school awards are primarily determined by the <strong className="text-gray-900 font-bold">overall student participation rate</strong> and the cumulative performance of the students representing the institution. We believe that encouraging a large number of students to participate is the first step towards fostering a competitive and intellectually stimulating environment.
-              </p>
-            </div>
-          </div>
-
-          <h3 className="text-xl font-bold text-gray-800 mb-6">Categories of School Excellence</h3>
+        {/* Sidebar + Content Layout */}
+        <div className="flex flex-col md:flex-row gap-8 items-start relative mt-6">
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            {/* Card 1 */}
-            <div className="bg-white border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-colors flex flex-col shadow-sm">
-              <h4 className="text-lg font-bold text-gray-900 mb-2">Best Performing School</h4>
-              <p className="text-[14px] text-gray-600 mb-6 flex-grow">
-                Awarded to schools whose students achieve the highest cumulative average scores across all subjects and grades.
-              </p>
-              <div className="pt-4 border-t border-gray-100 mt-auto">
-                <p className="text-[14px] font-bold text-[#007BFF]">
-                  Championship Trophy & Citation
-                </p>
-              </div>
+          {/* Left Vertical Sidebar (Square corners, clean list) */}
+          <div className="w-full md:w-56 flex-shrink-0 sticky top-24 bg-white border-2 border-gray-300 rounded-none shadow-sm z-10">
+            <div className="p-3.5 border-b-2 border-gray-300 bg-gray-50/50">
+              <h2 className="text-xs font-bold text-gray-800 uppercase tracking-wider">Award Details</h2>
             </div>
-
-            {/* Card 2 */}
-            <div className="bg-white border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-colors flex flex-col shadow-sm">
-              <h4 className="text-lg font-bold text-gray-900 mb-2">Maximum Participation Award</h4>
-              <p className="text-[14px] text-gray-600 mb-6 flex-grow">
-                Recognizing schools that motivate the highest number of students to enroll and actively participate in the Olympiad.
-              </p>
-              <div className="pt-4 border-t border-gray-100 mt-auto">
-                <p className="text-[14px] font-bold text-[#007BFF]">
-                  Shield of Honor
-                </p>
-              </div>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-white border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-colors flex flex-col shadow-sm">
-              <h4 className="text-lg font-bold text-gray-900 mb-2">District Topper School</h4>
-              <p className="text-[14px] text-gray-600 mb-6 flex-grow">
-                Honoring the top-ranked school in each district based on the number of zonal and international rank holders.
-              </p>
-              <div className="pt-4 border-t border-gray-100 mt-auto">
-                <p className="text-[14px] font-bold text-[#007BFF]">
-                  Excellence Plaque
-                </p>
-              </div>
+            <div className="flex flex-col py-1.5 max-h-[70vh] overflow-y-auto custom-scroll">
+              {AWARDS_SECTIONS.map((sec) => (
+                <button
+                  key={sec.slug}
+                  onClick={() => scrollToSection(sec.slug)}
+                  className={`w-full text-left px-4 py-2 border-b border-gray-100 last:border-0 flex justify-between items-center text-[13px] transition-colors duration-150 ${
+                    activeSection === sec.slug 
+                      ? 'text-[#007BFF] bg-blue-50/40 font-semibold' 
+                      : 'text-gray-600 hover:text-[#007BFF] hover:bg-gray-50'
+                  }`}
+                >
+                  <span>{sec.label}</span>
+                  <span className="text-gray-300 font-normal">&rsaquo;</span>
+                </button>
+              ))}
             </div>
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-lg p-6 md:p-8 shadow-sm">
-            <h4 className="text-lg font-bold text-gray-900 mb-6">
-              Additional Recognition for Educators
-            </h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
-                <p className="text-[15px] text-gray-900 font-bold mb-2">Principal's Leadership Award</p>
-                <p className="text-[14px] text-gray-600">Presented to Principals of the top 20 participating schools globally for visionary leadership.</p>
+          {/* Right Papers Content Area: Single parent div container, no rounded corners, bold divide-y-2 separators */}
+          <div className="flex-1 min-w-0 border-2 border-gray-300 bg-white shadow-sm divide-y-2 divide-gray-300 rounded-none">
+            
+            {/* Section 1: Key Guidelines */}
+            <div id="guidelines" className="scroll-mt-28 p-6 space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <BookOpen size={18} className="text-gray-500" />
+                <h3 className="text-[17px] font-bold text-gray-900">Key Guidelines for NTI Olympiad Awards</h3>
               </div>
-              <div>
-                <p className="text-[15px] text-gray-900 font-bold mb-2">Best Coordinator Award</p>
-                <p className="text-[14px] text-gray-600">Certificates of Appreciation and special mementos for school coordinators facilitating smooth exam execution.</p>
+              <p className="text-[14px] text-gray-600 leading-relaxed font-normal">
+                To maintain transparency and encourage fair competition, ranking and award allocation follow established guidelines:
+              </p>
+              <ul className="space-y-3.5 text-[13.5px] text-gray-600 leading-relaxed pl-1">
+                <li className="flex items-start gap-2">
+                  <span className="text-gray-400 font-normal">○</span>
+                  <div>
+                    Ranking is determined based on the total score. In case of a tie, the time taken to complete the test will be considered.
+                  </div>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-gray-400 font-normal">○</span>
+                  <div>
+                    For students in classes 1-10, the awards include medals, certificates, and exciting cash prizes for top performers.
+                  </div>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-gray-400 font-normal">○</span>
+                  <div>
+                    Top 3 International rankers will receive special Gold, Silver, and Bronze medals respectively.
+                  </div>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-gray-400 font-normal">○</span>
+                  <div>
+                    Top 3 Zonal rankers will also receive Zonal Medals and Certificates of Excellence.
+                  </div>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-gray-400 font-normal">○</span>
+                  <div>
+                    Every participating student receives a digital participation certificate. These will be available online in the student dashboard.
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            {/* Section 2: Student Ranks & Prizes */}
+            <div id="student-awards" className="scroll-mt-28 p-6 space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Medal size={18} className="text-gray-500" />
+                <h3 className="text-[17px] font-bold text-gray-900">NTI Olympiads Awards for Students</h3>
+              </div>
+              <p className="text-[14px] text-gray-600 leading-relaxed font-normal">
+                Awards structure for students appearing online globally:
+              </p>
+
+              {/* Table with border-2 border-gray-300 */}
+              <div className="border-2 border-gray-300 bg-white overflow-hidden rounded-none mt-4">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse whitespace-nowrap md:whitespace-normal">
+                    <thead>
+                      <tr className="bg-gray-50 border-b-2 border-gray-300">
+                        <th className="py-3 px-4 text-[12px] font-bold text-gray-900 uppercase tracking-wider w-16">Sl No.</th>
+                        <th className="py-3 px-4 text-[12px] font-bold text-gray-900 uppercase tracking-wider">Ranking Criteria</th>
+                        <th className="py-3 px-4 text-[12px] font-bold text-gray-900 uppercase tracking-wider w-24">Grades</th>
+                        <th className="py-3 px-4 text-[12px] font-bold text-gray-900 uppercase tracking-wider">Awards</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-[13px] text-gray-600 divide-y-2 divide-gray-200">
+                      <tr>
+                        <td className="py-4 px-4 font-semibold text-gray-900">1</td>
+                        <td className="py-4 px-4 font-normal">International rankers from 1st to 3rd positions globally</td>
+                        <td className="py-4 px-4 font-normal">Grades 1-10</td>
+                        <td className="py-4 px-4 leading-relaxed font-normal">
+                          <strong className="text-gray-900 block font-semibold">Rank 1: Gold Medal + Certificate of Excellence + Cash Prize</strong>
+                          <strong className="text-gray-900 block font-semibold">Rank 2: Silver Medal + Certificate of Excellence + Cash Prize</strong>
+                          <strong className="text-gray-900 block font-semibold">Rank 3: Bronze Medal + Certificate of Excellence + Cash Prize</strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="py-4 px-4 font-semibold text-gray-900">2</td>
+                        <td className="py-4 px-4 font-normal">Zonal rankers from 1st to 3rd positions in each zone</td>
+                        <td className="py-4 px-4 font-normal">Grades 1-10</td>
+                        <td className="py-4 px-4 leading-relaxed font-normal">
+                          <strong className="text-gray-900 block font-semibold">Zonal Rank 1: Zonal Gold Medal + Certificate of Excellence</strong>
+                          <strong className="text-gray-900 block font-semibold">Zonal Rank 2: Zonal Silver Medal + Certificate of Excellence</strong>
+                          <strong className="text-gray-900 block font-semibold">Zonal Rank 3: Zonal Bronze Medal + Certificate of Excellence</strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="py-4 px-4 font-semibold text-gray-900">3</td>
+                        <td className="py-4 px-4 font-normal">Top 10% students</td>
+                        <td className="py-4 px-4 font-normal">Grades 1-10</td>
+                        <td className="py-4 px-4 font-semibold text-[#007BFF]">
+                          Medal of Distinction + Merit Certificate
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="py-4 px-4 font-semibold text-gray-900">4</td>
+                        <td className="py-4 px-4 font-normal">Top 25% students</td>
+                        <td className="py-4 px-4 font-normal">Grades 1-10</td>
+                        <td className="py-4 px-4 font-normal">
+                          Commendation Certificate
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="py-4 px-4 font-semibold text-gray-900">5</td>
+                        <td className="py-4 px-4 font-normal">All other participants</td>
+                        <td className="py-4 px-4 font-normal">Grades 1-10</td>
+                        <td className="py-4 px-4 font-normal">
+                          Digital Participation Certificate
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
+
+            {/* Section 3: School Excellence */}
+            <div id="school-awards" className="scroll-mt-28 p-6 space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Trophy size={18} className="text-gray-500" />
+                <h3 className="text-[17px] font-bold text-gray-900">Categories of School Excellence</h3>
+              </div>
+              <p className="text-[14px] text-gray-600 leading-relaxed font-normal mb-4">
+                NTI Olympiad proudly rewards educational institutions demonstrating outstanding commitment to academic excellence. 
+                Awards are determined by cumulative performance and registration enrollment metrics:
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                <div className="border-2 border-gray-300 p-5 rounded-none flex flex-col justify-between bg-white shadow-sm">
+                  <div>
+                    <h4 className="font-bold text-gray-900 text-[14.5px] mb-2">Best Performing School</h4>
+                    <p className="text-[12.5px] text-gray-500 leading-relaxed font-normal mb-4">
+                      Awarded to schools whose students achieve the highest cumulative average scores across all subjects and grades.
+                    </p>
+                  </div>
+                  <div className="border-t-2 border-gray-100 pt-3 mt-auto">
+                    <p className="text-[13px] font-bold text-[#007BFF] uppercase tracking-wider">
+                      Championship Trophy & Citation
+                    </p>
+                  </div>
+                </div>
+
+                <div className="border-2 border-gray-300 p-5 rounded-none flex flex-col justify-between bg-white shadow-sm">
+                  <div>
+                    <h4 className="font-bold text-gray-900 text-[14.5px] mb-2">Maximum Participation Award</h4>
+                    <p className="text-[12.5px] text-gray-500 leading-relaxed font-normal mb-4">
+                      Recognizing schools that motivate the highest number of students to enroll and actively participate.
+                    </p>
+                  </div>
+                  <div className="border-t-2 border-gray-100 pt-3 mt-auto">
+                    <p className="text-[13px] font-bold text-[#007BFF] uppercase tracking-wider">
+                      Shield of Honor
+                    </p>
+                  </div>
+                </div>
+
+                <div className="border-2 border-gray-300 p-5 rounded-none flex flex-col justify-between bg-white shadow-sm">
+                  <div>
+                    <h4 className="font-bold text-gray-900 text-[14.5px] mb-2">District Topper School</h4>
+                    <p className="text-[12.5px] text-gray-500 leading-relaxed font-normal mb-4">
+                      Honoring the top-ranked school in each district based on the count of zonal and international rank holders.
+                    </p>
+                  </div>
+                  <div className="border-t-2 border-gray-100 pt-3 mt-auto">
+                    <p className="text-[13px] font-bold text-[#007BFF] uppercase tracking-wider">
+                      Excellence Plaque
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Section 4: Educator Recognition */}
+            <div id="educator-awards" className="scroll-mt-28 p-6 space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <GraduationCap size={18} className="text-gray-500" />
+                <h3 className="text-[17px] font-bold text-gray-900">Additional Recognition for Educators</h3>
+              </div>
+              <p className="text-[14px] text-gray-600 leading-relaxed font-normal">
+                Honoring institutional leaders and coordinators who facilitate high standards of exam execution:
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                <div className="border-2 border-gray-300 p-5 rounded-none bg-gray-50/20">
+                  <h4 className="text-[14.5px] font-bold text-gray-900 mb-1.5 flex items-center gap-2">
+                    <Award size={16} className="text-[#007BFF]" />
+                    Principal's Leadership Award
+                  </h4>
+                  <p className="text-[12.5px] text-gray-500 leading-relaxed font-normal">
+                    Presented to Principals of the top 20 participating schools globally for visionary leadership and educational excellence support.
+                  </p>
+                </div>
+
+                <div className="border-2 border-gray-300 p-5 rounded-none bg-gray-50/20">
+                  <h4 className="text-[14.5px] font-bold text-gray-900 mb-1.5 flex items-center gap-2">
+                    <Users size={16} className="text-[#007BFF]" />
+                    Best Coordinator Award
+                  </h4>
+                  <p className="text-[12.5px] text-gray-500 leading-relaxed font-normal">
+                    Certificates of Appreciation and special mementos for school coordinators facilitating smooth OMR and online exam execution.
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
 
         </div>
-
-      </div>
+      </PageContainer>
     </div>
   );
 }

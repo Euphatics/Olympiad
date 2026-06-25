@@ -14,7 +14,7 @@
  */
 export default function Input({ className = '', style, ...rest }) {
   const base =
-    'w-full px-4 py-2.5 text-sm border rounded-md outline-none transition-all ' +
+    'w-full px-4 py-2.5 text-sm border rounded-none outline-none transition-all ' +
     'placeholder:text-gray-400 focus:border-[#007BFF] focus:ring-1 focus:ring-[#007BFF] ' +
     'bg-gray-50 text-gray-800';
 

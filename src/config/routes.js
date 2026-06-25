@@ -14,6 +14,7 @@ export const ROUTES = {
   login: '/login',
   register: '/register',
   schoolPanel: '/school-panel',
+  prepGuide: '/prep-guide',
 
   // Syllabus
   syllabusPyqs: '/syllabus-pyqs',

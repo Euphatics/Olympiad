@@ -56,7 +56,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/math_class_1_illustration.png",
+                                    "src": "/assets/illustrations/math_class_1_illustration.png",
                                     "alt": "Class 1 Mathematics Olympiad - Young students learning mathematics concepts"
                               },
                               "content": [
@@ -306,7 +306,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/math_class_2_illustration.png",
+                                    "src": "/assets/illustrations/math_class_2_illustration.png",
                                     "alt": "Class 2 Mathematics Olympiad - Students learning mathematics concepts"
                               },
                               "content": [
@@ -556,7 +556,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/math_class_3_illustration.png",
+                                    "src": "/assets/illustrations/math_class_3_illustration.png",
                                     "alt": "Class 3 Mathematics Olympiad - Students learning mathematics concepts"
                               },
                               "content": [
@@ -808,7 +808,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/math_class_4_illustration.png",
+                                    "src": "/assets/illustrations/math_class_4_illustration.png",
                                     "alt": "Class 4 Mathematics Olympiad - Students learning mathematics concepts"
                               },
                               "content": [
@@ -1061,7 +1061,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/math_class_5_illustration.png",
+                                    "src": "/assets/illustrations/math_class_5_illustration.png",
                                     "alt": "Class 5 Mathematics Olympiad - Students learning mathematics concepts"
                               },
                               "content": [
@@ -1314,7 +1314,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/math_class_6_illustration.png",
+                                    "src": "/assets/illustrations/math_class_6_illustration.png",
                                     "alt": "Class 6 Mathematics Olympiad - Students learning mathematics concepts"
                               },
                               "content": [
@@ -1568,7 +1568,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/math_class_7_illustration.png",
+                                    "src": "/assets/illustrations/math_class_7_illustration.png",
                                     "alt": "Class 7 Mathematics Olympiad - Students learning mathematics concepts"
                               },
                               "content": [
@@ -1822,7 +1822,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/math_class_8_illustration.png",
+                                    "src": "/assets/illustrations/math_class_8_illustration.png",
                                     "alt": "Class 8 Mathematics Olympiad - Students learning mathematics concepts"
                               },
                               "content": [
@@ -2076,7 +2076,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/math_class_9_illustration.png",
+                                    "src": "/assets/illustrations/math_class_9_illustration.png",
                                     "alt": "Class 9 Mathematics Olympiad - Students learning mathematics concepts"
                               },
                               "content": [
@@ -2331,7 +2331,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/math_class_10_illustration.png",
+                                    "src": "/assets/illustrations/math_class_10_illustration.png",
                                     "alt": "Class 10 Mathematics Olympiad - Students learning mathematics concepts"
                               },
                               "content": [
@@ -2589,7 +2589,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/english_illustration.png",
+                                    "src": "/assets/illustrations/english_illustration.png",
                                     "alt": "Class 1 English Olympiad"
                               },
                               "content": [
@@ -2840,7 +2840,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/english_class_2_illustration.svg",
+                                    "src": "/assets/illustrations/english_class_2_illustration.svg",
                                     "alt": "Class 2 English Olympiad"
                               },
                               "content": [
@@ -3091,7 +3091,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/english_class_3_illustration.svg",
+                                    "src": "/assets/illustrations/english_class_3_illustration.svg",
                                     "alt": "Class 3 English Olympiad"
                               },
                               "content": [
@@ -3341,7 +3341,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/english_class_4_illustration.svg",
+                                    "src": "/assets/illustrations/english_class_4_illustration.svg",
                                     "alt": "Class 4 English Olympiad"
                               },
                               "content": [
@@ -3592,7 +3592,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/english_class_5_illustration.svg",
+                                    "src": "/assets/illustrations/english_class_5_illustration.svg",
                                     "alt": "Class 5 English Olympiad"
                               },
                               "content": [
@@ -3842,7 +3842,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/english_class_6_illustration.svg",
+                                    "src": "/assets/illustrations/english_class_6_illustration.svg",
                                     "alt": "Class 6 English Olympiad"
                               },
                               "content": [
@@ -4092,7 +4092,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/english_class_7_illustration.svg",
+                                    "src": "/assets/illustrations/english_class_7_illustration.svg",
                                     "alt": "Class 7 English Olympiad"
                               },
                               "content": [
@@ -4342,7 +4342,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/english_class_8_illustration.svg",
+                                    "src": "/assets/illustrations/english_class_8_illustration.svg",
                                     "alt": "Class 8 English Olympiad"
                               },
                               "content": [
@@ -4592,7 +4592,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/english_class_9_illustration.svg",
+                                    "src": "/assets/illustrations/english_class_9_illustration.svg",
                                     "alt": "Class 9 English Olympiad"
                               },
                               "content": [
@@ -4842,7 +4842,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/english_class_10_illustration.svg",
+                                    "src": "/assets/illustrations/english_class_10_illustration.svg",
                                     "alt": "Class 10 English Olympiad"
                               },
                               "content": [
@@ -5093,7 +5093,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/science_illustration.png",
+                                    "src": "/assets/illustrations/science_illustration.png",
                                     "alt": "Class 1 Science Olympiad"
                               },
                               "content": [
@@ -5343,7 +5343,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/science_class_2_illustration.svg",
+                                    "src": "/assets/illustrations/science_class_2_illustration.svg",
                                     "alt": "Class 2 Science Olympiad"
                               },
                               "content": [
@@ -5593,7 +5593,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/science_class_3_illustration.svg",
+                                    "src": "/assets/illustrations/science_class_3_illustration.svg",
                                     "alt": "Class 3 Science Olympiad"
                               },
                               "content": [
@@ -5844,7 +5844,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/science_class_4_illustration.svg",
+                                    "src": "/assets/illustrations/science_class_4_illustration.svg",
                                     "alt": "Class 4 Science Olympiad"
                               },
                               "content": [
@@ -6094,7 +6094,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/science_class_5_illustration.svg",
+                                    "src": "/assets/illustrations/science_class_5_illustration.svg",
                                     "alt": "Class 5 Science Olympiad"
                               },
                               "content": [
@@ -6345,7 +6345,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/science_class_6_illustration.svg",
+                                    "src": "/assets/illustrations/science_class_6_illustration.svg",
                                     "alt": "Class 6 Science Olympiad"
                               },
                               "content": [
@@ -6600,7 +6600,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/science_class_7_illustration.svg",
+                                    "src": "/assets/illustrations/science_class_7_illustration.svg",
                                     "alt": "Class 7 Science Olympiad"
                               },
                               "content": [
@@ -6855,7 +6855,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/science_class_8_illustration.svg",
+                                    "src": "/assets/illustrations/science_class_8_illustration.svg",
                                     "alt": "Class 8 Science Olympiad"
                               },
                               "content": [
@@ -7117,7 +7117,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/science_class_9_illustration.svg",
+                                    "src": "/assets/illustrations/science_class_9_illustration.svg",
                                     "alt": "Class 9 Science Olympiad"
                               },
                               "content": [
@@ -7377,7 +7377,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/science_class_10_illustration.svg",
+                                    "src": "/assets/illustrations/science_class_10_illustration.svg",
                                     "alt": "Class 10 Science Olympiad"
                               },
                               "content": [
@@ -7640,7 +7640,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/it_illustration.png",
+                                    "src": "/assets/illustrations/it_illustration.png",
                                     "alt": "Class 1 Information Technology Olympiad"
                               },
                               "content": [
@@ -7890,7 +7890,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/it_class_2_illustration.svg",
+                                    "src": "/assets/illustrations/it_class_2_illustration.svg",
                                     "alt": "Class 2 Information Technology Olympiad"
                               },
                               "content": [
@@ -8140,7 +8140,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/it_class_3_illustration.svg",
+                                    "src": "/assets/illustrations/it_class_3_illustration.svg",
                                     "alt": "Class 3 Information Technology Olympiad"
                               },
                               "content": [
@@ -8391,7 +8391,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/it_class_4_illustration.svg",
+                                    "src": "/assets/illustrations/it_class_4_illustration.svg",
                                     "alt": "Class 4 Information Technology Olympiad"
                               },
                               "content": [
@@ -8642,7 +8642,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/it_class_5_illustration.svg",
+                                    "src": "/assets/illustrations/it_class_5_illustration.svg",
                                     "alt": "Class 5 Information Technology Olympiad"
                               },
                               "content": [
@@ -8894,7 +8894,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/it_class_6_illustration.svg",
+                                    "src": "/assets/illustrations/it_class_6_illustration.svg",
                                     "alt": "Class 6 Information Technology Olympiad"
                               },
                               "content": [
@@ -9147,7 +9147,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/it_class_7_illustration.svg",
+                                    "src": "/assets/illustrations/it_class_7_illustration.svg",
                                     "alt": "Class 7 Information Technology Olympiad"
                               },
                               "content": [
@@ -9400,7 +9400,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/it_class_8_illustration.svg",
+                                    "src": "/assets/illustrations/it_class_8_illustration.svg",
                                     "alt": "Class 8 Information Technology Olympiad"
                               },
                               "content": [
@@ -9654,7 +9654,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/it_class_9_illustration.svg",
+                                    "src": "/assets/illustrations/it_class_9_illustration.svg",
                                     "alt": "Class 9 Information Technology Olympiad"
                               },
                               "content": [
@@ -9908,7 +9908,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/it_class_10_illustration.svg",
+                                    "src": "/assets/illustrations/it_class_10_illustration.svg",
                                     "alt": "Class 10 Information Technology Olympiad"
                               },
                               "content": [
@@ -10165,7 +10165,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/finance_illustration.png",
+                                    "src": "/assets/illustrations/finance_illustration.png",
                                     "alt": "Class 1 Finance Olympiad"
                               },
                               "content": [
@@ -10415,7 +10415,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/finance_class_2_illustration.svg",
+                                    "src": "/assets/illustrations/finance_class_2_illustration.svg",
                                     "alt": "Class 2 Finance Olympiad"
                               },
                               "content": [
@@ -10665,7 +10665,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/finance_class_3_illustration.svg",
+                                    "src": "/assets/illustrations/finance_class_3_illustration.svg",
                                     "alt": "Class 3 Finance Olympiad"
                               },
                               "content": [
@@ -10915,7 +10915,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/finance_class_4_illustration.svg",
+                                    "src": "/assets/illustrations/finance_class_4_illustration.svg",
                                     "alt": "Class 4 Finance Olympiad"
                               },
                               "content": [
@@ -11165,7 +11165,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/finance_class_5_illustration.svg",
+                                    "src": "/assets/illustrations/finance_class_5_illustration.svg",
                                     "alt": "Class 5 Finance Olympiad"
                               },
                               "content": [
@@ -11415,7 +11415,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/finance_class_6_illustration.svg",
+                                    "src": "/assets/illustrations/finance_class_6_illustration.svg",
                                     "alt": "Class 6 Finance Olympiad"
                               },
                               "content": [
@@ -11665,7 +11665,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/finance_class_7_illustration.svg",
+                                    "src": "/assets/illustrations/finance_class_7_illustration.svg",
                                     "alt": "Class 7 Finance Olympiad"
                               },
                               "content": [
@@ -11916,7 +11916,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/finance_class_8_illustration.svg",
+                                    "src": "/assets/illustrations/finance_class_8_illustration.svg",
                                     "alt": "Class 8 Finance Olympiad"
                               },
                               "content": [
@@ -12167,7 +12167,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/finance_class_9_illustration.svg",
+                                    "src": "/assets/illustrations/finance_class_9_illustration.svg",
                                     "alt": "Class 9 Finance Olympiad"
                               },
                               "content": [
@@ -12418,7 +12418,7 @@ export const syllabusData = {
                               "heading": "About the Olympiad",
                               "type": "paragraphs",
                               "image": {
-                                    "src": "/finance_class_10_illustration.svg",
+                                    "src": "/assets/illustrations/finance_class_10_illustration.svg",
                                     "alt": "Class 10 Finance Olympiad"
                               },
                               "content": [

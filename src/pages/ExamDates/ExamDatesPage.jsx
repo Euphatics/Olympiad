@@ -1,106 +1,106 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import {
-  Calendar,
-  Info,
-  ArrowRight,
-  GraduationCap
+import { Breadcrumb, PageContainer, SectionHeading } from '../../components/ui';
+import { 
+  Calendar, 
+  Info, 
+  ArrowRight, 
+  GraduationCap 
 } from 'lucide-react';
 
 export default function ExamDatesPage() {
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pb-24 font-sans text-slate-800">
+    <div className="min-h-screen bg-white pb-24 font-sans text-slate-800 text-left">
       <Helmet>
         <title>Exam Dates – NTI Olympiad</title>
         <meta name="description" content="View the official NTI Olympiad examination schedule for 2025-26. Students from Class 1 to 10 may participate between December and February." />
+        <link rel="canonical" href="https://ntiolympiad.in/exam-dates" />
       </Helmet>
 
-      {/* ── Page Header ── */}
-      <div className="w-full bg-white border-b border-slate-200 px-6 sm:px-10 lg:px-16 py-8">
-        <div className="max-w-5xl mx-auto">
-          <nav className="flex items-center gap-2 text-sm text-slate-500 mb-4 font-medium">
-            <Link to="/" className="hover:text-blue-600 transition-colors">Home</Link>
-            <span>/</span>
-            <span className="text-slate-900">Official Schedule</span>
-          </nav>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+      <Breadcrumb items={[
+        { label: 'Home', path: '/' },
+        { label: 'Official Schedule' }
+      ]} />
+
+      <PageContainer className="py-8">
+        {/* Header Block */}
+        <div className="w-full border-b-2 border-gray-300 pb-4 mb-6">
+          <SectionHeading level="h1" className="font-normal text-gray-900">
             Official Examination Schedule
-          </h1>
-          <p className="mt-2 text-base text-slate-600 max-w-2xl">
-            The NTI Olympiad is administered on a national scale. Please review the official examination timeframe and essential directives provided below.
-          </p>
+          </SectionHeading>
         </div>
-      </div>
 
-      <div className="max-w-5xl mx-auto px-6 sm:px-10 lg:px-16 py-10 flex flex-col gap-8">
+        <p className="text-[15px] text-gray-600 leading-relaxed max-w-4xl mb-8">
+          The NTI Olympiad is administered on a national scale. Please review the official examination timeframe and essential directives provided below.
+        </p>
 
-        {/* ── Main Info Box ── */}
-        <div className="bg-white border border-slate-200 rounded-lg shadow-sm">
-          <div className="border-b border-slate-200 px-6 py-5 bg-slate-50 flex items-center gap-3 rounded-t-lg">
-            <Calendar className="text-slate-600" size={20} />
-            <h2 className="text-base font-bold text-slate-800 uppercase tracking-wider">
-              Academic Session Window
-            </h2>
-          </div>
-
-          <div className="p-6 md:p-8">
-            <div className="flex flex-col md:flex-row gap-8 items-start md:items-center justify-between border border-slate-200 rounded-md p-6 bg-white">
-              
+        {/* Unified Container: Left-aligned, no rounded corners, divided sections */}
+        <div className="border-2 border-gray-300 bg-white shadow-sm divide-y-2 divide-gray-300 rounded-none max-w-4xl">
+          
+          {/* Section 1: Academic Session Window */}
+          <div className="p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Calendar className="text-gray-500" size={18} />
+              <h2 className="text-[16px] font-bold text-gray-900 uppercase tracking-wider">
+                Academic Session Window
+              </h2>
+            </div>
+            
+            <div className="flex flex-col md:flex-row gap-6 items-start justify-between">
               <div className="flex-1">
-                <p className="text-xs text-slate-500 font-bold mb-1 uppercase tracking-widest">Examination Period</p>
+                <p className="text-[11px] text-gray-400 font-bold uppercase tracking-wider mb-1">Examination Period</p>
                 <p className="text-2xl font-bold text-[#1E3A8A]">December 2025 – February 2026</p>
-                <p className="text-sm text-slate-500 mt-2 font-medium">Applicable for all registered schools and independent candidates.</p>
+                <p className="text-xs text-gray-400 mt-2 font-medium">Applicable for all registered schools and independent candidates.</p>
               </div>
 
-              <div className="bg-amber-50/50 border border-amber-200 px-5 py-4 rounded-md w-full md:w-[400px]">
-                <div className="flex items-center gap-2 mb-2">
-                  <Info className="text-amber-600" size={16} />
-                  <p className="text-xs font-bold text-amber-800 uppercase tracking-wide">Provisional Notice</p>
+              <div className="bg-amber-50/50 border-l-4 border-amber-500 p-4 rounded-none w-full md:w-[380px] flex-shrink-0">
+                <div className="flex items-center gap-1.5 mb-1.5">
+                  <Info className="text-amber-600" size={14} />
+                  <p className="text-xs font-bold text-amber-800 uppercase tracking-wider">Provisional Notice</p>
                 </div>
-                <p className="text-sm text-amber-800/80 leading-relaxed">
+                <p className="text-[13px] text-amber-800/90 leading-relaxed font-normal">
                   These dates are tentative and subject to administrative revision. Final confirmed examination schedules will be issued directly to all registered participants.
                 </p>
               </div>
-
             </div>
           </div>
+
+          {/* Section 2: Enrollment & Registration */}
+          <div className="p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <GraduationCap className="text-gray-500" size={20} />
+              <h2 className="text-[16px] font-bold text-gray-900 uppercase tracking-wider">
+                Enrollment & Registration
+              </h2>
+            </div>
+
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div className="flex-1">
+                <p className="text-[14px] text-gray-600 leading-relaxed font-normal">
+                  Applications are currently being accepted for the upcoming cycle. We encourage institutional representatives and independent candidates to complete their registration prior to the final deadline to ensure participation.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto flex-shrink-0">
+                <Link
+                  to="/register"
+                  className="px-5 py-2.5 bg-[#1E3A8A] text-white font-medium hover:bg-[#172554] transition-colors flex items-center justify-center gap-2 text-xs rounded-none uppercase tracking-wider"
+                >
+                  <span>Begin Registration</span>
+                  <ArrowRight size={14} />
+                </Link>
+                <Link
+                  to="/contact"
+                  className="px-5 py-2.5 bg-white text-gray-700 border border-gray-300 font-medium hover:bg-gray-50 transition-colors flex items-center justify-center text-xs rounded-none uppercase tracking-wider"
+                >
+                  <span>Official Support</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+
         </div>
-
-        {/* ── Ready to Participate ── */}
-        <div className="bg-white border border-slate-200 rounded-lg shadow-sm">
-          <div className="border-b border-slate-200 px-6 py-5 bg-slate-50 flex items-center gap-3 rounded-t-lg">
-            <GraduationCap className="text-slate-600" size={22} />
-            <h2 className="text-base font-bold text-slate-800 uppercase tracking-wider">
-              Enrollment & Registration
-            </h2>
-          </div>
-
-          <div className="p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="flex-1">
-              <p className="text-base text-slate-700 leading-relaxed">
-                Applications are currently being accepted for the upcoming cycle. We encourage institutional representatives and independent candidates to complete their registration prior to the final deadline to ensure participation.
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-              <Link
-                to="/register"
-                className="px-6 py-2.5 bg-[#1E3A8A] text-white font-medium rounded hover:bg-[#1E40AF] transition-colors flex items-center justify-center gap-2 text-sm"
-              >
-                Begin Registration
-                <ArrowRight size={16} />
-              </Link>
-              <Link
-                to="/contact"
-                className="px-6 py-2.5 bg-white text-slate-700 border border-slate-300 font-medium rounded hover:bg-slate-50 transition-colors flex items-center justify-center text-sm"
-              >
-                Official Support
-              </Link>
-            </div>
-          </div>
-        </div>
-
-      </div>
+      </PageContainer>
     </div>
   );
 }

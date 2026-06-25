@@ -316,9 +316,9 @@ export default function Navbar({ onSelect = () => { } }) {
                     {PREPARATION_ITEMS.map((item) => (
                       <Link
                         key={item}
-                        to={item === 'PYQs' ? ROUTES.previousYear : '#'}
+                        to={item === 'PYQs' ? ROUTES.previousYear : item === 'Prep Guide' ? ROUTES.prepGuide : '#'}
                         onClick={(e) => {
-                          if (item !== 'PYQs') e.preventDefault();
+                          if (item !== 'PYQs' && item !== 'Prep Guide') e.preventDefault();
                           select('Preparations', item);
                         }}
                         className="w-full text-left px-4 py-2.5 text-[13px] font-medium text-gray-600 hover:bg-royal-50 hover:text-royal-800 transition-colors duration-150 block"
@@ -506,9 +506,9 @@ export default function Navbar({ onSelect = () => { } }) {
                 {PREPARATION_ITEMS.map((item) => (
                   <Link
                     key={item}
-                    to={item === 'PYQs' ? ROUTES.previousYear : '#'}
+                    to={item === 'PYQs' ? ROUTES.previousYear : item === 'Prep Guide' ? ROUTES.prepGuide : '#'}
                     onClick={(e) => {
-                      if (item !== 'PYQs') e.preventDefault();
+                      if (item !== 'PYQs' && item !== 'Prep Guide') e.preventDefault();
                       select('Preparations', item);
                     }}
                     className="w-full text-left px-3 py-2.5 rounded-lg text-[13px] font-medium text-gray-600 hover:bg-royal-50 hover:text-royal-800 transition-colors duration-150 block"

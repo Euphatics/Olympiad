@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Eye, EyeOff, LogIn, UserPlus, ArrowRight, FlaskConical, Cpu, Settings, Calculator, Trophy, BookOpen, Award } from 'lucide-react';
+import { Eye, EyeOff, LogIn, UserPlus, ArrowRight, FlaskConical, Cpu, Settings, Calculator, Trophy, BookOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 
 export default function LoginPage({ onSignUp }) {
@@ -19,7 +19,7 @@ export default function LoginPage({ onSignUp }) {
         <meta name="description" content="Access your NTI Olympiad student or school coordinator portal to view registrations and results." />
         <meta name="robots" content="noindex, follow" />
         <link rel="canonical" href="https://ntiolympiad.in/login" />
-        
+
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Sign In – NTI Olympiad Portal" />
@@ -51,7 +51,7 @@ export default function LoginPage({ onSignUp }) {
 
             {/* Main Visual Container */}
             <div className="visual-container">
-              
+
               {/* Orbiting Icons */}
               <div className="orbit-item item-1">
                 <FlaskConical size={26} color="#fff" strokeWidth={2.5} />
@@ -83,14 +83,14 @@ export default function LoginPage({ onSignUp }) {
         {/* ───────── RIGHT SIDE ───────── */}
         <div className="login-right">
           <div className="login-card">
-            
+
             {/* Header */}
             <div className="login-header">
               <div className="login-brand-left">
                 <span>NATIONAL TALENT</span>
                 <span>IDENTIFICATION</span>
               </div>
-              
+
               <div className="login-brand-right">
                 <div className="login-circles">
                   <div className="circle circle-red"><FlaskConical size={18} color="#fff" /></div>
@@ -104,18 +104,6 @@ export default function LoginPage({ onSignUp }) {
               </div>
             </div>
 
-            {/* Tabs */}
-            <div className="login-tabs">
-              <button className="login-tab active">
-                <LogIn size={16} /> Log In
-              </button>
-              <button 
-                className="login-tab inactive" 
-                onClick={(e) => { e.preventDefault(); if(onSignUp) onSignUp(); }}
-              >
-                <UserPlus size={16} /> Register
-              </button>
-            </div>
 
             {/* Center Title */}
             <div className="login-center-title">
@@ -167,7 +155,7 @@ export default function LoginPage({ onSignUp }) {
             <div className="login-footer">
               <p>You can use the same email and password to log in all Olympiads or switch between them from your dashboard.</p>
             </div>
-            
+
           </div>
         </div>
       </div>

@@ -112,7 +112,7 @@ export default function PreviousYearDetailPage() {
   if (!subject || !classLevel) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white font-sans">
-        <div className="text-center p-8 bg-gray-50 border border-gray-200 rounded-lg max-w-sm text-left">
+        <div className="text-center p-8 bg-gray-50 border border-gray-200 rounded-none max-w-sm text-left">
           <h1 className="text-xl font-medium text-gray-800 mb-2">Resource Not Found</h1>
           <p className="text-gray-500 text-sm mb-4">The past paper details you are looking for could not be found.</p>
           <Link to={ROUTES.previousYear} className="text-[#007BFF] hover:underline font-medium">
@@ -194,25 +194,25 @@ ${questions.map((q, i) => `Q${i + 1}. ${q.q}\n${q.options.join('\n')}\n${type ==
           <div className="lg:col-span-3 space-y-6">
             
             {/* Mock PDF Viewer Container */}
-            <div className="border border-gray-300 rounded-lg overflow-hidden shadow-sm bg-gray-50 flex flex-col">
+            <div className="border-2 border-gray-300 rounded-none overflow-hidden shadow-sm bg-gray-50 flex flex-col">
               
               {/* PDF Header bar */}
-              <div className="bg-gray-100 px-4 py-3 flex items-center justify-between border-b border-gray-200">
+              <div className="bg-gray-100 px-4 py-3 flex items-center justify-between border-b-2 border-gray-300">
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded bg-red-100 flex items-center justify-center text-red-700 font-bold text-xs">
+                  <div className="w-6 h-6 rounded-none bg-red-100 flex items-center justify-center text-red-700 font-bold text-xs">
                     PDF
                   </div>
                   <span className="text-[13px] font-medium text-gray-700 truncate max-w-xs sm:max-w-md">
                     NTI_{subject.abbr}_{classLevel.name.replace(/\s+/g, '_')}_PYQ_{year}.pdf
                   </span>
                 </div>
-                <div className="text-[12px] font-semibold text-gray-500 bg-white border border-gray-300 px-2 py-0.5 rounded">
+                <div className="text-[12px] font-semibold text-gray-500 bg-white border-2 border-gray-300 px-2 py-0.5 rounded-none">
                   Year {year}
                 </div>
               </div>
 
               {/* PDF Content Sheet */}
-              <div className="bg-white border-b border-gray-200 p-6 min-h-[400px] max-h-[600px] overflow-y-auto custom-scroll font-serif leading-relaxed text-sm text-gray-800">
+              <div className="bg-white border-b-2 border-gray-300 p-6 min-h-[400px] max-h-[600px] overflow-y-auto custom-scroll font-serif leading-relaxed text-sm text-gray-800">
                 
                 {/* Header block */}
                 <div className="text-center border-b-2 border-double border-gray-300 pb-4 mb-6">
@@ -304,8 +304,8 @@ ${questions.map((q, i) => `Q${i + 1}. ${q.q}\n${q.options.join('\n')}\n${type ==
 
           {/* Related Links column */}
           <div className="space-y-6">
-            <div className="border border-gray-200 rounded-lg p-5 bg-gray-50/50 shadow-sm">
-              <h2 className="text-sm font-bold text-gray-800 mb-4 uppercase tracking-wider border-b border-gray-200 pb-2">
+            <div className="border-2 border-gray-300 rounded-none p-5 bg-gray-50/50 shadow-sm">
+              <h2 className="text-sm font-bold text-gray-800 mb-4 uppercase tracking-wider border-b-2 border-gray-300 pb-2">
                 Related Links
               </h2>
               <ul className="space-y-3.5 text-[14px]">
@@ -333,7 +333,7 @@ ${questions.map((q, i) => `Q${i + 1}. ${q.q}\n${q.options.join('\n')}\n${type ==
                     &raquo; Exam Results & Rankers
                   </Link>
                 </li>
-                <li className="pt-2 border-t border-gray-200">
+                <li className="pt-2 border-t-2 border-gray-300">
                   <span className="text-xs text-gray-500 font-semibold uppercase block mb-2">
                     Other Grade Levels
                   </span>

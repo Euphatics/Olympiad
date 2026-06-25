@@ -142,7 +142,7 @@ function generateClassData(classNum) {
         heading: 'About the Olympiad',
         type: 'paragraphs',
         image: {
-          src: `/math_class_${classNum}_illustration.png`,
+          src: `/assets/illustrations/math_class_${classNum}_illustration.png`,
           alt: `Class ${classNum} Mathematics Olympiad - Students learning mathematics concepts`,
         },
         content: [

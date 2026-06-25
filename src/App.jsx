@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import { ROUTES } from './config/routes';
 
@@ -21,6 +21,7 @@ const SubjectPreviousYearPage = lazy(() => import('./pages/PreviousYear/SubjectP
 const PreviousYearDetailPage = lazy(() => import('./pages/PreviousYear/PreviousYearDetailPage'));
 const SchoolPanelPage = lazy(() => import('./pages/SchoolPanel/SchoolPanelPage'));
 const ExamDatesPage = lazy(() => import('./pages/ExamDates/ExamDatesPage'));
+const PrepGuidePage = lazy(() => import('./pages/PrepGuide/PrepGuidePage'));
 const NotFound = lazy(() => import('./pages/NotFound/NotFound'));
 
 function App() {
@@ -90,12 +91,7 @@ function App() {
         } />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/exam-dates" element={<ExamDatesPage />} />
-
-        {/* Legacy redirect: /math-class-1 → /syllabus/mathematics/class-1 */}
-        <Route
-          path="/math-class-1"
-          element={<Navigate to="/syllabus/mathematics/class-1" replace />}
-        />
+        <Route path="/prep-guide" element={<PrepGuidePage />} />
 
         <Route path="*" element={<NotFound />} />
       </Route>

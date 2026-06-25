@@ -2,56 +2,18 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../config/routes';
 import { Breadcrumb, PageContainer, SectionHeading } from '../../components/ui';
+import { SUBJECTS } from '../../config/subjects';
 
-// Register all 10 subjects from the grid layout
-const ALL_SUBJECTS = [
-  // Active NTI subjects (mapped from SUBJECTS config)
-  {
-    abbr: 'NMO',
-    name: 'NTI Mathematics Olympiad',
-    slug: 'mathematics',
-    active: true,
-    bgClass: 'bg-blue-50/40 border-blue-200 hover:bg-blue-50/80',
-    textClass: 'text-blue-800',
-    btnClass: 'bg-[#007BFF] hover:bg-[#0069D9] text-white',
-  },
-  {
-    abbr: 'NEO',
-    name: 'NTI English Olympiad',
-    slug: 'english',
-    active: true,
-    bgClass: 'bg-blue-50/40 border-blue-200 hover:bg-blue-50/80',
-    textClass: 'text-blue-800',
-    btnClass: 'bg-[#007BFF] hover:bg-[#0069D9] text-white',
-  },
-  {
-    abbr: 'NSO',
-    name: 'NTI Science Olympiad',
-    slug: 'science',
-    active: true,
-    bgClass: 'bg-blue-50/40 border-blue-200 hover:bg-blue-50/80',
-    textClass: 'text-blue-800',
-    btnClass: 'bg-[#007BFF] hover:bg-[#0069D9] text-white',
-  },
-  {
-    abbr: 'NITO',
-    name: 'NTI IT Olympiad',
-    slug: 'information-technology',
-    active: true,
-    bgClass: 'bg-blue-50/40 border-blue-200 hover:bg-blue-50/80',
-    textClass: 'text-blue-800',
-    btnClass: 'bg-[#007BFF] hover:bg-[#0069D9] text-white',
-  },
-  {
-    abbr: 'NFO',
-    name: 'NTI Finance Olympiad',
-    slug: 'finance',
-    active: true,
-    bgClass: 'bg-blue-50/40 border-blue-200 hover:bg-blue-50/80',
-    textClass: 'text-blue-800',
-    btnClass: 'bg-[#007BFF] hover:bg-[#0069D9] text-white',
-  },
-];
+// Dynamically build subject cards from centralized registry config
+const ALL_SUBJECTS = SUBJECTS.map((s) => ({
+  abbr: s.abbr,
+  name: `NTI ${s.name}`,
+  slug: s.slug,
+  active: true,
+  bgClass: 'bg-blue-50/40 border-blue-200 hover:bg-blue-50/80',
+  textClass: 'text-blue-800',
+  btnClass: 'bg-[#007BFF] hover:bg-[#0069D9] text-white',
+}));
 
 export default function PreviousYearPage() {
   return (
@@ -74,7 +36,7 @@ export default function PreviousYearPage() {
 
       <PageContainer className="py-8">
         {/* Hero Section */}
-        <div className="w-full border-b border-gray-200 pb-5 mb-8 text-left">
+        <div className="w-full border-b-2 border-gray-300 pb-5 mb-8 text-left">
           <SectionHeading level="h1" className="font-normal text-gray-900 mb-3">
             NTI Olympiad Previous Year Papers
           </SectionHeading>
@@ -87,14 +49,14 @@ export default function PreviousYearPage() {
 
         {/* Subjects Grid */}
         <div className="mb-12 text-left">
-          <h2 className="text-[22px] font-normal text-gray-800 mb-6 border-b border-gray-100 pb-2">
+          <h2 className="text-[22px] font-normal text-gray-800 mb-6 border-b-2 border-gray-300 pb-2">
             Olympiad Subjects
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {ALL_SUBJECTS.map((sub) => (
               <div
                 key={sub.abbr}
-                className={`border rounded-lg p-5 flex flex-col justify-between transition-all duration-200 ${sub.bgClass}`}
+                className={`border-2 border-gray-300 rounded-none p-5 flex flex-col justify-between transition-all duration-200 ${sub.bgClass}`}
               >
                 <div>
                   <span className={`text-[12px] font-bold tracking-wider block mb-1.5 ${sub.textClass}`}>
@@ -108,12 +70,12 @@ export default function PreviousYearPage() {
                   {sub.active ? (
                     <Link
                       to={ROUTES.subjectPreviousYear(sub.slug)}
-                      className={`inline-block w-full text-center py-2 px-3 rounded text-[13px] font-semibold transition-colors duration-150 ${sub.btnClass}`}
+                      className={`inline-block w-full text-center py-2 px-3 rounded-none text-[13px] font-semibold transition-colors duration-150 ${sub.btnClass}`}
                     >
                       View Papers &rarr;
                     </Link>
                   ) : (
-                    <span className="inline-block w-full text-center py-2 px-3 rounded text-[13px] font-medium bg-gray-100 text-gray-400 border border-gray-200">
+                    <span className="inline-block w-full text-center py-2 px-3 rounded-none text-[13px] font-medium bg-gray-100 text-gray-400 border-2 border-gray-200">
                       Coming Soon
                     </span>
                   )}
@@ -125,7 +87,7 @@ export default function PreviousYearPage() {
 
         {/* Why Solve Past Papers Section */}
         <div className="mb-12 text-left max-w-4xl">
-          <h2 className="text-[22px] font-normal text-gray-800 mb-4 border-b border-gray-100 pb-2">
+          <h2 className="text-[22px] font-normal text-gray-800 mb-4 border-b-2 border-gray-300 pb-2">
             Why solve previous years' papers?
           </h2>
           <ul className="space-y-3.5 text-[14.5px] text-gray-600 leading-relaxed">
@@ -158,7 +120,7 @@ export default function PreviousYearPage() {
 
         {/* Quick Links Section */}
         <div className="mb-12 text-left max-w-4xl">
-          <h2 className="text-[22px] font-normal text-gray-800 mb-4 border-b border-gray-100 pb-2">
+          <h2 className="text-[22px] font-normal text-gray-800 mb-4 border-b-2 border-gray-300 pb-2">
             Quick Subject Links
           </h2>
           <div className="flex flex-col gap-3">
@@ -175,7 +137,7 @@ export default function PreviousYearPage() {
         </div>
 
         {/* Additional Info Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left border-t border-gray-200 pt-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left border-t-2 border-gray-300 pt-8">
           <div>
             <h3 className="text-[17px] font-semibold text-gray-950 mb-3">
               Benefits of Past Papers

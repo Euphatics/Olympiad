@@ -13,7 +13,7 @@
  */
 export default function Card({ className = '', children }) {
   return (
-    <div className={`border border-gray-300 rounded-sm ${className}`.trim()}>
+    <div className={`border border-gray-300 rounded-none ${className}`.trim()}>
       {children}
     </div>
   );

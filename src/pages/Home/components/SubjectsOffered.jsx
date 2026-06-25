@@ -283,7 +283,7 @@ const subjects = [
     ],
     logo: (
       <img
-        src="/auto_stories_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
+        src="/assets/icons/auto_stories_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
         alt="NTI English Olympiad book logo icon"
         className="w-7 h-7 object-contain select-none brightness-0 invert"
       />
@@ -307,7 +307,7 @@ const subjects = [
     ],
     logo: (
       <img
-        src="/finance_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
+        src="/assets/icons/finance_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
         alt="NTI Finance Olympiad growth chart logo icon"
         className="w-7 h-7 object-contain select-none brightness-0 invert"
       />
@@ -318,7 +318,7 @@ const subjects = [
 // Memoized SubjectCard component to prevent unnecessary re-renders
 const SubjectCard = React.memo(({ sub }) => {
   return (
-    <div className="group flex flex-col justify-between w-full bg-white border border-gray-200/60 transition-transform duration-300 ease-out hover:-translate-y-1 cursor-default overflow-hidden">
+    <div className="group flex flex-col justify-between w-full bg-white border border-gray-200/60 cursor-default overflow-hidden">
       {/* Centered Header Section with custom gradient */}
       <div
         className="w-full p-5 flex flex-col items-center gap-3 border-b border-gray-200/40"
