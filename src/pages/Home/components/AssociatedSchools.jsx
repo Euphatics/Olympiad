@@ -40,23 +40,31 @@ export default function AssociatedSchools() {
           {quickLinks.map((item, idx) => {
             const IconComponent = item.icon;
             return (
-              <div key={idx} className="flex flex-col items-center text-center group">
-                {/* Large light slate icon */}
-                <div className="text-slate-300 group-hover:scale-105 transition-transform duration-300 mb-3">
-                  <IconComponent size={48} strokeWidth={1.5} />
+              <a
+                href="#"
+                key={idx}
+                className="flex flex-col items-center justify-between p-5 sm:p-6 bg-slate-800/50 border border-white/10 rounded-xl group hover:-translate-y-1 hover:border-[#007BFF] transition-all duration-300 hover:shadow-[0_10px_25px_rgba(37,99,235,0.25)] cursor-pointer"
+              >
+                <div className="flex flex-col items-center text-center">
+                  <div className="text-slate-400 group-hover:text-[#007BFF] transition-colors duration-300 mb-4">
+                    <IconComponent size={40} strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-200 group-hover:text-[#007BFF] transition-colors duration-300 tracking-wide">
+                    {item.title}
+                  </h3>
                 </div>
-                {/* Title */}
-                <h3 className="text-lg font-bold text-white mb-4 tracking-tight">
-                  {item.title}
-                </h3>
-                {/* Know More Button */}
-                <button
-                  type="button"
-                  className="bg-[#007BFF] hover:bg-[#0056b3] text-white text-xs font-bold tracking-wider px-6 py-2.5 rounded-full transition-all duration-300 hover:shadow-md focus:outline-none uppercase"
-                >
-                  Know More
-                </button>
-              </div>
+                <div className="flex items-center gap-1.5 mt-5 text-xs font-bold text-slate-400 group-hover:text-[#007BFF] transition-colors duration-300 uppercase tracking-wider">
+                  <span>View Details</span>
+                  <svg
+                    className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-300"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </a>
             );
           })}
         </div>
@@ -64,7 +72,7 @@ export default function AssociatedSchools() {
         {/* Schools Associated Section Divider */}
         <div className="w-full flex flex-col items-center mb-6">
           <h2 className="text-sm md:text-base font-extrabold text-slate-400 uppercase tracking-widest">
-            Schools Associated With Us
+            Schools Participating in NTI Olympiad
           </h2>
           <div className="h-0.5 w-16 bg-slate-700 mt-2 rounded-full"></div>
         </div>

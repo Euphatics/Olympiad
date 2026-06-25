@@ -70,7 +70,7 @@ export default function HomeHero() {
         <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-10 items-stretch w-full">
           
           {/* SLIDESHOW */}
-          <div className="w-full lg:col-span-7 h-[250px] sm:h-[350px] lg:h-full rounded-none [&_img]:rounded-none [&>div>div]:rounded-none overflow-hidden shadow-sm border border-gray-200">
+          <div className="w-full lg:col-span-7 h-[250px] sm:h-[350px] lg:h-[520px] xl:h-[560px] rounded-none [&_img]:rounded-none [&>div>div]:rounded-none overflow-hidden shadow-sm border border-gray-200">
             <Carousel>
               <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="Students participating in NTI Olympiad examination classroom" />
               <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="Academic excellence certificates and gold medals ceremony" />
@@ -87,17 +87,17 @@ export default function HomeHero() {
             </div>
             
             <h1 className="text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-bold text-gray-900 leading-[1.15] mb-5 tracking-tight">
-              India's Emerging Academic Olympiad Platform for <span className="text-[#007BFF]">School Students</span>
+              Compete. Learn. Excel. Join <span className="text-[#007BFF]">NTI Olympiad</span> 2026–27.
             </h1>
             
             <ul className="space-y-3.5 mb-8">
               {[
-                'National-Level Olympiad Competition',
-                'Cash Prizes, Tablets & Merit Awards',
-                'Certificates for Students & Schools',
-                'Offline Examination Format',
-                'Mathematics, Science, English & More',
-                'Open for Classes 1–10'
+                'Open to students from Classes 1–10',
+                'School and Individual Registration',
+                'Mathematics, Science, English, IT & Finance Olympiads',
+                'Offline examination across India',
+                'Digital certificates and merit recognition',
+                'Performance reports for students and schools'
               ].map((item, idx) => (
                 <li key={idx} className="flex items-center gap-3">
                   <CheckCircle2 size={22} className="text-[#007BFF] flex-shrink-0" strokeWidth={2.5} />

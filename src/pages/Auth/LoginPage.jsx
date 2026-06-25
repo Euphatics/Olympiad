@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Eye, EyeOff, LogIn, UserPlus, ArrowRight, FlaskConical, Cpu, Settings, Calculator, Trophy, BookOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 
 export default function LoginPage({ onSignUp }) {
   const [email, setEmail] = useState('');
@@ -153,7 +154,10 @@ export default function LoginPage({ onSignUp }) {
             </form>
 
             <div className="login-footer">
-              <p>You can use the same email and password to log in all Olympiads or switch between them from your dashboard.</p>
+              <p>Use one account for every NTI Olympiad. Access all subjects and manage your registrations from one dashboard.</p>
+              <p className="mt-3 text-[#4B5563]">
+                Don't have a school account? <Link to="/register" className="font-semibold text-[#1976D2] hover:underline">Click here to register</Link>
+              </p>
             </div>
 
           </div>
@@ -174,7 +178,7 @@ export default function LoginPage({ onSignUp }) {
           left: 0;
           width: 100%;
           height: 100%;
-          background: linear-gradient(160deg, #2196F3 0%, #1E88E5 40%, #1976D2 100%);
+          background: #0f4c9c;
           z-index: 0;
         }
 
@@ -183,14 +187,15 @@ export default function LoginPage({ onSignUp }) {
           z-index: 1;
           display: flex;
           width: 100%;
-          max-width: 1180px;
+          max-width: 1240px;
           margin: 0 auto;
+          min-height: calc(100vh - 64px);
         }
 
         /* ── LEFT ── */
         .login-left {
-          flex: 0 0 44%;
-          padding: 32px 20px 40px 44px;
+          flex: 0 0 45%;
+          padding: 64px 32px 80px 48px;
           display: flex;
           align-items: flex-start;
           justify-content: flex-end;
@@ -322,18 +327,19 @@ export default function LoginPage({ onSignUp }) {
         .login-right {
           flex: 1;
           display: flex;
-          align-items: flex-start;
+          align-items: center;
           justify-content: flex-start;
-          padding: 32px 44px 40px 20px;
+          padding: 64px 48px;
         }
 
         .login-card {
           width: 100%;
           max-width: 560px;
-          background: #fff;
-          border-radius: 20px;
-          box-shadow: 0 4px 32px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.05);
-          padding: 36px 40px 40px;
+          background: #ffffff;
+          border-radius: 12px;
+          padding: 40px;
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .login-header {
