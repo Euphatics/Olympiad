@@ -318,7 +318,7 @@ const subjects = [
 // Memoized SubjectCard component to prevent unnecessary re-renders
 const SubjectCard = React.memo(({ sub }) => {
   return (
-    <div className="group flex flex-col w-full bg-white border border-gray-200/60 rounded-2xl transition-transform duration-300 ease-out hover:-translate-y-1 cursor-default overflow-hidden">
+    <div className="group flex flex-col justify-between w-full bg-white border border-gray-200/60 transition-transform duration-300 ease-out hover:-translate-y-1 cursor-default overflow-hidden">
       {/* Centered Header Section with custom gradient */}
       <div
         className="w-full p-5 flex flex-col items-center gap-3 border-b border-gray-200/40"
@@ -339,7 +339,7 @@ const SubjectCard = React.memo(({ sub }) => {
       </div>
 
       {/* Card Body */}
-      <div className="w-full p-5 flex flex-col gap-4 relative">
+      <div className="w-full flex-1 p-5 flex flex-col justify-between gap-4 relative">
         {/* Decorative subject-themed symbols scattered around the card */}
         {sub.decorations && sub.decorations.map((deco, i) => (
           <DecorationSVG key={i} deco={deco} color={sub.decorColor} />
@@ -382,7 +382,7 @@ const SubjectCard = React.memo(({ sub }) => {
         {/* Know More Button */}
         <button
           type="button"
-          className="w-full py-2 px-4 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center hover:opacity-90 active:scale-[0.98] cursor-pointer"
+          className="w-full py-2 px-4 text-xs font-bold transition-all duration-200 flex items-center justify-center hover:opacity-90 active:scale-[0.98] cursor-pointer"
           style={{
             backgroundColor: sub.matteBg,
             color: '#FFFFFF'

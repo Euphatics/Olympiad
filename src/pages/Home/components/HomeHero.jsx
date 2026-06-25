@@ -70,7 +70,7 @@ export default function HomeHero() {
         <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-10 items-stretch w-full">
           
           {/* SLIDESHOW */}
-          <div className="w-full lg:col-span-7 h-[250px] sm:h-[350px] lg:h-full rounded-2xl overflow-hidden shadow-sm border border-gray-200">
+          <div className="w-full lg:col-span-7 h-[250px] sm:h-[350px] lg:h-full rounded-none [&_img]:rounded-none [&>div>div]:rounded-none overflow-hidden shadow-sm border border-gray-200">
             <Carousel>
               <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="Students participating in NTI Olympiad examination classroom" />
               <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="Academic excellence certificates and gold medals ceremony" />
@@ -86,7 +86,7 @@ export default function HomeHero() {
               NTI Olympiad 2026-27
             </div>
             
-            <h1 className="text-3xl sm:text-4xl lg:text-4xl xl:text-5xl font-extrabold text-gray-900 leading-[1.15] mb-5 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-bold text-gray-900 leading-[1.15] mb-5 tracking-tight">
               India's Emerging Academic Olympiad Platform for <span className="text-[#007BFF]">School Students</span>
             </h1>
             

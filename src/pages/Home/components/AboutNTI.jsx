@@ -16,11 +16,11 @@ const stats = [
 export default function AboutNTI() {
   return (
     <section id="about-nti" className="w-full bg-white py-10 lg:py-14 border-b border-gray-200">
-      <div className="w-full px-6 sm:px-10 lg:px-16">
+      <div className="w-full px-6 sm:px-10 lg:px-16 pb-10 lg:pb-12">
 
         {/* Section Heading */}
         <div className="mb-8">
-          <h2 className="text-3xl lg:text-4xl xl:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
+          <h2 className="text-3xl lg:text-4xl xl:text-5xl font-semibold text-gray-900 tracking-tight leading-tight">
             About NTI Olympiad
           </h2>
           <div className="h-1.5 w-16 bg-[#007BFF] mt-3 rounded-full"></div>
@@ -76,8 +76,11 @@ export default function AboutNTI() {
           </div>
         </div>
 
-        {/* Stats Bar */}
-        <div className="w-full bg-royal-700 text-white rounded-xl p-6 sm:p-8">
+      </div>
+
+      {/* Stats Bar - Full width */}
+      <div className="w-full bg-royal-700 text-white py-8 lg:py-10">
+        <div className="w-full px-6 sm:px-10 lg:px-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stats.map((item) => {
               const IconComp = item.icon;
@@ -100,7 +103,6 @@ export default function AboutNTI() {
             })}
           </div>
         </div>
-
       </div>
     </section>
   );
