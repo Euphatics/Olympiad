@@ -10,6 +10,8 @@ const MarkingScheme = lazy(() => import('./pages/MarkingScheme/MarkingScheme'));
 const Gallery = lazy(() => import('./pages/Gallery/Gallery'));
 const LoginPage = lazy(() => import('./pages/Auth/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/Auth/RegisterPage'));
+const ForgotPasswordPage = lazy(() => import('./pages/Auth/ForgotPasswordPage'));
+const ResetPasswordPage = lazy(() => import('./pages/Auth/ResetPasswordPage'));
 const SyllabusPYQs = lazy(() => import('./pages/Syllabus/SyllabusPYQs'));
 const SyllabusDetail = lazy(() => import('./pages/Syllabus/SyllabusDetail'));
 const SyllabusClassPage = lazy(() => import('./pages/Syllabus/SyllabusClassPage'));
@@ -90,6 +92,8 @@ function App() {
           />
         } />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/exam-dates" element={<ExamDatesPage />} />
         <Route path="/prep-guide" element={<PrepGuidePage />} />
 
