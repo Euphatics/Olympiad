@@ -24,6 +24,7 @@ const PreviousYearDetailPage = lazy(() => import('./pages/PreviousYear/PreviousY
 const SchoolPanelPage = lazy(() => import('./pages/SchoolPanel/SchoolPanelPage'));
 const ExamDatesPage = lazy(() => import('./pages/ExamDates/ExamDatesPage'));
 const PrepGuidePage = lazy(() => import('./pages/PrepGuide/PrepGuidePage'));
+const AdminPaymentsPage = lazy(() => import('./pages/AdminPanel/AdminPaymentsPage'));
 const NotFound = lazy(() => import('./pages/NotFound/NotFound'));
 
 function App() {
@@ -96,6 +97,7 @@ function App() {
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/exam-dates" element={<ExamDatesPage />} />
         <Route path="/prep-guide" element={<PrepGuidePage />} />
+        <Route path="/admin/payments" element={<AdminPaymentsPage />} />
 
         <Route path="*" element={<NotFound />} />
       </Route>

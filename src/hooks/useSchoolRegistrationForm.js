@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function useSchoolRegistrationForm() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     designation: '',
@@ -62,12 +64,35 @@ export default function useSchoolRegistrationForm() {
     setErrors(validate(formData));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitted(true);
     const validationErrors = validate(formData);
     setErrors(validationErrors);
-    console.log('Registration submitted:', formData);
+    
+    if (Object.keys(validationErrors).length === 0) {
+      try {
+        const response = await fetch('http://localhost:5000/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await response.json();
+        
+        if (response.ok) {
+          alert('Registration successful! Please check your email for verification.');
+          navigate('/login');
+        } else {
+          alert(`Error: ${data.error || data.message || 'Registration failed'}`);
+        }
+      } catch (error) {
+        console.error('Error during registration:', error);
+        alert('Network error. Is the backend server running?');
+      }
+    }
   };
 
   const criteria = [

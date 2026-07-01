@@ -1,7 +1,8 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
+import PaymentModal from './PaymentModal';
 import {
   School,
   MapPin,
@@ -434,6 +435,8 @@ export default function SchoolPanelPage() {
 
   /* ── Import modal state ─────────────────────────────────── */
   const [importOpen, setImportOpen] = useState(false);
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [isListLocked, setIsListLocked] = useState(false);
 
   /* ── Student rows (per subject) ─────────────────────────── */
   const [studentsBySubject, setStudentsBySubject] = useState(() => {
@@ -446,6 +449,36 @@ export default function SchoolPanelPage() {
     });
     return init;
   });
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/schools/1/students`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.isListLocked !== undefined) setIsListLocked(data.isListLocked);
+          
+          if (data.students && data.students.length > 0) {
+            const grouped = {};
+            data.students.forEach(s => {
+              if (!grouped[s.subjectSlug]) grouped[s.subjectSlug] = [];
+              grouped[s.subjectSlug].push({
+                id: String(s.id),
+                srNo: String(s.srNo),
+                standard: s.standard || '',
+                studentName: s.studentName || '',
+                contactNumber: s.fatherName || ''
+              });
+            });
+            setStudentsBySubject(prev => ({ ...prev, ...grouped }));
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch students", err);
+      }
+    };
+    fetchStudents();
+  }, []);
 
   const students = studentsBySubject[activeSubject] || [];
 
@@ -494,9 +527,33 @@ export default function SchoolPanelPage() {
     });
   }, [activeSubject]);
 
-  const handleSave = () => {
-    // TODO: wire to backend
-    console.log('Saving registration:', { studentsBySubject });
+  const handleSave = async () => {
+    if (isListLocked) return alert("List is locked!");
+    
+    const currentStudents = studentsBySubject[activeSubject]
+      .filter(s => s.studentName.trim())
+      .map((s, idx) => ({
+        srNo: idx + 1,
+        standard: s.standard,
+        studentName: s.studentName,
+        fatherName: s.contactNumber || ''
+      }));
+
+    try {
+      const res = await fetch(`http://localhost:5000/api/schools/1/students`, {
+         method: 'POST',
+         headers: {'Content-Type': 'application/json'},
+         body: JSON.stringify({ subjectSlug: activeSubject, students: currentStudents })
+      });
+      if (res.ok) {
+         alert(`Saved ${currentStudents.length} students for ${activeTab?.label}!`);
+      } else {
+         alert('Failed to save students');
+      }
+    } catch(err) {
+      console.error(err);
+      alert('Error saving students');
+    }
   };
 
   const activeTab = SUBJECT_TABS.find((t) => t.key === activeSubject);
@@ -652,7 +709,7 @@ export default function SchoolPanelPage() {
             <div className="bg-white rounded-sm border p-5 flex items-center gap-4 transition-shadow hover:shadow-md" style={{ borderColor: BORDER_COL }}>
               <User size={26} style={{ color: '#6B7280' }} strokeWidth={1.5} className="flex-shrink-0" />
               <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Total Students</p>
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Total Students Opted</p>
                 <p className="text-2xl font-extrabold text-gray-900 leading-none">{totalStudents}</p>
               </div>
             </div>
@@ -668,10 +725,18 @@ export default function SchoolPanelPage() {
 
             {/* Stat Card 3 */}
             <div className="bg-white rounded-sm border p-5 flex items-center gap-4 transition-shadow hover:shadow-md" style={{ borderColor: BORDER_COL }}>
-              <AlertCircle size={26} style={{ color: '#6B7280' }} strokeWidth={1.5} className="flex-shrink-0" />
+              {isListLocked ? (
+                <CheckCircle2 size={26} style={{ color: '#10B981' }} strokeWidth={1.5} className="flex-shrink-0" />
+              ) : (
+                <AlertCircle size={26} style={{ color: '#F59E0B' }} strokeWidth={1.5} className="flex-shrink-0" />
+              )}
               <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Pending Fee</p>
-                <p className="text-2xl font-extrabold text-gray-900 leading-none">₹{totalFee.toLocaleString('en-IN')}</p>
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">
+                  {isListLocked ? "Verification Status" : "Pending Fee"}
+                </p>
+                <p className={`text-2xl font-extrabold leading-none ${isListLocked ? 'text-emerald-600' : 'text-gray-900'}`}>
+                  {isListLocked ? "Verified" : `₹${totalFee.toLocaleString('en-IN')}`}
+                </p>
               </div>
             </div>
 
@@ -822,31 +887,35 @@ export default function SchoolPanelPage() {
             </div>
 
             <div className="flex gap-2">
-              <button
-                id="btn-import-csv"
-                onClick={() => setImportOpen(true)}
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-[13px] font-medium
-                  bg-white border rounded-md transition-all duration-200
-                  text-gray-600 hover:border-[#007BFF] hover:text-[#007BFF] hover:shadow-sm
-                  active:scale-[0.97]"
-                style={{ borderColor: BORDER_COL }}
-              >
-                <Upload size={15} strokeWidth={2} />
-                Import File
-              </button>
-              <button
-                id="btn-add-row"
-                onClick={addRow}
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-[13px] font-medium
-                  text-white rounded-md transition-all duration-200
-                  hover:shadow-md active:scale-[0.97]"
-                style={{ background: PRIMARY_BLUE }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = HOVER_BLUE)}
-                onMouseLeave={(e) => (e.currentTarget.style.background = PRIMARY_BLUE)}
-              >
-                <Plus size={15} strokeWidth={2.5} />
-                Add Row
-              </button>
+              {!isListLocked && (
+                <>
+                  <button
+                    id="btn-import-csv"
+                    onClick={() => setImportOpen(true)}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 text-[13px] font-medium
+                      bg-white border rounded-md transition-all duration-200
+                      text-gray-600 hover:border-[#007BFF] hover:text-[#007BFF] hover:shadow-sm
+                      active:scale-[0.97]"
+                    style={{ borderColor: BORDER_COL }}
+                  >
+                    <Upload size={15} strokeWidth={2} />
+                    Import File
+                  </button>
+                  <button
+                    id="btn-add-row"
+                    onClick={addRow}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 text-[13px] font-medium
+                      text-white rounded-md transition-all duration-200
+                      hover:shadow-md active:scale-[0.97]"
+                    style={{ background: PRIMARY_BLUE }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = HOVER_BLUE)}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = PRIMARY_BLUE)}
+                  >
+                    <Plus size={15} strokeWidth={2.5} />
+                    Add Row
+                  </button>
+                </>
+              )}
             </div>
           </div>
 
@@ -978,32 +1047,28 @@ export default function SchoolPanelPage() {
             </p>
 
             <div className="flex gap-3">
-              <button
-                id="btn-download"
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 text-[13px] font-medium
-                  bg-white border rounded-md transition-all duration-200
-                  text-gray-600 hover:border-gray-400 hover:text-gray-800 hover:shadow-sm"
-                style={{ borderColor: BORDER_COL }}
-              >
-                <Download size={15} strokeWidth={2} />
-                Download
-              </button>
-              <button
-                id="btn-save"
-                onClick={handleSave}
-                className="inline-flex items-center gap-1.5 px-6 py-2.5 text-[13px] font-semibold
-                  text-white rounded-md transition-all duration-200
-                  hover:shadow-lg active:scale-[0.97]"
-                style={{
-                  background: '#1E3A8A',
-                  boxShadow: '0 2px 8px rgba(30,58,138,0.20)',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = '#172554')}
-                onMouseLeave={(e) => (e.currentTarget.style.background = '#1E3A8A')}
-              >
-                <Save size={15} strokeWidth={2} />
-                Save Registration
-              </button>
+              {isListLocked ? (
+                <div className="px-5 py-2.5 bg-emerald-100 text-emerald-800 rounded-md text-[13px] font-bold flex items-center gap-2">
+                  <CheckCircle2 size={16} /> Verified & Locked
+                </div>
+              ) : (
+                <>
+                  <button
+                    id="btn-save"
+                    onClick={handleSave}
+                    className="inline-flex items-center gap-1.5 px-6 py-2.5 text-[13px] font-semibold text-white rounded-md transition-all duration-200 hover:shadow-lg active:scale-[0.97]"
+                    style={{ background: '#1E3A8A', boxShadow: '0 2px 8px rgba(30,58,138,0.20)' }}
+                  >
+                    <Save size={15} strokeWidth={2} /> Save Registration
+                  </button>
+                  <button
+                    onClick={() => setPaymentModalOpen(true)}
+                    className="inline-flex items-center gap-1.5 px-6 py-2.5 text-[13px] font-semibold text-white rounded-md bg-emerald-600 hover:bg-emerald-700 transition-all duration-200 hover:shadow-lg"
+                  >
+                    Proceed to Payment (₹{totalFee})
+                  </button>
+                </>
+              )}
             </div>
           </div>
 
@@ -1023,6 +1088,14 @@ export default function SchoolPanelPage() {
         onClose={() => setImportOpen(false)}
         onImport={importRows}
         subjectLabel={activeTab?.label}
+      />
+
+      <PaymentModal 
+        open={paymentModalOpen} 
+        onClose={() => setPaymentModalOpen(false)} 
+        schoolId={1} 
+        amount={totalFee} 
+        onPaymentSuccess={() => {}} 
       />
     </>
   );
