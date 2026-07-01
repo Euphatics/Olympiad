@@ -13,6 +13,8 @@ export const ROUTES = {
   awards: '/awards',
   login: '/login',
   register: '/register',
+  forgotPassword: '/forgot-password',
+  resetPassword: '/reset-password',
   schoolPanel: '/school-panel',
   prepGuide: '/prep-guide',
 
