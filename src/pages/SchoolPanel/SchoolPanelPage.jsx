@@ -430,6 +430,10 @@ function ImportModal({ open, onClose, onImport, subjectLabel }) {
    MAIN COMPONENT
    ═══════════════════════════════════════════════════════════════ */
 export default function SchoolPanelPage() {
+  /* ── Logged-in user (from localStorage) ──────────────────── */
+  const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+  const schoolId = storedUser.id || 1; // Fallback to 1 for dev/testing if not logged in
+
   /* ── Active subject tab ─────────────────────────────────── */
   const [activeSubject, setActiveSubject] = useState(SUBJECT_TABS[0].key);
 
@@ -437,6 +441,7 @@ export default function SchoolPanelPage() {
   const [importOpen, setImportOpen] = useState(false);
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [isListLocked, setIsListLocked] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState('none'); // 'none' | 'pending' | 'verified'
 
   /* ── Student rows (per subject) ─────────────────────────── */
   const [studentsBySubject, setStudentsBySubject] = useState(() => {
@@ -451,9 +456,10 @@ export default function SchoolPanelPage() {
   });
 
   useEffect(() => {
+    if (!schoolId) return;
     const fetchStudents = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/schools/1/students`);
+        const res = await fetch(`http://localhost:5000/api/schools/${schoolId}/students`);
         if (res.ok) {
           const data = await res.json();
           if (data.isListLocked !== undefined) setIsListLocked(data.isListLocked);
@@ -540,7 +546,7 @@ export default function SchoolPanelPage() {
       }));
 
     try {
-      const res = await fetch(`http://localhost:5000/api/schools/1/students`, {
+      const res = await fetch(`http://localhost:5000/api/schools/${schoolId}/students`, {
          method: 'POST',
          headers: {'Content-Type': 'application/json'},
          body: JSON.stringify({ subjectSlug: activeSubject, students: currentStudents })
@@ -568,6 +574,7 @@ export default function SchoolPanelPage() {
   ).length;
 
   const totalFee = totalStudents * 150; // Assuming ₹150 per student
+  const isEditingDisabled = isListLocked || paymentStatus === 'pending' || paymentStatus === 'verified';
 
   return (
     <>
@@ -887,7 +894,7 @@ export default function SchoolPanelPage() {
             </div>
 
             <div className="flex gap-2">
-              {!isListLocked && (
+              {!isEditingDisabled && (
                 <>
                   <button
                     id="btn-import-csv"
@@ -964,11 +971,12 @@ export default function SchoolPanelPage() {
                   {/* Standard / Class */}
                   <div className="py-1">
                     <select
+                      disabled={isEditingDisabled}
                       value={row.standard}
                       onChange={(e) => updateStudent(row.id, 'standard', e.target.value)}
-                      className="w-full px-2 py-2 text-[13px] bg-transparent border-0 border-b border-transparent
-                        focus:border-[#007BFF] focus:ring-0 outline-none text-gray-700 cursor-pointer
-                        hover:border-gray-300 transition-colors appearance-none"
+                      className={`w-full px-2 py-2 text-[13px] bg-transparent border-0 border-b border-transparent
+                        outline-none text-gray-700 transition-colors appearance-none
+                        ${isEditingDisabled ? 'cursor-not-allowed opacity-70' : 'focus:border-[#007BFF] focus:ring-0 cursor-pointer hover:border-gray-300'}`}
                     >
                       <option value="">Select</option>
                       {Array.from({ length: 10 }, (_, i) => (
@@ -982,39 +990,43 @@ export default function SchoolPanelPage() {
                   {/* Student Name */}
                   <div className="py-1 pr-3">
                     <input
+                      disabled={isEditingDisabled}
                       type="text"
                       value={row.studentName}
                       onChange={(e) => updateStudent(row.id, 'studentName', e.target.value)}
                       placeholder="Enter student name"
-                      className="w-full px-2 py-2 text-[13px] bg-transparent border-0 border-b border-transparent
-                        focus:border-[#007BFF] focus:ring-0 outline-none text-gray-800
-                        placeholder:text-gray-300 hover:border-gray-300 transition-colors"
+                      className={`w-full px-2 py-2 text-[13px] bg-transparent border-0 border-b border-transparent
+                        outline-none text-gray-800 placeholder:text-gray-300 transition-colors
+                        ${isEditingDisabled ? 'cursor-not-allowed opacity-70' : 'focus:border-[#007BFF] focus:ring-0 hover:border-gray-300'}`}
                     />
                   </div>
 
                   {/* Contact */}
                   <div className="py-1">
                     <input
+                      disabled={isEditingDisabled}
                       type="tel"
                       value={row.contactNumber}
                       onChange={(e) => updateStudent(row.id, 'contactNumber', e.target.value)}
                       placeholder="+91 XXXXX XXXXX"
-                      className="w-full px-2 py-2 text-[13px] bg-transparent border-0 border-b border-transparent
-                        focus:border-[#007BFF] focus:ring-0 outline-none text-gray-800
-                        placeholder:text-gray-300 hover:border-gray-300 transition-colors"
+                      className={`w-full px-2 py-2 text-[13px] bg-transparent border-0 border-b border-transparent
+                        outline-none text-gray-800 placeholder:text-gray-300 transition-colors
+                        ${isEditingDisabled ? 'cursor-not-allowed opacity-70' : 'focus:border-[#007BFF] focus:ring-0 hover:border-gray-300'}`}
                     />
                   </div>
 
                   {/* Delete */}
                   <div className="flex justify-center">
-                    <button
-                      onClick={() => removeRow(row.id)}
-                      className="p-1.5 rounded-md text-gray-300 opacity-0 group-hover:opacity-100
-                        hover:text-red-500 hover:bg-red-50 transition-all duration-200"
-                      aria-label={`Remove row ${row.srNo}`}
-                    >
-                      <Trash2 size={14} strokeWidth={2} />
-                    </button>
+                    {!isEditingDisabled && (
+                      <button
+                        onClick={() => removeRow(row.id)}
+                        className="p-1.5 rounded-md text-gray-300 opacity-0 group-hover:opacity-100
+                          hover:text-red-500 hover:bg-red-50 transition-all duration-200"
+                        aria-label={`Remove row ${row.srNo}`}
+                      >
+                        <Trash2 size={14} strokeWidth={2} />
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
@@ -1051,19 +1063,38 @@ export default function SchoolPanelPage() {
                 <div className="px-5 py-2.5 bg-emerald-100 text-emerald-800 rounded-md text-[13px] font-bold flex items-center gap-2">
                   <CheckCircle2 size={16} /> Verified & Locked
                 </div>
+              ) : paymentStatus === 'pending' ? (
+                <>
+                  <button
+                    id="btn-save"
+                    onClick={handleSave}
+                    className="inline-flex items-center justify-center gap-1.5 px-8 py-3 text-[14px] font-semibold text-white rounded-md transition-all duration-200 hover:shadow-lg active:scale-[0.97]"
+                    style={{ background: PRIMARY_BLUE }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = HOVER_BLUE)}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = PRIMARY_BLUE)}
+                  >
+                    <Save size={16} strokeWidth={2} /> Save Registration
+                  </button>
+                  <div className="px-5 py-2.5 bg-amber-50 text-amber-800 border border-amber-200 rounded-md text-[13px] font-bold flex items-center gap-2">
+                    <AlertCircle size={16} /> Payment Submitted — Pending Verification
+                  </div>
+                </>
               ) : (
                 <>
                   <button
                     id="btn-save"
                     onClick={handleSave}
-                    className="inline-flex items-center gap-1.5 px-6 py-2.5 text-[13px] font-semibold text-white rounded-md transition-all duration-200 hover:shadow-lg active:scale-[0.97]"
-                    style={{ background: '#1E3A8A', boxShadow: '0 2px 8px rgba(30,58,138,0.20)' }}
+                    className="inline-flex items-center justify-center gap-1.5 px-8 py-3 text-[14px] font-semibold text-white rounded-md transition-all duration-200 hover:shadow-lg active:scale-[0.97]"
+                    style={{ background: PRIMARY_BLUE }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = HOVER_BLUE)}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = PRIMARY_BLUE)}
                   >
-                    <Save size={15} strokeWidth={2} /> Save Registration
+                    <Save size={16} strokeWidth={2} /> Save Registration
                   </button>
                   <button
                     onClick={() => setPaymentModalOpen(true)}
-                    className="inline-flex items-center gap-1.5 px-6 py-2.5 text-[13px] font-semibold text-white rounded-md bg-emerald-600 hover:bg-emerald-700 transition-all duration-200 hover:shadow-lg"
+                    disabled={totalFee === 0}
+                    className="inline-flex items-center gap-1.5 px-6 py-2.5 text-[13px] font-semibold text-white rounded-md bg-emerald-600 hover:bg-emerald-700 transition-all duration-200 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Proceed to Payment (₹{totalFee})
                   </button>
@@ -1093,9 +1124,9 @@ export default function SchoolPanelPage() {
       <PaymentModal 
         open={paymentModalOpen} 
         onClose={() => setPaymentModalOpen(false)} 
-        schoolId={1} 
+        schoolId={schoolId} 
         amount={totalFee} 
-        onPaymentSuccess={() => {}} 
+        onPaymentSuccess={() => setPaymentStatus('pending')} 
       />
     </>
   );

@@ -31,17 +31,32 @@ export default function PaymentModal({ open, onClose, schoolId, amount, onPaymen
     setStatus(null);
 
     try {
-      // Mocking file upload: In a real scenario, this would upload to S3/Cloudinary
-      const dummyPaymentProofUrl = `https://via.placeholder.com/400x800.png?text=Receipt+${file.name}`;
-      
+      // Step 1: Upload the actual file to the server
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const uploadRes = await fetch('http://localhost:5000/api/upload', {
+        method: 'POST',
+        body: formData, // No Content-Type header — browser sets it with boundary automatically
+      });
+
+      if (!uploadRes.ok) {
+        const errData = await uploadRes.json().catch(() => ({}));
+        throw new Error(errData.error || 'Failed to upload file');
+      }
+
+      const uploadData = await uploadRes.json();
+      const paymentProofUrl = uploadData.url;
+
+      // Step 2: Create the payment record with the real file URL
       const res = await fetch(`http://localhost:5000/api/schools/${schoolId}/payment`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ paymentProofUrl: dummyPaymentProofUrl, amount })
+        body: JSON.stringify({ paymentProofUrl, amount })
       });
 
       if (!res.ok) {
-        throw new Error('Failed to upload payment proof');
+        throw new Error('Failed to submit payment proof');
       }
 
       setStatus({ type: 'success', msg: 'Payment uploaded successfully! Admin will verify it shortly.' });

@@ -29,6 +29,10 @@ export default function LoginPage({ onSignUp }) {
       const data = await response.json();
 
       if (response.ok) {
+        // Store user data so SchoolPanel can use the real schoolId
+        if (data.user) {
+          localStorage.setItem('user', JSON.stringify(data.user));
+        }
         alert('Login successful!');
         navigate('/school-panel');
       } else {
@@ -334,7 +338,7 @@ export default function LoginPage({ onSignUp }) {
           z-index: 10;
         }
         .visual-text h2 {
-          font-family: 'Poppins', sans-serif;
+          font-family: 'Lora', serif;
           font-size: 32px;
           font-weight: 800;
           letter-spacing: 1px;

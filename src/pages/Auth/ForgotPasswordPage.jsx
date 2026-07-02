@@ -242,7 +242,7 @@ export default function ForgotPasswordPage() {
           z-index: 10;
         }
         .visual-text h2 {
-          font-family: 'Poppins', sans-serif;
+          font-family: 'Lora', serif;
           font-size: 32px;
           font-weight: 800;
           letter-spacing: 1px;
