@@ -35,7 +35,7 @@ export default function PaymentModal({ open, onClose, schoolId, amount, onPaymen
       const formData = new FormData();
       formData.append('file', file);
 
-      const uploadRes = await fetch('http://localhost:5000/api/upload', {
+      const uploadRes = await fetch('https://olympiad-backend-ko0e.onrender.com/api/upload', {
         method: 'POST',
         body: formData, // No Content-Type header — browser sets it with boundary automatically
       });
@@ -49,7 +49,7 @@ export default function PaymentModal({ open, onClose, schoolId, amount, onPaymen
       const paymentProofUrl = uploadData.url;
 
       // Step 2: Create the payment record with the real file URL
-      const res = await fetch(`http://localhost:5000/api/schools/${schoolId}/payment`, {
+      const res = await fetch(`https://olympiad-backend-ko0e.onrender.com/api/schools/${schoolId}/payment`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ paymentProofUrl, amount })

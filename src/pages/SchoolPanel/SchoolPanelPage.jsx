@@ -459,7 +459,7 @@ export default function SchoolPanelPage() {
     if (!schoolId) return;
     const fetchStudents = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/schools/${schoolId}/students`);
+        const res = await fetch(`https://olympiad-backend-ko0e.onrender.com/api/schools/${schoolId}/students`);
         if (res.ok) {
           const data = await res.json();
           if (data.isListLocked !== undefined) setIsListLocked(data.isListLocked);
@@ -546,7 +546,7 @@ export default function SchoolPanelPage() {
       }));
 
     try {
-      const res = await fetch(`http://localhost:5000/api/schools/${schoolId}/students`, {
+      const res = await fetch(`https://olympiad-backend-ko0e.onrender.com/api/schools/${schoolId}/students`, {
          method: 'POST',
          headers: {'Content-Type': 'application/json'},
          body: JSON.stringify({ subjectSlug: activeSubject, students: currentStudents })
