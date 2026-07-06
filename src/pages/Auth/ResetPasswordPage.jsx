@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { FlaskConical, Cpu, Settings, Calculator, Trophy, BookOpen, ArrowRight, Eye, EyeOff } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { FlaskConical, Cpu, Settings, Calculator, Trophy, BookOpen, ArrowRight, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { ROUTES } from '../../config/routes';
 
 export default function ResetPasswordPage() {
@@ -10,19 +10,53 @@ export default function ResetPasswordPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get('token');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
-    console.log('Reset Password requested');
-    setIsSubmitted(true);
-    setTimeout(() => {
-      navigate(ROUTES.login);
-    }, 3000);
+
+    if (!token) {
+      setErrorMessage("Reset token is missing from the URL. Please request a new link.");
+      return;
+    }
+
+    setIsLoading(true);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('https://olympiad-backend-ko0e.onrender.com/api/auth/reset-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setTimeout(() => {
+          navigate(ROUTES.login);
+        }, 3000);
+      } else {
+        setErrorMessage(data.error || 'Failed to reset password. The link may have expired.');
+      }
+    } catch (error) {
+      console.error('Error during password reset:', error);
+      setErrorMessage('Network error. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -102,6 +136,11 @@ export default function ResetPasswordPage() {
             {/* Form */}
             {!isSubmitted ? (
               <form onSubmit={handleSubmit} className="login-form">
+                {errorMessage && (
+                  <div style={{ color: '#dc2626', backgroundColor: '#fee2e2', padding: '12px', borderRadius: '6px', fontSize: '13px', fontWeight: '500' }}>
+                    {errorMessage}
+                  </div>
+                )}
                 <div className="login-field">
                   <label>NEW PASSWORD <span className="asterisk">*</span></label>
                   <div className="password-wrap">
@@ -110,12 +149,14 @@ export default function ResetPasswordPage() {
                       placeholder="Enter new password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
+                      disabled={isLoading}
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       className="eye-btn"
+                      disabled={isLoading}
                     >
                       {showPassword ? <EyeOff size={18} color="#9CA3AF" /> : <Eye size={18} color="#9CA3AF" />}
                     </button>
@@ -130,12 +171,14 @@ export default function ResetPasswordPage() {
                       placeholder="Confirm new password"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
+                      disabled={isLoading}
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       className="eye-btn"
+                      disabled={isLoading}
                     >
                       {showConfirmPassword ? <EyeOff size={18} color="#9CA3AF" /> : <Eye size={18} color="#9CA3AF" />}
                     </button>
@@ -143,8 +186,16 @@ export default function ResetPasswordPage() {
                 </div>
 
                 <div className="submit-wrap" style={{ marginTop: '16px' }}>
-                  <button type="submit" className="submit-btn" style={{ width: '100%', justifyContent: 'center' }}>
-                    RESET PASSWORD <ArrowRight size={18} />
+                  <button type="submit" className="submit-btn" style={{ width: '100%', justifyContent: 'center' }} disabled={isLoading}>
+                    {isLoading ? (
+                      <>
+                        RESETTING... <Loader2 className="animate-spin" size={18} />
+                      </>
+                    ) : (
+                      <>
+                        RESET PASSWORD <ArrowRight size={18} />
+                      </>
+                    )}
                   </button>
                 </div>
               </form>
