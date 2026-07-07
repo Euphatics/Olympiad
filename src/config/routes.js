@@ -18,6 +18,8 @@ export const ROUTES = {
   verifyEmail: '/verify-email',
   schoolPanel: '/school-panel',
   prepGuide: '/prep-guide',
+  adminDashboard: '/admin',
+  adminApprovals: '/admin/approvals',
 
   // Syllabus
   syllabusPyqs: '/syllabus-pyqs',

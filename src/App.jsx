@@ -25,6 +25,7 @@ const PreviousYearDetailPage = lazy(() => import('./pages/PreviousYear/PreviousY
 const SchoolPanelPage = lazy(() => import('./pages/SchoolPanel/SchoolPanelPage'));
 const ExamDatesPage = lazy(() => import('./pages/ExamDates/ExamDatesPage'));
 const PrepGuidePage = lazy(() => import('./pages/PrepGuide/PrepGuidePage'));
+const AdminDashboardPage = lazy(() => import('./pages/AdminDashboard/AdminDashboardPage'));
 const AdminPaymentsPage = lazy(() => import('./pages/AdminPanel/AdminPaymentsPage'));
 const NotFound = lazy(() => import('./pages/NotFound/NotFound'));
 
@@ -99,7 +100,8 @@ function App() {
         <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/exam-dates" element={<ExamDatesPage />} />
         <Route path="/prep-guide" element={<PrepGuidePage />} />
-        <Route path="/admin/payments" element={<AdminPaymentsPage />} />
+        <Route path="/admin" element={<AdminDashboardPage />} />
+        <Route path="/admin/approvals" element={<AdminPaymentsPage />} />
 
         <Route path="*" element={<NotFound />} />
       </Route>

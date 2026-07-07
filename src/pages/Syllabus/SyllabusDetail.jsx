@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams, Link } from 'react-router-dom';
 import { getSubjectBySlug, getSubjectByName, CLASS_LEVELS } from '../../config/subjects';
+import { getSyllabusData } from '../../data/syllabusData';
 import { ROUTES } from '../../config/routes';
 import { Breadcrumb, PageContainer, SectionHeading, Button } from '../../components/ui';
-import { getSyllabusData } from '../../data/syllabusData';
 
 const CLASSES = ['About', ...CLASS_LEVELS.map((c) => c.name)];
 
@@ -18,6 +18,15 @@ export default function SyllabusDetail({ subjectName: propSubjectName, onMarking
   const subjectName = propSubjectName || subject?.shortName || decodeURIComponent(routeSubjectName || subjectSlug || '');
   const resolvedSlug = subject?.slug || subjectSlug || '';
   const [activeClass, setActiveClass] = useState('About');
+
+  const syllabusData = useMemo(() => {
+    if (!resolvedSlug) return {};
+    const data = {};
+    CLASS_LEVELS.forEach(cls => {
+      data[cls.slug] = getSyllabusData(resolvedSlug, cls.slug);
+    });
+    return data;
+  }, [resolvedSlug]);
 
   // Performant scroll spy using IntersectionObserver to avoid layout jank
   useEffect(() => {
@@ -71,48 +80,6 @@ export default function SyllabusDetail({ subjectName: propSubjectName, onMarking
         <title>{`NTI ${subjectName} Syllabus – All Classes`}</title>
         <meta name="description" content={`Detailed syllabus breakdown, topics, and exam guides for NTI ${subjectName} from Class 1 to 10.`} />
         <link rel="canonical" href={`https://ntiolympiad.in/syllabus/${resolvedSlug}`} />
-        
-        {/* Open Graph / Facebook */}
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={`NTI ${subjectName} Syllabus – All Classes`} />
-        <meta property="og:description" content={`Detailed syllabus breakdown, topics, and exam guides for NTI ${subjectName} from Class 1 to 10.`} />
-        <meta property="og:site_name" content="NTI Olympiad" />
-        <meta property="og:image" content="https://ntiolympiad.in/about_nti_banner.png" />
-        <meta property="og:url" content={`https://ntiolympiad.in/syllabus/${resolvedSlug}`} />
-
-        {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`NTI ${subjectName} Syllabus – All Classes`} />
-        <meta name="twitter:description" content={`Detailed syllabus breakdown, topics, and exam guides for NTI ${subjectName} from Class 1 to 10.`} />
-        <meta name="twitter:image" content="https://ntiolympiad.in/about_nti_banner.png" />
-
-        {/* BreadcrumbList Schema */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://ntiolympiad.in/"
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Exam Syllabus and PYQs",
-                "item": "https://ntiolympiad.in/syllabus-pyqs"
-              },
-              {
-                "@type": "ListItem",
-                "position": 3,
-                "name": `NTI ${subjectName} Syllabus`,
-                "item": `https://ntiolympiad.in/syllabus/${resolvedSlug}`
-              }
-            ]
-          })}
-        </script>
       </Helmet>
       {/* ── Breadcrumb ── */}
       <Breadcrumb items={[
@@ -180,7 +147,7 @@ export default function SyllabusDetail({ subjectName: propSubjectName, onMarking
               ) : (
                 (() => {
                   const classSlug = cls.toLowerCase().replace(/\s+/g, '-');
-                  const classData = getSyllabusData(resolvedSlug, classSlug);
+                  const classData = syllabusData[classSlug];
                   const topics = classData?.sections?.syllabus?.content || [];
                   return (
                     <>

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Breadcrumb, SectionHeading } from '../../components/ui';
@@ -5,10 +6,22 @@ import {
   Calendar, 
   Info, 
   ArrowRight, 
-  GraduationCap 
+  GraduationCap
 } from 'lucide-react';
 
+const mockDates = [
+  { id: 1, section: 'Academic Session Window', description: 'Exam Window', date_value: 'Dec 2025 - Feb 2026' },
+  { id: 2, section: 'Registration', description: 'Registration Deadline', date_value: 'November 15, 2025' },
+  { id: 3, section: 'Result', description: 'Result Declaration', date_value: 'March 2026' }
+];
+
 export default function ExamDatesPage() {
+  const [dates] = useState(mockDates);
+
+  const getSectionValue = (sectionName) => {
+    return dates.find(d => d.section === sectionName)?.date_value || 'To be announced';
+  };
+
   return (
     <div className="min-h-screen bg-white pb-24 font-sans text-slate-800 text-left">
       <Helmet>
@@ -34,7 +47,6 @@ export default function ExamDatesPage() {
           The NTI Olympiad is administered on a national scale. Please review the official examination timeframe and essential directives provided below.
         </p>
 
-        {/* Unified Container: full-width centered, divided sections */}
         <div className="border border-gray-200 bg-white shadow-sm divide-y divide-gray-200 rounded-xl w-full">
           
           {/* Section 1: Academic Session Window */}
@@ -49,7 +61,7 @@ export default function ExamDatesPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
               <div>
                 <p className="text-[11px] text-gray-400 font-bold uppercase tracking-wider mb-1.5">Examination Period</p>
-                <p className="text-2xl lg:text-3xl font-bold text-[#1E3A8A]">December 2025 – February 2026</p>
+                <p className="text-2xl lg:text-3xl font-bold text-[#1E3A8A]">{getSectionValue('Academic Session Window')}</p>
                 <p className="text-sm text-gray-400 mt-3 font-medium">Applicable for all registered schools and independent candidates.</p>
               </div>
 
@@ -65,7 +77,20 @@ export default function ExamDatesPage() {
             </div>
           </div>
 
-          {/* Section 2: Enrollment & Registration */}
+          {/* Section 2: Detailed Timeline */}
+          <div className="p-8 lg:p-10 bg-gray-50">
+             <h3 className="text-lg font-bold text-gray-900 uppercase tracking-wider mb-6 border-b pb-4">Detailed Timeline</h3>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {dates.filter(d => d.section !== 'Academic Session Window' && d.section !== 'Registration').map(item => (
+                  <div key={item.id} className="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                    <p className="text-[11px] text-gray-500 font-bold uppercase tracking-wider mb-1">{item.description}</p>
+                    <p className="text-lg font-bold text-[#1E3A8A]">{item.date_value}</p>
+                  </div>
+                ))}
+             </div>
+          </div>
+
+          {/* Section 3: Enrollment & Registration */}
           <div className="p-8 lg:p-10">
             <div className="flex items-center gap-2.5 mb-6">
               <GraduationCap className="text-gray-500" size={22} />
@@ -76,8 +101,11 @@ export default function ExamDatesPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 items-center">
               <div>
-                <p className="text-[15px] text-gray-600 leading-relaxed font-normal">
+                <p className="text-[15px] text-gray-600 leading-relaxed font-normal mb-2">
                   Applications are currently being accepted for the upcoming cycle. We encourage institutional representatives and independent candidates to complete their registration prior to the final deadline to ensure participation.
+                </p>
+                <p className="text-sm font-semibold text-red-600 bg-red-50 inline-block px-3 py-1.5 rounded-md border border-red-100">
+                  Deadline: {getSectionValue('Registration')}
                 </p>
               </div>
 
