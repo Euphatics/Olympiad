@@ -13,8 +13,13 @@ export const ROUTES = {
   awards: '/awards',
   login: '/login',
   register: '/register',
+  forgotPassword: '/forgot-password',
+  resetPassword: '/reset-password',
+  verifyEmail: '/verify-email',
   schoolPanel: '/school-panel',
   prepGuide: '/prep-guide',
+  adminDashboard: '/admin',
+  adminApprovals: '/admin/approvals',
 
   // Syllabus
   syllabusPyqs: '/syllabus-pyqs',

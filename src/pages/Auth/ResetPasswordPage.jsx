@@ -1,70 +1,70 @@
-import { useState } from 'react';
-import { Eye, EyeOff, LogIn, UserPlus, ArrowRight, FlaskConical, Cpu, Settings, Calculator, Trophy, BookOpen } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { FlaskConical, Cpu, Settings, Calculator, Trophy, BookOpen, ArrowRight, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { ROUTES } from '../../config/routes';
 
-export default function LoginPage({ onSignUp }) {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState('');
+export default function ResetPasswordPage() {
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get('token');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email.trim() || !password) {
-      alert('Please fill in all fields.');
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
       return;
     }
 
+    if (!token) {
+      setErrorMessage("Reset token is missing from the URL. Please request a new link.");
+      return;
+    }
+
+    setIsLoading(true);
+    setErrorMessage('');
+
     try {
-      const response = await fetch('https://olympiad-backend-ko0e.onrender.com/api/auth/login', {
+      const response = await fetch('https://olympiad-backend-ko0e.onrender.com/api/auth/reset-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ token, password }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // Store user data so SchoolPanel can use the real schoolId
-        if (data.user) {
-          localStorage.setItem('user', JSON.stringify(data.user));
-        }
-        alert('Login successful!');
-        navigate('/school-panel');
+        setIsSubmitted(true);
+        setTimeout(() => {
+          navigate(ROUTES.login);
+        }, 3000);
       } else {
-        alert(`Error: ${data.error || 'Login failed'}`);
+        setErrorMessage(data.error || 'Failed to reset password. The link may have expired.');
       }
     } catch (error) {
-      console.error('Error during login:', error);
-      alert('Network error. Is the backend server running?');
+      console.error('Error during password reset:', error);
+      setErrorMessage('Network error. Please try again later.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="login-page">
       <Helmet>
-        <title>Sign In – NTI Olympiad Portal</title>
-        <meta name="description" content="Access your NTI Olympiad student or school coordinator portal to view registrations and results." />
+        <title>Reset Password – NTI Olympiad Portal</title>
+        <meta name="description" content="Reset your NTI Olympiad student or school coordinator portal password." />
         <meta name="robots" content="noindex, follow" />
-        <link rel="canonical" href="https://ntiolympiad.in/login" />
-
-        {/* Open Graph / Facebook */}
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Sign In – NTI Olympiad Portal" />
-        <meta property="og:description" content="Access your NTI Olympiad student or school coordinator portal to view registrations and results." />
-        <meta property="og:site_name" content="NTI Olympiad" />
-        <meta property="og:image" content="https://ntiolympiad.in/about_nti_banner.png" />
-        <meta property="og:url" content="https://ntiolympiad.in/login" />
-
-        {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Sign In – NTI Olympiad Portal" />
-        <meta name="twitter:description" content="Access your NTI Olympiad student or school coordinator portal to view registrations and results." />
-        <meta name="twitter:image" content="https://ntiolympiad.in/about_nti_banner.png" />
       </Helmet>
 
       {/* Background layer */}
@@ -83,20 +83,11 @@ export default function LoginPage({ onSignUp }) {
 
             {/* Main Visual Container */}
             <div className="visual-container">
-
               {/* Orbiting Icons */}
-              <div className="orbit-item item-1">
-                <FlaskConical size={26} color="#fff" strokeWidth={2.5} />
-              </div>
-              <div className="orbit-item item-2">
-                <Cpu size={24} color="#fff" strokeWidth={2.5} />
-              </div>
-              <div className="orbit-item item-3">
-                <BookOpen size={28} color="#fff" strokeWidth={2.5} />
-              </div>
-              <div className="orbit-item item-4">
-                <Calculator size={26} color="#fff" strokeWidth={2.5} />
-              </div>
+              <div className="orbit-item item-1"><FlaskConical size={26} color="#fff" strokeWidth={2.5} /></div>
+              <div className="orbit-item item-2"><Cpu size={24} color="#fff" strokeWidth={2.5} /></div>
+              <div className="orbit-item item-3"><BookOpen size={28} color="#fff" strokeWidth={2.5} /></div>
+              <div className="orbit-item item-4"><Calculator size={26} color="#fff" strokeWidth={2.5} /></div>
 
               {/* Center Glass Sphere */}
               <div className="center-glass">
@@ -136,60 +127,94 @@ export default function LoginPage({ onSignUp }) {
               </div>
             </div>
 
-
             {/* Center Title */}
             <div className="login-center-title">
-              <h2>LOG IN</h2>
-              <p>Log into your <span className="underline">NTI</span> account.</p>
+              <h2>RESET PASSWORD</h2>
+              <p>Create a new password for your account.</p>
             </div>
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="login-form">
-              <div className="login-field">
-                <label>EMAIL OR USER ID <span className="asterisk">*</span></label>
-                <input
-                  type="text"
-                  placeholder="Enter your Email or Organization User ID"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
+            {!isSubmitted ? (
+              <form onSubmit={handleSubmit} className="login-form">
+                {errorMessage && (
+                  <div style={{ color: '#dc2626', backgroundColor: '#fee2e2', padding: '12px', borderRadius: '6px', fontSize: '13px', fontWeight: '500' }}>
+                    {errorMessage}
+                  </div>
+                )}
+                <div className="login-field">
+                  <label>NEW PASSWORD <span className="asterisk">*</span></label>
+                  <div className="password-wrap">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder="Enter new password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      disabled={isLoading}
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="eye-btn"
+                      disabled={isLoading}
+                    >
+                      {showPassword ? <EyeOff size={18} color="#9CA3AF" /> : <Eye size={18} color="#9CA3AF" />}
+                    </button>
+                  </div>
+                </div>
 
-              <div className="login-field">
-                <label>PASSWORD <span className="asterisk">*</span></label>
-                <div className="password-wrap">
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Enter your Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="eye-btn"
-                  >
-                    {showPassword ? <EyeOff size={18} color="#9CA3AF" /> : <Eye size={18} color="#9CA3AF" />}
+                <div className="login-field">
+                  <label>CONFIRM PASSWORD <span className="asterisk">*</span></label>
+                  <div className="password-wrap">
+                    <input
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      placeholder="Confirm new password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      disabled={isLoading}
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="eye-btn"
+                      disabled={isLoading}
+                    >
+                      {showConfirmPassword ? <EyeOff size={18} color="#9CA3AF" /> : <Eye size={18} color="#9CA3AF" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="submit-wrap" style={{ marginTop: '16px' }}>
+                  <button type="submit" className="submit-btn" style={{ width: '100%', justifyContent: 'center' }} disabled={isLoading}>
+                    {isLoading ? (
+                      <>
+                        RESETTING... <Loader2 className="animate-spin" size={18} />
+                      </>
+                    ) : (
+                      <>
+                        RESET PASSWORD <ArrowRight size={18} />
+                      </>
+                    )}
                   </button>
                 </div>
-                <div className="forgot-link-wrap">
-                  <Link to={ROUTES.forgotPassword} className="forgot-link">Forgot Password?</Link>
+              </form>
+            ) : (
+              <div className="success-message" style={{ textAlign: 'center', padding: '20px 0' }}>
+                <div style={{ width: '60px', height: '60px', background: '#d1fae5', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
                 </div>
+                <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>Password Reset Successful</h3>
+                <p style={{ fontSize: '14px', color: '#6B7280', lineHeight: '1.5' }}>
+                  Your password has been changed successfully. You will be redirected to the login page shortly.
+                </p>
+                <p style={{ fontSize: '14px', color: '#6B7280', marginTop: '16px' }}>
+                  <Link to={ROUTES.login} style={{ color: '#1976D2', textDecoration: 'none', fontWeight: '500' }}>Click here to login now</Link>
+                </p>
               </div>
-
-              <div className="submit-wrap">
-                <button type="submit" className="submit-btn">
-                  LOGIN <ArrowRight size={18} />
-                </button>
-              </div>
-            </form>
-
-            <div className="login-footer">
-              <p>Use one account for every NTI Olympiad. Access all subjects and manage your registrations from one dashboard.</p>
-              <p className="mt-3 text-[#4B5563]">
-                Don't have a school account? <Link to="/register" className="font-semibold text-[#1976D2] hover:underline">Click here to register</Link>
-              </p>
-            </div>
+            )}
 
           </div>
         </div>
@@ -202,7 +227,6 @@ export default function LoginPage({ onSignUp }) {
           min-height: calc(100vh - 64px);
           font-family: 'Inter', sans-serif;
         }
-
         .login-blue-bg {
           position: absolute;
           top: 0;
@@ -212,7 +236,6 @@ export default function LoginPage({ onSignUp }) {
           background: #0f4c9c;
           z-index: 0;
         }
-
         .login-content {
           position: relative;
           z-index: 1;
@@ -222,8 +245,6 @@ export default function LoginPage({ onSignUp }) {
           margin: 0 auto;
           min-height: calc(100vh - 64px);
         }
-
-        /* ── LEFT ── */
         .login-left {
           flex: 0 0 45%;
           padding: 64px 32px 80px 48px;
@@ -231,7 +252,6 @@ export default function LoginPage({ onSignUp }) {
           align-items: flex-start;
           justify-content: flex-end;
         }
-
         .login-visual-panel {
           position: relative;
           width: 100%;
@@ -243,8 +263,6 @@ export default function LoginPage({ onSignUp }) {
           padding-bottom: 20px;
           z-index: 2;
         }
-
-        /* Blobs */
         .blob {
           position: absolute;
           border-radius: 50%;
@@ -256,13 +274,10 @@ export default function LoginPage({ onSignUp }) {
         .blob-1 { top: 15%; left: 15%; width: 160px; height: 160px; background: #60A5FA; }
         .blob-2 { top: 25%; right: 15%; width: 140px; height: 140px; background: #34D399; animation-delay: -2s; }
         .blob-3 { bottom: 25%; left: 25%; width: 180px; height: 180px; background: #818CF8; animation-delay: -4s; }
-
         @keyframes floatBlob {
           0% { transform: translate(0, 0) scale(1); }
           100% { transform: translate(20px, -20px) scale(1.1); }
         }
-
-        /* Visual Container */
         .visual-container {
           position: relative;
           width: 280px;
@@ -272,8 +287,6 @@ export default function LoginPage({ onSignUp }) {
           justify-content: center;
           margin-bottom: 40px;
         }
-
-        /* Center Glass */
         .center-glass {
           width: 130px;
           height: 130px;
@@ -291,8 +304,6 @@ export default function LoginPage({ onSignUp }) {
         .trophy-icon {
           filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.6));
         }
-
-        /* Orbit Items */
         .orbit-item {
           position: absolute;
           display: flex;
@@ -302,36 +313,14 @@ export default function LoginPage({ onSignUp }) {
           box-shadow: 0 10px 25px rgba(0,0,0,0.2);
           animation: floatIcon 6s infinite alternate ease-in-out;
         }
-
-        .item-1 {
-          top: 5%; left: 0%; width: 56px; height: 56px;
-          background: linear-gradient(135deg, #F87171, #DC2626);
-          --rot: -10;
-        }
-        .item-2 {
-          top: 10%; right: 5%; width: 50px; height: 50px;
-          background: linear-gradient(135deg, #34D399, #059669);
-          --rot: 15;
-          animation-delay: -1.5s;
-        }
-        .item-3 {
-          bottom: 10%; left: 5%; width: 64px; height: 64px;
-          background: linear-gradient(135deg, #60A5FA, #2563EB);
-          --rot: -5;
-          animation-delay: -3s;
-        }
-        .item-4 {
-          bottom: 15%; right: 0%; width: 54px; height: 54px;
-          background: linear-gradient(135deg, #FBBF24, #D97706);
-          --rot: 10;
-          animation-delay: -4.5s;
-        }
-
+        .item-1 { top: 5%; left: 0%; width: 56px; height: 56px; background: linear-gradient(135deg, #F87171, #DC2626); --rot: -10; }
+        .item-2 { top: 10%; right: 5%; width: 50px; height: 50px; background: linear-gradient(135deg, #34D399, #059669); --rot: 15; animation-delay: -1.5s; }
+        .item-3 { bottom: 10%; left: 5%; width: 64px; height: 64px; background: linear-gradient(135deg, #60A5FA, #2563EB); --rot: -5; animation-delay: -3s; }
+        .item-4 { bottom: 15%; right: 0%; width: 54px; height: 54px; background: linear-gradient(135deg, #FBBF24, #D97706); --rot: 10; animation-delay: -4.5s; }
         @keyframes floatIcon {
           0% { transform: translateY(0px) rotate(calc(var(--rot) * 1deg)); }
           100% { transform: translateY(-15px) rotate(calc(var(--rot) * 1deg + 5deg)); }
         }
-
         .visual-text {
           text-align: center;
           color: #fff;
@@ -353,8 +342,6 @@ export default function LoginPage({ onSignUp }) {
           max-width: 340px;
           margin: 0 auto;
         }
-
-        /* ── RIGHT ── */
         .login-right {
           flex: 1;
           display: flex;
@@ -362,7 +349,6 @@ export default function LoginPage({ onSignUp }) {
           justify-content: flex-start;
           padding: 64px 48px;
         }
-
         .login-card {
           width: 100%;
           max-width: 560px;
@@ -372,14 +358,12 @@ export default function LoginPage({ onSignUp }) {
           box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
           border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         .login-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
           margin-bottom: 32px;
         }
-
         .login-brand-left {
           display: flex;
           flex-direction: column;
@@ -390,19 +374,16 @@ export default function LoginPage({ onSignUp }) {
           color: #1F2937;
           line-height: 1.3;
         }
-
         .login-brand-right {
           display: flex;
           flex-direction: column;
           align-items: center;
         }
-
         .login-circles {
           display: flex;
           gap: 6px;
           margin-bottom: 6px;
         }
-
         .circle {
           width: 28px;
           height: 28px;
@@ -415,7 +396,6 @@ export default function LoginPage({ onSignUp }) {
         .circle-green { background-color: #4CAF50; }
         .circle-blue { background-color: #2196F3; }
         .circle-yellow { background-color: #FF9800; }
-
         .login-logo-text {
           font-family: 'Montserrat', 'Inter', sans-serif;
           font-size: 13px;
@@ -423,50 +403,10 @@ export default function LoginPage({ onSignUp }) {
           color: #1F2937;
           letter-spacing: 0.5px;
         }
-
-        .login-tabs {
-          display: flex;
-          background: #F3F4F6;
-          border-radius: 8px;
-          overflow: hidden;
-          margin-bottom: 40px;
-        }
-
-        .login-tab {
-          flex: 1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          padding: 12px 0;
-          font-size: 14px;
-          font-weight: 600;
-          border: none;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .login-tab.active {
-          background: #1976D2;
-          color: #fff;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .login-tab.inactive {
-          background: transparent;
-          color: #6B7280;
-        }
-
-        .login-tab.inactive:hover {
-          background: #E5E7EB;
-          color: #374151;
-        }
-
         .login-center-title {
           text-align: center;
           margin-bottom: 32px;
         }
-
         .login-center-title h2 {
           font-size: 32px;
           font-weight: 400;
@@ -474,47 +414,38 @@ export default function LoginPage({ onSignUp }) {
           margin: 0 0 12px 0;
           letter-spacing: 1px;
         }
-
         .login-center-title p {
           font-size: 14px;
           color: #9CA3AF;
           margin: 0;
         }
-
-        .underline {
-          text-decoration: underline;
-          text-underline-offset: 3px;
-          text-decoration-color: #9CA3AF;
-        }
-
         .login-form {
           display: flex;
           flex-direction: column;
           gap: 24px;
         }
-
         .login-field {
           display: flex;
           flex-direction: column;
           gap: 8px;
         }
-
         .login-field label {
           font-size: 11.5px;
           font-weight: 700;
           color: #4B5563;
           letter-spacing: 0.5px;
         }
-
         .asterisk {
           color: #EF4444;
           margin-left: 2px;
         }
-
+        .password-wrap {
+          position: relative;
+        }
         .login-field input[type="text"],
         .login-field input[type="password"] {
           width: 100%;
-          padding: 12px 14px;
+          padding: 12px 40px 12px 14px;
           font-size: 14px;
           border: 1px solid #D1D5DB;
           border-radius: 6px;
@@ -522,24 +453,13 @@ export default function LoginPage({ onSignUp }) {
           transition: border-color 0.2s, box-shadow 0.2s;
           font-family: 'Inter', sans-serif;
         }
-
         .login-field input::placeholder {
           color: #9CA3AF;
         }
-
         .login-field input:focus {
           border-color: #1976D2;
           box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
         }
-
-        .password-wrap {
-          position: relative;
-        }
-
-        .password-wrap input {
-          padding-right: 40px;
-        }
-
         .eye-btn {
           position: absolute;
           right: 12px;
@@ -552,34 +472,16 @@ export default function LoginPage({ onSignUp }) {
           align-items: center;
           padding: 4px;
         }
-
-        .forgot-link-wrap {
-          text-align: right;
-          margin-top: 4px;
-        }
-
-        .forgot-link {
-          font-size: 12.5px;
-          color: #EF4444;
-          text-decoration: none;
-          font-weight: 500;
-        }
-
-        .forgot-link:hover {
-          text-decoration: underline;
-        }
-
         .submit-wrap {
           display: flex;
           justify-content: flex-end;
           margin-top: 4px;
         }
-
         .submit-btn {
           display: flex;
           align-items: center;
           gap: 8px;
-          padding: 10px 24px;
+          padding: 12px 24px;
           background: #1976D2;
           color: #fff;
           font-size: 14px;
@@ -590,20 +492,11 @@ export default function LoginPage({ onSignUp }) {
           transition: all 0.2s;
           letter-spacing: 0.5px;
         }
-
         .submit-btn:hover {
           background: #1565C0;
           transform: translateY(-1px);
           box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
         }
-
-        .login-footer {
-          margin-top: 32px;
-          font-size: 13px;
-          color: #6B7280;
-          line-height: 1.5;
-        }
-
         @media (max-width: 768px) {
           .login-content {
             flex-direction: column;

@@ -30,7 +30,7 @@ export default function SyllabusClassPage() {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-semibold text-gray-800 mb-3">Page Not Found</h1>
-          <p className="text-gray-500 mb-6">The syllabus page you&apos;re looking for doesn&apos;t exist.</p>
+          <p className="text-gray-500 mb-6">The syllabus page you're looking for doesn't exist.</p>
           <Link to="/syllabus-pyqs" className="text-[#007BFF] hover:underline">
             Browse All Subjects
           </Link>

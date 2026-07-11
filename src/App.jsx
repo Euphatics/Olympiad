@@ -10,6 +10,9 @@ const MarkingScheme = lazy(() => import('./pages/MarkingScheme/MarkingScheme'));
 const Gallery = lazy(() => import('./pages/Gallery/Gallery'));
 const LoginPage = lazy(() => import('./pages/Auth/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/Auth/RegisterPage'));
+const ForgotPasswordPage = lazy(() => import('./pages/Auth/ForgotPasswordPage'));
+const ResetPasswordPage = lazy(() => import('./pages/Auth/ResetPasswordPage'));
+const VerifyEmailPage = lazy(() => import('./pages/Auth/VerifyEmailPage'));
 const SyllabusPYQs = lazy(() => import('./pages/Syllabus/SyllabusPYQs'));
 const SyllabusDetail = lazy(() => import('./pages/Syllabus/SyllabusDetail'));
 const SyllabusClassPage = lazy(() => import('./pages/Syllabus/SyllabusClassPage'));
@@ -22,6 +25,8 @@ const PreviousYearDetailPage = lazy(() => import('./pages/PreviousYear/PreviousY
 const SchoolPanelPage = lazy(() => import('./pages/SchoolPanel/SchoolPanelPage'));
 const ExamDatesPage = lazy(() => import('./pages/ExamDates/ExamDatesPage'));
 const PrepGuidePage = lazy(() => import('./pages/PrepGuide/PrepGuidePage'));
+const AdminDashboardPage = lazy(() => import('./pages/AdminDashboard/AdminDashboardPage'));
+const AdminPaymentsPage = lazy(() => import('./pages/AdminPanel/AdminPaymentsPage'));
 const NotFound = lazy(() => import('./pages/NotFound/NotFound'));
 
 function App() {
@@ -90,8 +95,13 @@ function App() {
           />
         } />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/exam-dates" element={<ExamDatesPage />} />
         <Route path="/prep-guide" element={<PrepGuidePage />} />
+        <Route path="/admin" element={<AdminDashboardPage />} />
+        <Route path="/admin/approvals" element={<AdminPaymentsPage />} />
 
         <Route path="*" element={<NotFound />} />
       </Route>
