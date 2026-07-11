@@ -3,6 +3,7 @@ import { FlaskConical, Cpu, Settings, Calculator, Trophy, BookOpen, ArrowLeft, L
 import { Helmet } from 'react-helmet-async';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ROUTES } from '../../config/routes';
+import { API_BASE_URL } from '../../config/api';
 
 export default function VerifyEmailPage() {
   const [searchParams] = useSearchParams();
@@ -19,8 +20,9 @@ export default function VerifyEmailPage() {
       }
 
       try {
-        const response = await fetch('https://olympiad-backend-ko0e.onrender.com/api/auth/verify-email', {
+        const response = await fetch(`${API_BASE_URL}/api/auth/verify-email`, {
           method: 'POST',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
           },

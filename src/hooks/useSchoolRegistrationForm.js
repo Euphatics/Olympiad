@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../config/api';
 
 export default function useSchoolRegistrationForm() {
   const navigate = useNavigate();
@@ -72,8 +73,9 @@ export default function useSchoolRegistrationForm() {
     
     if (Object.keys(validationErrors).length === 0) {
       try {
-        const response = await fetch('https://olympiad-backend-ko0e.onrender.com/api/auth/register', {
+        const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
           method: 'POST',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
           },

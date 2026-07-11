@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { PageContainer } from '../../components/ui';
 import { SUBJECTS } from '../../config/subjects';
+import { API_BASE_URL } from '../../config/api';
 
 /* ═══════════════════════════════════════════════════════════════
    SCHOOL INFO DISPLAY ITEMS
@@ -459,7 +460,9 @@ export default function SchoolPanelPage() {
     if (!schoolId) return;
     const fetchStudents = async () => {
       try {
-        const res = await fetch(`https://olympiad-backend-ko0e.onrender.com/api/schools/${schoolId}/students`);
+        const res = await fetch(`${API_BASE_URL}/api/schools/${schoolId}/students`, {
+          credentials: 'include',
+        });
         if (res.ok) {
           const data = await res.json();
           if (data.isListLocked !== undefined) setIsListLocked(data.isListLocked);
@@ -546,8 +549,9 @@ export default function SchoolPanelPage() {
       }));
 
     try {
-      const res = await fetch(`https://olympiad-backend-ko0e.onrender.com/api/schools/${schoolId}/students`, {
+      const res = await fetch(`${API_BASE_URL}/api/schools/${schoolId}/students`, {
          method: 'POST',
+         credentials: 'include',
          headers: {'Content-Type': 'application/json'},
          body: JSON.stringify({ subjectSlug: activeSubject, students: currentStudents })
       });

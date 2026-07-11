@@ -3,6 +3,7 @@ import { Eye, EyeOff, LogIn, UserPlus, ArrowRight, FlaskConical, Cpu, Settings, 
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../config/routes';
+import { API_BASE_URL } from '../../config/api';
 
 export default function LoginPage({ onSignUp }) {
   const navigate = useNavigate();
@@ -18,8 +19,9 @@ export default function LoginPage({ onSignUp }) {
     }
 
     try {
-      const response = await fetch('https://olympiad-backend-ko0e.onrender.com/api/auth/login', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },

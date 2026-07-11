@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Upload, CheckCircle2, AlertCircle, CreditCard, Building2 } from 'lucide-react';
+import { API_BASE_URL } from '../../config/api';
 
 export default function PaymentModal({ open, onClose, schoolId, amount, onPaymentSuccess }) {
   const [file, setFile] = useState(null);
@@ -35,8 +36,9 @@ export default function PaymentModal({ open, onClose, schoolId, amount, onPaymen
       const formData = new FormData();
       formData.append('file', file);
 
-      const uploadRes = await fetch('https://olympiad-backend-ko0e.onrender.com/api/upload', {
+      const uploadRes = await fetch(`${API_BASE_URL}/api/upload`, {
         method: 'POST',
+        credentials: 'include',
         body: formData, // No Content-Type header — browser sets it with boundary automatically
       });
 
@@ -49,8 +51,9 @@ export default function PaymentModal({ open, onClose, schoolId, amount, onPaymen
       const paymentProofUrl = uploadData.url;
 
       // Step 2: Create the payment record with the real file URL
-      const res = await fetch(`https://olympiad-backend-ko0e.onrender.com/api/schools/${schoolId}/payment`, {
+      const res = await fetch(`${API_BASE_URL}/api/schools/${schoolId}/payment`, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ paymentProofUrl, amount })
       });

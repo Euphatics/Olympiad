@@ -3,6 +3,7 @@ import { FlaskConical, Cpu, Settings, Calculator, Trophy, BookOpen, ArrowRight, 
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../config/routes';
+import { API_BASE_URL } from '../../config/api';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -21,8 +22,9 @@ export default function ForgotPasswordPage() {
     setErrorMessage('');
 
     try {
-      const response = await fetch('https://olympiad-backend-ko0e.onrender.com/api/auth/forgot-password', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/forgot-password`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },

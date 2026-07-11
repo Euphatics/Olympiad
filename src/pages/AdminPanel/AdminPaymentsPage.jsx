@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CheckCircle, XCircle, Clock, ExternalLink } from 'lucide-react';
+import { API_BASE_URL } from '../../config/api';
 
 export default function AdminPaymentsPage() {
   const [payments, setPayments] = useState([]);
@@ -8,7 +9,9 @@ export default function AdminPaymentsPage() {
 
   const fetchPayments = async () => {
     try {
-      const res = await fetch('https://olympiad-backend-ko0e.onrender.com/api/admin/payments');
+      const res = await fetch(`${API_BASE_URL}/api/admin/payments`, {
+        credentials: 'include',
+      });
       if (!res.ok) throw new Error('Failed to fetch payments');
       const data = await res.json();
       setPayments(data.payments);
@@ -27,8 +30,9 @@ export default function AdminPaymentsPage() {
     if (!window.confirm(`Are you sure you want to mark this payment as ${status}?`)) return;
 
     try {
-      const res = await fetch(`https://olympiad-backend-ko0e.onrender.com/api/admin/payments/${paymentId}/verify`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/payments/${paymentId}/verify`, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status, adminNotes: '' })
       });
