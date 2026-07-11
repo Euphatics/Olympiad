@@ -1,8 +1,7 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
-import PaymentModal from './PaymentModal';
 import {
   School,
   MapPin,
@@ -430,18 +429,11 @@ function ImportModal({ open, onClose, onImport, subjectLabel }) {
    MAIN COMPONENT
    ═══════════════════════════════════════════════════════════════ */
 export default function SchoolPanelPage() {
-  /* ── Logged-in user (from localStorage) ──────────────────── */
-  const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
-  const schoolId = storedUser.id || 1; // Fallback to 1 for dev/testing if not logged in
-
   /* ── Active subject tab ─────────────────────────────────── */
   const [activeSubject, setActiveSubject] = useState(SUBJECT_TABS[0].key);
 
   /* ── Import modal state ─────────────────────────────────── */
   const [importOpen, setImportOpen] = useState(false);
-  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
-  const [isListLocked, setIsListLocked] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState('none'); // 'none' | 'pending' | 'verified'
 
   /* ── Student rows (per subject) ─────────────────────────── */
   const [studentsBySubject, setStudentsBySubject] = useState(() => {
@@ -454,37 +446,6 @@ export default function SchoolPanelPage() {
     });
     return init;
   });
-
-  useEffect(() => {
-    if (!schoolId) return;
-    const fetchStudents = async () => {
-      try {
-        const res = await fetch(`https://olympiad-backend-ko0e.onrender.com/api/schools/${schoolId}/students`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.isListLocked !== undefined) setIsListLocked(data.isListLocked);
-          
-          if (data.students && data.students.length > 0) {
-            const grouped = {};
-            data.students.forEach(s => {
-              if (!grouped[s.subjectSlug]) grouped[s.subjectSlug] = [];
-              grouped[s.subjectSlug].push({
-                id: String(s.id),
-                srNo: String(s.srNo),
-                standard: s.standard || '',
-                studentName: s.studentName || '',
-                contactNumber: s.fatherName || ''
-              });
-            });
-            setStudentsBySubject(prev => ({ ...prev, ...grouped }));
-          }
-        }
-      } catch (err) {
-        console.error("Failed to fetch students", err);
-      }
-    };
-    fetchStudents();
-  }, []);
 
   const students = studentsBySubject[activeSubject] || [];
 
@@ -533,33 +494,9 @@ export default function SchoolPanelPage() {
     });
   }, [activeSubject]);
 
-  const handleSave = async () => {
-    if (isListLocked) return alert("List is locked!");
-    
-    const currentStudents = studentsBySubject[activeSubject]
-      .filter(s => s.studentName.trim())
-      .map((s, idx) => ({
-        srNo: idx + 1,
-        standard: s.standard,
-        studentName: s.studentName,
-        fatherName: s.contactNumber || ''
-      }));
-
-    try {
-      const res = await fetch(`https://olympiad-backend-ko0e.onrender.com/api/schools/${schoolId}/students`, {
-         method: 'POST',
-         headers: {'Content-Type': 'application/json'},
-         body: JSON.stringify({ subjectSlug: activeSubject, students: currentStudents })
-      });
-      if (res.ok) {
-         alert(`Saved ${currentStudents.length} students for ${activeTab?.label}!`);
-      } else {
-         alert('Failed to save students');
-      }
-    } catch(err) {
-      console.error(err);
-      alert('Error saving students');
-    }
+  const handleSave = () => {
+    // TODO: wire to backend
+    console.log('Saving registration:', { studentsBySubject });
   };
 
   const activeTab = SUBJECT_TABS.find((t) => t.key === activeSubject);
@@ -574,7 +511,6 @@ export default function SchoolPanelPage() {
   ).length;
 
   const totalFee = totalStudents * 150; // Assuming ₹150 per student
-  const isEditingDisabled = isListLocked || paymentStatus === 'pending' || paymentStatus === 'verified';
 
   return (
     <>
@@ -716,7 +652,7 @@ export default function SchoolPanelPage() {
             <div className="bg-white rounded-sm border p-5 flex items-center gap-4 transition-shadow hover:shadow-md" style={{ borderColor: BORDER_COL }}>
               <User size={26} style={{ color: '#6B7280' }} strokeWidth={1.5} className="flex-shrink-0" />
               <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Total Students Opted</p>
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Total Students</p>
                 <p className="text-2xl font-extrabold text-gray-900 leading-none">{totalStudents}</p>
               </div>
             </div>
@@ -732,18 +668,10 @@ export default function SchoolPanelPage() {
 
             {/* Stat Card 3 */}
             <div className="bg-white rounded-sm border p-5 flex items-center gap-4 transition-shadow hover:shadow-md" style={{ borderColor: BORDER_COL }}>
-              {isListLocked ? (
-                <CheckCircle2 size={26} style={{ color: '#10B981' }} strokeWidth={1.5} className="flex-shrink-0" />
-              ) : (
-                <AlertCircle size={26} style={{ color: '#F59E0B' }} strokeWidth={1.5} className="flex-shrink-0" />
-              )}
+              <AlertCircle size={26} style={{ color: '#6B7280' }} strokeWidth={1.5} className="flex-shrink-0" />
               <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">
-                  {isListLocked ? "Verification Status" : "Pending Fee"}
-                </p>
-                <p className={`text-2xl font-extrabold leading-none ${isListLocked ? 'text-emerald-600' : 'text-gray-900'}`}>
-                  {isListLocked ? "Verified" : `₹${totalFee.toLocaleString('en-IN')}`}
-                </p>
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Pending Fee</p>
+                <p className="text-2xl font-extrabold text-gray-900 leading-none">₹{totalFee.toLocaleString('en-IN')}</p>
               </div>
             </div>
 
@@ -894,35 +822,31 @@ export default function SchoolPanelPage() {
             </div>
 
             <div className="flex gap-2">
-              {!isEditingDisabled && (
-                <>
-                  <button
-                    id="btn-import-csv"
-                    onClick={() => setImportOpen(true)}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 text-[13px] font-medium
-                      bg-white border rounded-md transition-all duration-200
-                      text-gray-600 hover:border-[#007BFF] hover:text-[#007BFF] hover:shadow-sm
-                      active:scale-[0.97]"
-                    style={{ borderColor: BORDER_COL }}
-                  >
-                    <Upload size={15} strokeWidth={2} />
-                    Import File
-                  </button>
-                  <button
-                    id="btn-add-row"
-                    onClick={addRow}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 text-[13px] font-medium
-                      text-white rounded-md transition-all duration-200
-                      hover:shadow-md active:scale-[0.97]"
-                    style={{ background: PRIMARY_BLUE }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = HOVER_BLUE)}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = PRIMARY_BLUE)}
-                  >
-                    <Plus size={15} strokeWidth={2.5} />
-                    Add Row
-                  </button>
-                </>
-              )}
+              <button
+                id="btn-import-csv"
+                onClick={() => setImportOpen(true)}
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-[13px] font-medium
+                  bg-white border rounded-md transition-all duration-200
+                  text-gray-600 hover:border-[#007BFF] hover:text-[#007BFF] hover:shadow-sm
+                  active:scale-[0.97]"
+                style={{ borderColor: BORDER_COL }}
+              >
+                <Upload size={15} strokeWidth={2} />
+                Import File
+              </button>
+              <button
+                id="btn-add-row"
+                onClick={addRow}
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-[13px] font-medium
+                  text-white rounded-md transition-all duration-200
+                  hover:shadow-md active:scale-[0.97]"
+                style={{ background: PRIMARY_BLUE }}
+                onMouseEnter={(e) => (e.currentTarget.style.background = HOVER_BLUE)}
+                onMouseLeave={(e) => (e.currentTarget.style.background = PRIMARY_BLUE)}
+              >
+                <Plus size={15} strokeWidth={2.5} />
+                Add Row
+              </button>
             </div>
           </div>
 
@@ -971,12 +895,11 @@ export default function SchoolPanelPage() {
                   {/* Standard / Class */}
                   <div className="py-1">
                     <select
-                      disabled={isEditingDisabled}
                       value={row.standard}
                       onChange={(e) => updateStudent(row.id, 'standard', e.target.value)}
-                      className={`w-full px-2 py-2 text-[13px] bg-transparent border-0 border-b border-transparent
-                        outline-none text-gray-700 transition-colors appearance-none
-                        ${isEditingDisabled ? 'cursor-not-allowed opacity-70' : 'focus:border-[#007BFF] focus:ring-0 cursor-pointer hover:border-gray-300'}`}
+                      className="w-full px-2 py-2 text-[13px] bg-transparent border-0 border-b border-transparent
+                        focus:border-[#007BFF] focus:ring-0 outline-none text-gray-700 cursor-pointer
+                        hover:border-gray-300 transition-colors appearance-none"
                     >
                       <option value="">Select</option>
                       {Array.from({ length: 10 }, (_, i) => (
@@ -990,43 +913,39 @@ export default function SchoolPanelPage() {
                   {/* Student Name */}
                   <div className="py-1 pr-3">
                     <input
-                      disabled={isEditingDisabled}
                       type="text"
                       value={row.studentName}
                       onChange={(e) => updateStudent(row.id, 'studentName', e.target.value)}
                       placeholder="Enter student name"
-                      className={`w-full px-2 py-2 text-[13px] bg-transparent border-0 border-b border-transparent
-                        outline-none text-gray-800 placeholder:text-gray-300 transition-colors
-                        ${isEditingDisabled ? 'cursor-not-allowed opacity-70' : 'focus:border-[#007BFF] focus:ring-0 hover:border-gray-300'}`}
+                      className="w-full px-2 py-2 text-[13px] bg-transparent border-0 border-b border-transparent
+                        focus:border-[#007BFF] focus:ring-0 outline-none text-gray-800
+                        placeholder:text-gray-300 hover:border-gray-300 transition-colors"
                     />
                   </div>
 
                   {/* Contact */}
                   <div className="py-1">
                     <input
-                      disabled={isEditingDisabled}
                       type="tel"
                       value={row.contactNumber}
                       onChange={(e) => updateStudent(row.id, 'contactNumber', e.target.value)}
                       placeholder="+91 XXXXX XXXXX"
-                      className={`w-full px-2 py-2 text-[13px] bg-transparent border-0 border-b border-transparent
-                        outline-none text-gray-800 placeholder:text-gray-300 transition-colors
-                        ${isEditingDisabled ? 'cursor-not-allowed opacity-70' : 'focus:border-[#007BFF] focus:ring-0 hover:border-gray-300'}`}
+                      className="w-full px-2 py-2 text-[13px] bg-transparent border-0 border-b border-transparent
+                        focus:border-[#007BFF] focus:ring-0 outline-none text-gray-800
+                        placeholder:text-gray-300 hover:border-gray-300 transition-colors"
                     />
                   </div>
 
                   {/* Delete */}
                   <div className="flex justify-center">
-                    {!isEditingDisabled && (
-                      <button
-                        onClick={() => removeRow(row.id)}
-                        className="p-1.5 rounded-md text-gray-300 opacity-0 group-hover:opacity-100
-                          hover:text-red-500 hover:bg-red-50 transition-all duration-200"
-                        aria-label={`Remove row ${row.srNo}`}
-                      >
-                        <Trash2 size={14} strokeWidth={2} />
-                      </button>
-                    )}
+                    <button
+                      onClick={() => removeRow(row.id)}
+                      className="p-1.5 rounded-md text-gray-300 opacity-0 group-hover:opacity-100
+                        hover:text-red-500 hover:bg-red-50 transition-all duration-200"
+                      aria-label={`Remove row ${row.srNo}`}
+                    >
+                      <Trash2 size={14} strokeWidth={2} />
+                    </button>
                   </div>
                 </div>
               ))}
@@ -1059,47 +978,32 @@ export default function SchoolPanelPage() {
             </p>
 
             <div className="flex gap-3">
-              {isListLocked ? (
-                <div className="px-5 py-2.5 bg-emerald-100 text-emerald-800 rounded-md text-[13px] font-bold flex items-center gap-2">
-                  <CheckCircle2 size={16} /> Verified & Locked
-                </div>
-              ) : paymentStatus === 'pending' ? (
-                <>
-                  <button
-                    id="btn-save"
-                    onClick={handleSave}
-                    className="inline-flex items-center justify-center gap-1.5 px-8 py-3 text-[14px] font-semibold text-white rounded-md transition-all duration-200 hover:shadow-lg active:scale-[0.97]"
-                    style={{ background: PRIMARY_BLUE }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = HOVER_BLUE)}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = PRIMARY_BLUE)}
-                  >
-                    <Save size={16} strokeWidth={2} /> Save Registration
-                  </button>
-                  <div className="px-5 py-2.5 bg-amber-50 text-amber-800 border border-amber-200 rounded-md text-[13px] font-bold flex items-center gap-2">
-                    <AlertCircle size={16} /> Payment Submitted — Pending Verification
-                  </div>
-                </>
-              ) : (
-                <>
-                  <button
-                    id="btn-save"
-                    onClick={handleSave}
-                    className="inline-flex items-center justify-center gap-1.5 px-8 py-3 text-[14px] font-semibold text-white rounded-md transition-all duration-200 hover:shadow-lg active:scale-[0.97]"
-                    style={{ background: PRIMARY_BLUE }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = HOVER_BLUE)}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = PRIMARY_BLUE)}
-                  >
-                    <Save size={16} strokeWidth={2} /> Save Registration
-                  </button>
-                  <button
-                    onClick={() => setPaymentModalOpen(true)}
-                    disabled={totalFee === 0}
-                    className="inline-flex items-center gap-1.5 px-6 py-2.5 text-[13px] font-semibold text-white rounded-md bg-emerald-600 hover:bg-emerald-700 transition-all duration-200 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Proceed to Payment (₹{totalFee})
-                  </button>
-                </>
-              )}
+              <button
+                id="btn-download"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 text-[13px] font-medium
+                  bg-white border rounded-md transition-all duration-200
+                  text-gray-600 hover:border-gray-400 hover:text-gray-800 hover:shadow-sm"
+                style={{ borderColor: BORDER_COL }}
+              >
+                <Download size={15} strokeWidth={2} />
+                Download
+              </button>
+              <button
+                id="btn-save"
+                onClick={handleSave}
+                className="inline-flex items-center gap-1.5 px-6 py-2.5 text-[13px] font-semibold
+                  text-white rounded-md transition-all duration-200
+                  hover:shadow-lg active:scale-[0.97]"
+                style={{
+                  background: '#1E3A8A',
+                  boxShadow: '0 2px 8px rgba(30,58,138,0.20)',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.background = '#172554')}
+                onMouseLeave={(e) => (e.currentTarget.style.background = '#1E3A8A')}
+              >
+                <Save size={15} strokeWidth={2} />
+                Save Registration
+              </button>
             </div>
           </div>
 
@@ -1119,14 +1023,6 @@ export default function SchoolPanelPage() {
         onClose={() => setImportOpen(false)}
         onImport={importRows}
         subjectLabel={activeTab?.label}
-      />
-
-      <PaymentModal 
-        open={paymentModalOpen} 
-        onClose={() => setPaymentModalOpen(false)} 
-        schoolId={schoolId} 
-        amount={totalFee} 
-        onPaymentSuccess={() => setPaymentStatus('pending')} 
       />
     </>
   );

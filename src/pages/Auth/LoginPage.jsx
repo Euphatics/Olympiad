@@ -1,47 +1,16 @@
 import { useState } from 'react';
 import { Eye, EyeOff, LogIn, UserPlus, ArrowRight, FlaskConical, Cpu, Settings, Calculator, Trophy, BookOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { Link, useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../config/routes';
+import { Link } from 'react-router-dom';
 
 export default function LoginPage({ onSignUp }) {
-  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!email.trim() || !password) {
-      alert('Please fill in all fields.');
-      return;
-    }
-
-    try {
-      const response = await fetch('https://olympiad-backend-ko0e.onrender.com/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        // Store user data so SchoolPanel can use the real schoolId
-        if (data.user) {
-          localStorage.setItem('user', JSON.stringify(data.user));
-        }
-        alert('Login successful!');
-        navigate('/school-panel');
-      } else {
-        alert(`Error: ${data.error || 'Login failed'}`);
-      }
-    } catch (error) {
-      console.error('Error during login:', error);
-      alert('Network error. Is the backend server running?');
-    }
+    console.log('Sign in:', { email, password });
   };
 
   return (
@@ -173,7 +142,7 @@ export default function LoginPage({ onSignUp }) {
                   </button>
                 </div>
                 <div className="forgot-link-wrap">
-                  <Link to={ROUTES.forgotPassword} className="forgot-link">Forgot Password?</Link>
+                  <a href="#" className="forgot-link">Forgot Password?</a>
                 </div>
               </div>
 
@@ -338,7 +307,7 @@ export default function LoginPage({ onSignUp }) {
           z-index: 10;
         }
         .visual-text h2 {
-          font-family: 'Lora', serif;
+          font-family: 'Poppins', sans-serif;
           font-size: 32px;
           font-weight: 800;
           letter-spacing: 1px;

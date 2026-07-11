@@ -1,27 +1,14 @@
-import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { Breadcrumb, SectionHeading } from '../../components/ui';
+import { Breadcrumb, PageContainer, SectionHeading } from '../../components/ui';
 import { 
   Calendar, 
   Info, 
   ArrowRight, 
-  GraduationCap
+  GraduationCap 
 } from 'lucide-react';
 
-const mockDates = [
-  { id: 1, section: 'Academic Session Window', description: 'Exam Window', date_value: 'Dec 2025 - Feb 2026' },
-  { id: 2, section: 'Registration', description: 'Registration Deadline', date_value: 'November 15, 2025' },
-  { id: 3, section: 'Result', description: 'Result Declaration', date_value: 'March 2026' }
-];
-
 export default function ExamDatesPage() {
-  const [dates] = useState(mockDates);
-
-  const getSectionValue = (sectionName) => {
-    return dates.find(d => d.section === sectionName)?.date_value || 'To be announced';
-  };
-
   return (
     <div className="min-h-screen bg-white pb-24 font-sans text-slate-800 text-left">
       <Helmet>
@@ -35,91 +22,76 @@ export default function ExamDatesPage() {
         { label: 'Official Schedule' }
       ]} />
 
-      <div className="w-[92%] md:w-[85%] lg:w-[78%] max-w-[1200px] mx-auto py-10 lg:py-14">
+      <PageContainer className="py-8">
         {/* Header Block */}
-        <div className="w-full border-b-2 border-gray-200 pb-5 mb-8">
-          <SectionHeading level="h1" className="font-normal text-gray-900 !text-3xl lg:!text-[34px]">
+        <div className="w-full border-b-2 border-gray-300 pb-4 mb-6">
+          <SectionHeading level="h1" className="font-normal text-gray-900">
             Official Examination Schedule
           </SectionHeading>
         </div>
 
-        <p className="text-[15px] text-gray-600 leading-relaxed mb-10">
+        <p className="text-[15px] text-gray-600 leading-relaxed max-w-4xl mb-8">
           The NTI Olympiad is administered on a national scale. Please review the official examination timeframe and essential directives provided below.
         </p>
 
-        <div className="border border-gray-200 bg-white shadow-sm divide-y divide-gray-200 rounded-xl w-full">
+        {/* Unified Container: Left-aligned, no rounded corners, divided sections */}
+        <div className="border-2 border-gray-300 bg-white shadow-sm divide-y-2 divide-gray-300 rounded-none max-w-4xl">
           
           {/* Section 1: Academic Session Window */}
-          <div className="p-8 lg:p-10">
-            <div className="flex items-center gap-2.5 mb-6">
-              <Calendar className="text-gray-500" size={20} />
-              <h2 className="text-lg font-bold text-gray-900 uppercase tracking-wider">
+          <div className="p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Calendar className="text-gray-500" size={18} />
+              <h2 className="text-[16px] font-bold text-gray-900 uppercase tracking-wider">
                 Academic Session Window
               </h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-              <div>
-                <p className="text-[11px] text-gray-400 font-bold uppercase tracking-wider mb-1.5">Examination Period</p>
-                <p className="text-2xl lg:text-3xl font-bold text-[#1E3A8A]">{getSectionValue('Academic Session Window')}</p>
-                <p className="text-sm text-gray-400 mt-3 font-medium">Applicable for all registered schools and independent candidates.</p>
+            <div className="flex flex-col md:flex-row gap-6 items-start justify-between">
+              <div className="flex-1">
+                <p className="text-[11px] text-gray-400 font-bold uppercase tracking-wider mb-1">Examination Period</p>
+                <p className="text-2xl font-bold text-[#1E3A8A]">December 2025 – February 2026</p>
+                <p className="text-xs text-gray-400 mt-2 font-medium">Applicable for all registered schools and independent candidates.</p>
               </div>
 
-              <div className="bg-amber-50/50 border-l-4 border-amber-500 p-5 rounded-r-lg w-full">
-                <div className="flex items-center gap-2 mb-2">
-                  <Info className="text-amber-600" size={16} />
-                  <p className="text-[13px] font-bold text-amber-800 uppercase tracking-wider">Provisional Notice</p>
+              <div className="bg-amber-50/50 border-l-4 border-amber-500 p-4 rounded-none w-full md:w-[380px] flex-shrink-0">
+                <div className="flex items-center gap-1.5 mb-1.5">
+                  <Info className="text-amber-600" size={14} />
+                  <p className="text-xs font-bold text-amber-800 uppercase tracking-wider">Provisional Notice</p>
                 </div>
-                <p className="text-sm text-amber-800/90 leading-relaxed font-normal">
+                <p className="text-[13px] text-amber-800/90 leading-relaxed font-normal">
                   These dates are tentative and subject to administrative revision. Final confirmed examination schedules will be issued directly to all registered participants.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Section 2: Detailed Timeline */}
-          <div className="p-8 lg:p-10 bg-gray-50">
-             <h3 className="text-lg font-bold text-gray-900 uppercase tracking-wider mb-6 border-b pb-4">Detailed Timeline</h3>
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {dates.filter(d => d.section !== 'Academic Session Window' && d.section !== 'Registration').map(item => (
-                  <div key={item.id} className="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
-                    <p className="text-[11px] text-gray-500 font-bold uppercase tracking-wider mb-1">{item.description}</p>
-                    <p className="text-lg font-bold text-[#1E3A8A]">{item.date_value}</p>
-                  </div>
-                ))}
-             </div>
-          </div>
-
-          {/* Section 3: Enrollment & Registration */}
-          <div className="p-8 lg:p-10">
-            <div className="flex items-center gap-2.5 mb-6">
-              <GraduationCap className="text-gray-500" size={22} />
-              <h2 className="text-lg font-bold text-gray-900 uppercase tracking-wider">
+          {/* Section 2: Enrollment & Registration */}
+          <div className="p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <GraduationCap className="text-gray-500" size={20} />
+              <h2 className="text-[16px] font-bold text-gray-900 uppercase tracking-wider">
                 Enrollment & Registration
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 items-center">
-              <div>
-                <p className="text-[15px] text-gray-600 leading-relaxed font-normal mb-2">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div className="flex-1">
+                <p className="text-[14px] text-gray-600 leading-relaxed font-normal">
                   Applications are currently being accepted for the upcoming cycle. We encourage institutional representatives and independent candidates to complete their registration prior to the final deadline to ensure participation.
-                </p>
-                <p className="text-sm font-semibold text-red-600 bg-red-50 inline-block px-3 py-1.5 rounded-md border border-red-100">
-                  Deadline: {getSectionValue('Registration')}
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-3 w-full md:w-auto">
+              <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto flex-shrink-0">
                 <Link
                   to="/register"
-                  className="px-6 py-3 bg-[#1E3A8A] text-white font-medium hover:bg-[#172554] transition-colors flex items-center justify-center gap-2 text-[13px] rounded-lg uppercase tracking-wider whitespace-nowrap"
+                  className="px-5 py-2.5 bg-[#1E3A8A] text-white font-medium hover:bg-[#172554] transition-colors flex items-center justify-center gap-2 text-xs rounded-none uppercase tracking-wider"
                 >
                   <span>Begin Registration</span>
                   <ArrowRight size={14} />
                 </Link>
                 <Link
                   to="/contact"
-                  className="px-6 py-3 bg-white text-gray-700 border border-gray-300 font-medium hover:bg-gray-50 transition-colors flex items-center justify-center text-[13px] rounded-lg uppercase tracking-wider whitespace-nowrap"
+                  className="px-5 py-2.5 bg-white text-gray-700 border border-gray-300 font-medium hover:bg-gray-50 transition-colors flex items-center justify-center text-xs rounded-none uppercase tracking-wider"
                 >
                   <span>Official Support</span>
                 </Link>
@@ -128,7 +100,7 @@ export default function ExamDatesPage() {
           </div>
 
         </div>
-      </div>
+      </PageContainer>
     </div>
   );
 }
