@@ -17,8 +17,8 @@
   --color-royal-800: #1E3A8A;
   --color-royal-900: #172554;
 
-  --font-sans: 'Work Sans', system-ui, -apple-system, sans-serif;
-  --font-heading: 'Lora', serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Poppins', sans-serif;
 
   --animate-slide-in: slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   --animate-fade-in: fade-in 0.2s ease-out;
@@ -75,7 +75,7 @@
   h4,
   h5,
   h6 {
-    font-family: 'Lora', serif !important;
+    font-family: 'Poppins', sans-serif !important;
   }
 
   body,
@@ -83,7 +83,7 @@
   textarea,
   select,
   button {
-    font-family: 'Work Sans', sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
   }
 }
 
