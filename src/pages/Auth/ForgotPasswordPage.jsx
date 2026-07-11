@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FlaskConical, Cpu, Settings, Calculator, Trophy, BookOpen, ArrowRight, ArrowLeft } from 'lucide-react';
+import { FlaskConical, Cpu, Settings, Calculator, Trophy, BookOpen, ArrowRight, ArrowLeft, Loader2 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../config/routes';
@@ -7,11 +7,41 @@ import { ROUTES } from '../../config/routes';
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Forgot Password requested for:', { email });
-    setIsSubmitted(true);
+    if (!email.trim()) {
+      alert('Please enter your email.');
+      return;
+    }
+
+    setIsLoading(true);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('https://olympiad-backend-ko0e.onrender.com/api/auth/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      } else {
+        setErrorMessage(data.error || 'Failed to send reset link.');
+      }
+    } catch (error) {
+      console.error('Error during forgot password request:', error);
+      setErrorMessage('Network error. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -91,6 +121,11 @@ export default function ForgotPasswordPage() {
             {/* Form */}
             {!isSubmitted ? (
               <form onSubmit={handleSubmit} className="login-form">
+                {errorMessage && (
+                  <div style={{ color: '#dc2626', backgroundColor: '#fee2e2', padding: '12px', borderRadius: '6px', fontSize: '13px', fontWeight: '500' }}>
+                    {errorMessage}
+                  </div>
+                )}
                 <div className="login-field">
                   <label>EMAIL OR USER ID <span className="asterisk">*</span></label>
                   <input
@@ -98,13 +133,22 @@ export default function ForgotPasswordPage() {
                     placeholder="Enter your Email or Organization User ID"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    disabled={isLoading}
                     required
                   />
                 </div>
 
                 <div className="submit-wrap" style={{ marginTop: '16px' }}>
-                  <button type="submit" className="submit-btn" style={{ width: '100%', justifyContent: 'center' }}>
-                    SEND RESET LINK <ArrowRight size={18} />
+                  <button type="submit" className="submit-btn" style={{ width: '100%', justifyContent: 'center' }} disabled={isLoading}>
+                    {isLoading ? (
+                      <>
+                        SENDING... <Loader2 className="animate-spin" size={18} />
+                      </>
+                    ) : (
+                      <>
+                        SEND RESET LINK <ArrowRight size={18} />
+                      </>
+                    )}
                   </button>
                 </div>
               </form>
