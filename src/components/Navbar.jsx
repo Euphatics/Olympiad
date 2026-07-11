@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
-import { ChevronDown, ChevronRight, X } from 'lucide-react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { ChevronDown, ChevronRight, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SUBJECTS, CLASS_LEVELS as CLASS_LEVELS_CONFIG, OLYMPIAD_CATEGORIES } from '../config/subjects';
 import { ROUTES } from '../config/routes';
@@ -48,13 +48,34 @@ const PREPARATION_ITEMS = ['PYQs', 'Prep Books', 'Prep Guide'];
 export default function Navbar({ onSelect = () => { } }) {
   /* ── State ──────────────────────────────────────────────── */
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeDD, setActiveDD] = useState(null);
+  const [hoveredCat, setHoveredCat] = useState(null);
   const [mobAccordion, setMobAccordion] = useState(null);
   const [mobSubAccordion, setMobSubAccordion] = useState(null);
+
+  const navRef = useRef(null);
+  const closeRef = useRef(null);
+
+  /* ── Click-outside to close desktop dropdown ───────────── */
+  useEffect(() => {
+    const handler = (e) => {
+      if (navRef.current && !navRef.current.contains(e.target)) {
+        setActiveDD(null);
+        setHoveredCat(null);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
 
   /* ── Escape key ────────────────────────────────────────── */
   useEffect(() => {
     const handler = (e) => {
-      if (e.key === 'Escape') setMobileOpen(false);
+      if (e.key === 'Escape') {
+        setActiveDD(null);
+        setHoveredCat(null);
+        setMobileOpen(false);
+      }
     };
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
@@ -69,9 +90,24 @@ export default function Navbar({ onSelect = () => { } }) {
   }, [mobileOpen]);
 
   /* ── Handlers ──────────────────────────────────────────── */
+  const enterDD = useCallback((name) => {
+    clearTimeout(closeRef.current);
+    setActiveDD(name);
+    if (name !== 'olympiads') setHoveredCat(null);
+  }, []);
+
+  const leaveDD = useCallback(() => {
+    closeRef.current = setTimeout(() => {
+      setActiveDD(null);
+      setHoveredCat(null);
+    }, 200);
+  }, []);
+
   const select = useCallback(
     (category, item) => {
       onSelect(category, item);
+      setActiveDD(null);
+      setHoveredCat(null);
       setMobileOpen(false);
       setMobAccordion(null);
       setMobSubAccordion(null);
@@ -93,147 +129,255 @@ export default function Navbar({ onSelect = () => { } }) {
      ═══════════════════════════════════════════════════════════ */
   return (
     <>
-      {/* ─── NAVBAR (Bulma) ──────────────────────────────── */}
+      {/* ─── TOP BAR ──────────────────────────────────────── */}
       <nav
+        ref={navRef}
         id="navbar"
-        className="navbar is-fixed-top nti-navbar"
-        role="navigation"
-        aria-label="main navigation"
+        className="fixed top-0 inset-x-0 z-50 bg-white border-b border-gray-200"
       >
-        {/* ─── BRAND ─── */}
-        <div className="navbar-brand">
-          <Link to="/" className="navbar-item" id="nav-logo" style={{ gap: '0.625rem' }}>
-            <div className="nti-logo-icon">
-              <span>N</span>
-            </div>
-            <span className="nti-logo-text">
-              <span className="nti-brand">NTI</span>
-              <span className="nti-sub">Olympiad</span>
-            </span>
-          </Link>
-
-          {/* Bulma burger – triggers custom mobile drawer */}
-          <a
-            role="button"
-            className={`navbar-burger ${mobileOpen ? 'is-active' : ''}`}
-            aria-label="menu"
-            aria-expanded={mobileOpen}
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </a>
-        </div>
-
-        {/* ─── MENU (visible on desktop >= 1024px) ─── */}
-        <div className="navbar-menu">
-          <div className="navbar-start">
-            {/* ── Olympiads dropdown ── */}
-            <div className="navbar-item has-dropdown is-hoverable" id="nav-olympiads">
-              <a className="navbar-link">Olympiads</a>
-              <div className="navbar-dropdown">
-                {OLYMPIAD_CATEGORIES.map((cat) => (
-                  <div key={cat} className="navbar-item has-dropdown nti-nested-dd">
-                    <a className="navbar-link">{cat}</a>
-                    <div className="navbar-dropdown nti-flyout">
-                      {CLASS_LEVELS.map((cls) => {
-                        const classSlug = toClassSlug(cls);
-                        const subjectSlug = getSubjectSlug(cat);
-                        return (
-                          <Link
-                            key={cls}
-                            to={ROUTES.syllabusClass(subjectSlug, classSlug)}
-                            onClick={() => select(cat, cls)}
-                            className="navbar-item"
-                          >
-                            {cls}
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ── FAQs dropdown ── */}
-            <div className="navbar-item has-dropdown is-hoverable" id="nav-faqs">
-              <a className="navbar-link">FAQs</a>
-              <div className="navbar-dropdown">
-                {FAQ_ITEMS.map((item) => (
-                  <Link
-                    key={item}
-                    to={getFAQItemPath(item)}
-                    onClick={() => select('FAQs', item)}
-                    className="navbar-item"
-                  >
-                    {item}
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* ── Preparations dropdown ── */}
-            <div className="navbar-item has-dropdown is-hoverable" id="nav-preparations">
-              <a className="navbar-link">Preparations</a>
-              <div className="navbar-dropdown">
-                {PREPARATION_ITEMS.map((item) => (
-                  <Link
-                    key={item}
-                    to={item === 'PYQs' ? ROUTES.previousYear : item === 'Prep Guide' ? ROUTES.prepGuide : '#'}
-                    onClick={(e) => {
-                      if (item !== 'PYQs' && item !== 'Prep Guide') e.preventDefault();
-                      select('Preparations', item);
-                    }}
-                    className="navbar-item"
-                  >
-                    {item}
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* ── Gallery ── */}
+        <div className="w-full px-6 sm:px-10 lg:px-16">
+          <div className="flex items-center justify-between h-16 lg:h-[68px]">
+            {/* ─── LOGO ─── */}
             <Link
-              id="nav-gallery"
-              to="/gallery"
-              onClick={() => select('Gallery', 'Gallery')}
-              className="navbar-item"
+              to="/"
+              id="nav-logo"
+              className="flex items-center gap-2.5 select-none"
             >
-              Gallery
-            </Link>
-          </div>
-
-          {/* ── Auth buttons ── */}
-          <div className="navbar-end">
-            <div className="navbar-item">
-              <div className="buttons">
-                <Link
-                  id="btn-login-desktop"
-                  to="/login"
-                  onClick={() => select('Login', 'Login')}
-                  className="button nti-btn-login"
-                >
-                  Log In
-                </Link>
-                <Link
-                  id="btn-register-desktop"
-                  to="/register"
-                  onClick={() => select('Register', 'Register')}
-                  className="button nti-btn-register"
-                >
-                  Register
-                </Link>
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-royal-700 to-royal-800 flex items-center justify-center">
+                <span className="text-white font-bold text-sm">N</span>
               </div>
+              <span className="text-lg font-bold tracking-tight">
+                <span className="text-royal-800">NTI</span>
+                <span className="text-gray-500 font-semibold ml-1">
+                  Olympiad
+                </span>
+              </span>
+            </Link>
+
+            {/* ─── DESKTOP NAV ─── */}
+            <div className="hidden lg:flex items-center gap-8">
+              {/* Olympiads */}
+              <div
+                className="relative"
+                onMouseEnter={() => enterDD('olympiads')}
+                onMouseLeave={leaveDD}
+              >
+                <button
+                  id="nav-olympiads"
+                  onClick={() =>
+                    setActiveDD((p) => (p === 'olympiads' ? null : 'olympiads'))
+                  }
+                  className={`flex items-center gap-1.5 py-2 text-sm font-medium transition-colors duration-200 ${activeDD === 'olympiads'
+                    ? 'text-royal-800'
+                    : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                >
+                  Olympiads
+                  <ChevronDown
+                    size={15}
+                    strokeWidth={2.5}
+                    className={`transition-transform duration-200 ${activeDD === 'olympiads' ? 'rotate-180' : ''
+                      }`}
+                  />
+                </button>
+
+                {/* Olympiad Dropdown Panel */}
+                <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50 transition-all duration-200 origin-top ${activeDD === 'olympiads' ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'
+                  }`}>
+                  <div className="bg-white rounded-xl border border-gray-200/80 shadow-xl shadow-gray-900/8 py-1.5 min-w-[280px]">
+                    {/* Royal accent bar */}
+                    <div className="h-[2.5px] bg-gradient-to-r from-royal-600 to-royal-800 mx-3 rounded-full mb-1.5" />
+
+                    {OLYMPIAD_CATEGORIES.map((cat) => (
+                      <div
+                        key={cat}
+                        className="relative"
+                        onMouseEnter={() => setHoveredCat(cat)}
+                      >
+                        <button
+                          className={`w-full flex items-center justify-between px-4 py-2.5 text-[13px] font-medium transition-colors duration-150 ${hoveredCat === cat
+                            ? 'bg-royal-50 text-royal-800'
+                            : 'text-gray-600 hover:bg-gray-50'
+                            }`}
+                        >
+                          <span>{cat}</span>
+                          <ChevronRight
+                            size={14}
+                            strokeWidth={2.5}
+                            className={`transition-colors duration-150 ${hoveredCat === cat
+                              ? 'text-royal-600'
+                              : 'text-gray-300'
+                              }`}
+                          />
+                        </button>
+
+                        {/* Class-level flyout */}
+                        <div className={`absolute left-full top-0 ml-1.5 z-50 transition-all duration-200 origin-left ${hoveredCat === cat ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'
+                          }`}>
+                          <div className="bg-white rounded-xl border border-gray-200/80 shadow-xl shadow-gray-900/8 py-1.5 min-w-[180px] max-h-[380px] overflow-y-auto custom-scroll">
+                            {CLASS_LEVELS.map((cls) => {
+                              const classSlug = toClassSlug(cls);
+                              const subjectSlug = getSubjectSlug(cat);
+                              return (
+                                <Link
+                                  key={cls}
+                                  to={ROUTES.syllabusClass(subjectSlug, classSlug)}
+                                  onClick={() => {
+                                    select(cat, cls);
+                                  }}
+                                  className="w-full text-left px-4 py-2 text-[13px] text-gray-600 font-medium hover:bg-royal-50 hover:text-royal-800 transition-colors duration-150 block"
+                                >
+                                  {cls}
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* FAQs */}
+              <div
+                className="relative"
+                onMouseEnter={() => enterDD('faqs')}
+                onMouseLeave={leaveDD}
+              >
+                <button
+                  id="nav-faqs"
+                  onClick={() =>
+                    setActiveDD((p) => (p === 'faqs' ? null : 'faqs'))
+                  }
+                  className={`flex items-center gap-1.5 py-2 text-sm font-medium transition-colors duration-200 ${activeDD === 'faqs'
+                    ? 'text-royal-800'
+                    : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                >
+                  FAQs
+                  <ChevronDown
+                    size={15}
+                    strokeWidth={2.5}
+                    className={`transition-transform duration-200 ${activeDD === 'faqs' ? 'rotate-180' : ''
+                      }`}
+                  />
+                </button>
+
+                <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50 transition-all duration-200 origin-top ${activeDD === 'faqs' ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'
+                  }`}>
+                  <div className="bg-white rounded-xl border border-gray-200/80 shadow-xl shadow-gray-900/8 py-1.5 min-w-[230px]">
+                    <div className="h-[2.5px] bg-gradient-to-r from-royal-600 to-royal-800 mx-3 rounded-full mb-1.5" />
+                    {FAQ_ITEMS.map((item) => (
+                      <Link
+                        key={item}
+                        to={getFAQItemPath(item)}
+                        onClick={() => select('FAQs', item)}
+                        className="w-full text-left px-4 py-2.5 text-[13px] font-medium text-gray-600 hover:bg-royal-50 hover:text-royal-800 transition-colors duration-150 block"
+                      >
+                        {item}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Preparations */}
+              <div
+                className="relative"
+                onMouseEnter={() => enterDD('preparations')}
+                onMouseLeave={leaveDD}
+              >
+                <button
+                  id="nav-preparations"
+                  onClick={() =>
+                    setActiveDD((p) =>
+                      p === 'preparations' ? null : 'preparations',
+                    )
+                  }
+                  className={`flex items-center gap-1.5 py-2 text-sm font-medium transition-colors duration-200 ${activeDD === 'preparations'
+                    ? 'text-royal-800'
+                    : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                >
+                  Preparations
+                  <ChevronDown
+                    size={15}
+                    strokeWidth={2.5}
+                    className={`transition-transform duration-200 ${activeDD === 'preparations' ? 'rotate-180' : ''
+                      }`}
+                  />
+                </button>
+
+                <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50 transition-all duration-200 origin-top ${activeDD === 'preparations' ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'
+                  }`}>
+                  <div className="bg-white rounded-xl border border-gray-200/80 shadow-xl shadow-gray-900/8 py-1.5 min-w-[190px]">
+                    <div className="h-[2.5px] bg-gradient-to-r from-royal-600 to-royal-800 mx-3 rounded-full mb-1.5" />
+                    {PREPARATION_ITEMS.map((item) => (
+                      <Link
+                        key={item}
+                        to={item === 'PYQs' ? ROUTES.previousYear : item === 'Prep Guide' ? ROUTES.prepGuide : '#'}
+                        onClick={(e) => {
+                          if (item !== 'PYQs' && item !== 'Prep Guide') e.preventDefault();
+                          select('Preparations', item);
+                        }}
+                        className="w-full text-left px-4 py-2.5 text-[13px] font-medium text-gray-600 hover:bg-royal-50 hover:text-royal-800 transition-colors duration-150 block"
+                      >
+                        {item}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Gallery */}
+              <Link
+                id="nav-gallery"
+                to="/gallery"
+                onClick={() => select('Gallery', 'Gallery')}
+                className="py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200"
+              >
+                Gallery
+              </Link>
+
+
             </div>
+
+            {/* ─── DESKTOP AUTH BUTTONS ─── */}
+            <div className="hidden lg:flex items-center gap-3">
+              <Link
+                id="btn-login-desktop"
+                to="/login"
+                onClick={() => select('Login', 'Login')}
+                className="cursor-pointer px-6 py-2 text-[15px] font-medium text-gray-700 bg-white border border-[#007BFF] rounded-[4px] hover:bg-gray-50 transition-all duration-200 flex items-center justify-center"
+              >
+                Log In
+              </Link>
+              <Link
+                id="btn-register-desktop"
+                to="/register"
+                onClick={() => select('Register', 'Register')}
+                className="cursor-pointer px-6 py-2 text-[15px] font-medium text-white bg-[#007BFF] rounded-[4px] hover:bg-[#0069D9] transition-all duration-200 flex items-center justify-center"
+              >
+                Register
+              </Link>
+            </div>
+
+            {/* ─── MOBILE HAMBURGER ─── */}
+            <button
+              id="btn-mobile-menu"
+              className="lg:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-colors duration-200"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open menu"
+            >
+              <Menu size={24} strokeWidth={2} />
+            </button>
           </div>
         </div>
       </nav>
 
       {/* ═══════════════════════════════════════════════════════
-         MOBILE DRAWER (slide-in panel)
+         MOBILE DRAWER
          ═══════════════════════════════════════════════════════ */}
       {/* Backdrop */}
       <div

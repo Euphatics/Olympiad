@@ -175,7 +175,7 @@ const DecorationSVG = ({ deco, color }) => {
           style={{
             ...style,
             fontWeight: 800,
-            fontFamily: 'Work Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             color: color,
             fontSize: deco.size * 1.1,
             lineHeight: 1,
