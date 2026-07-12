@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, ExternalLink } from 'lucide-react';
+import { Plus, Trash2, ExternalLink, Upload, FileText } from 'lucide-react';
 import { SUBJECTS } from '../../config/subjects';
 import { API_BASE_URL } from '../../config/api';
 
@@ -35,6 +35,7 @@ export default function ResultsTab() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
   
   const [newResult, setNewResult] = useState({
@@ -62,8 +63,49 @@ export default function ResultsTab() {
     fetchResults();
   }, []);
 
+  // Upload PDF to Cloudinary and auto-fill the URL
+  const handleFileUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.type !== 'application/pdf') {
+      alert('Please select a PDF file');
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const res = await fetch(`${API_BASE_URL}/api/upload?folder=olympiad/results`, {
+        method: 'POST',
+        credentials: 'include',
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || 'Failed to upload PDF');
+      }
+
+      const data = await res.json();
+      setNewResult(prev => ({ ...prev, resultUrl: data.url }));
+    } catch (err) {
+      alert(err.message || 'Upload failed');
+    } finally {
+      setUploading(false);
+      // Reset the file input so the same file can be re-selected
+      e.target.value = '';
+    }
+  };
+
   const handleAdd = async (e) => {
     e.preventDefault();
+    if (!newResult.resultUrl) {
+      alert('Please upload a PDF or enter a URL first.');
+      return;
+    }
     setSaving(true);
     try {
       const res = await adminFetch(`${API_BASE_URL}/api/admin/results`, {
@@ -98,7 +140,7 @@ export default function ResultsTab() {
       <div className="bg-white border-b px-8 py-6 flex items-center justify-between text-left" style={{ borderColor: BORDER_COL }}>
         <div>
           <h1 className="text-2xl font-extrabold tracking-tight" style={{ color: HEADING_COL }}>Results</h1>
-          <p className="text-sm mt-1" style={{ color: MUTED_COL }}>Manage links to exam results.</p>
+          <p className="text-sm mt-1" style={{ color: MUTED_COL }}>Upload and manage exam result PDFs. They will appear on the public Results page automatically.</p>
         </div>
       </div>
 
@@ -106,50 +148,92 @@ export default function ResultsTab() {
         {/* Add New Form */}
         <div className="bg-white border rounded-sm shadow-sm p-6 mb-6" style={{ borderColor: BORDER_COL }}>
           <h2 className="text-[14px] font-bold text-gray-900 mb-4 uppercase tracking-wider">Add New Result</h2>
-          <form onSubmit={handleAdd} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
-            <div className="lg:col-span-1">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Subject</label>
-              <select 
-                value={newResult.subjectSlug} 
-                onChange={e => setNewResult({...newResult, subjectSlug: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-300 rounded-sm text-[13px] focus:ring-1 focus:ring-blue-500 outline-none transition-colors"
-              >
-                {SUBJECTS.map(s => <option key={s.slug} value={s.slug}>{s.abbr}</option>)}
-              </select>
+          <form onSubmit={handleAdd} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Subject</label>
+                <select 
+                  value={newResult.subjectSlug} 
+                  onChange={e => setNewResult({...newResult, subjectSlug: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-sm text-[13px] focus:ring-1 focus:ring-blue-500 outline-none transition-colors"
+                >
+                  {SUBJECTS.map(s => <option key={s.slug} value={s.slug}>{s.name} ({s.abbr})</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Class</label>
+                <select 
+                  value={newResult.classSlug} 
+                  onChange={e => setNewResult({...newResult, classSlug: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-sm text-[13px] focus:ring-1 focus:ring-blue-500 outline-none transition-colors"
+                >
+                  {CLASS_LEVELS.map(c => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Year</label>
+                <input 
+                  type="number" 
+                  required
+                  value={newResult.year} 
+                  onChange={e => setNewResult({...newResult, year: parseInt(e.target.value)})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-sm text-[13px] focus:ring-1 focus:ring-blue-500 outline-none transition-colors"
+                />
+              </div>
             </div>
-            <div className="lg:col-span-1">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Class</label>
-              <select 
-                value={newResult.classSlug} 
-                onChange={e => setNewResult({...newResult, classSlug: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-300 rounded-sm text-[13px] focus:ring-1 focus:ring-blue-500 outline-none transition-colors"
-              >
-                {CLASS_LEVELS.map(c => <option key={c.slug} value={c.slug}>{c.name}</option>)}
-              </select>
+
+            {/* Upload PDF or paste URL */}
+            <div>
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Result PDF</label>
+              <div className="flex flex-col sm:flex-row gap-3">
+                {/* Upload button */}
+                <label className={`inline-flex items-center gap-2 px-4 py-2.5 border-2 border-dashed rounded-sm cursor-pointer transition-colors ${uploading ? 'border-blue-300 bg-blue-50 text-blue-600' : 'border-gray-300 hover:border-blue-400 hover:bg-blue-50 text-gray-600 hover:text-blue-600'}`}>
+                  {uploading ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-blue-300 border-t-blue-600 rounded-full animate-spin" />
+                      <span className="text-[13px] font-semibold">Uploading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Upload size={16} strokeWidth={2} />
+                      <span className="text-[13px] font-semibold">Upload PDF</span>
+                    </>
+                  )}
+                  <input 
+                    type="file" 
+                    accept=".pdf,application/pdf" 
+                    onChange={handleFileUpload} 
+                    className="hidden" 
+                    disabled={uploading}
+                  />
+                </label>
+
+                <span className="self-center text-[11px] font-bold text-gray-400 uppercase">or</span>
+
+                {/* URL input */}
+                <input 
+                  type="text" 
+                  placeholder="Paste result URL here..."
+                  value={newResult.resultUrl} 
+                  onChange={e => setNewResult({...newResult, resultUrl: e.target.value})}
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-sm text-[13px] focus:ring-1 focus:ring-blue-500 outline-none transition-colors"
+                />
+              </div>
+
+              {/* Show uploaded file indicator */}
+              {newResult.resultUrl && (
+                <div className="mt-2 flex items-center gap-2 px-3 py-2 bg-emerald-50 border border-emerald-200 rounded-sm">
+                  <FileText size={14} className="text-emerald-600 flex-shrink-0" />
+                  <a href={newResult.resultUrl} target="_blank" rel="noreferrer" className="text-[12px] text-emerald-700 font-medium truncate hover:underline">
+                    {newResult.resultUrl}
+                  </a>
+                </div>
+              )}
             </div>
-            <div className="lg:col-span-1">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Year</label>
-              <input 
-                type="number" 
-                required
-                value={newResult.year} 
-                onChange={e => setNewResult({...newResult, year: parseInt(e.target.value)})}
-                className="w-full px-3 py-2 border border-gray-300 rounded-sm text-[13px] focus:ring-1 focus:ring-blue-500 outline-none transition-colors"
-              />
-            </div>
-            <div className="lg:col-span-1">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Result URL</label>
-              <input 
-                type="text" 
-                required
-                placeholder="https://..."
-                value={newResult.resultUrl} 
-                onChange={e => setNewResult({...newResult, resultUrl: e.target.value})}
-                className="w-full px-3 py-2 border border-gray-300 rounded-sm text-[13px] focus:ring-1 focus:ring-blue-500 outline-none transition-colors"
-              />
-            </div>
-            <div className="lg:col-span-1">
-              <button type="submit" disabled={saving} className="w-full px-4 py-2 bg-[#007BFF] text-white rounded-sm text-[13px] font-bold hover:bg-blue-600 flex items-center justify-center gap-2 transition-colors disabled:opacity-50">
+
+            {/* Submit */}
+            <div className="flex justify-end">
+              <button type="submit" disabled={saving || uploading || !newResult.resultUrl} className="px-5 py-2.5 bg-[#007BFF] text-white rounded-sm text-[13px] font-bold hover:bg-blue-600 flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                 <Plus size={14} strokeWidth={2.5} /> {saving ? 'Adding...' : 'Add Result'}
               </button>
             </div>
@@ -176,7 +260,7 @@ export default function ResultsTab() {
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {results.length === 0 ? (
-                    <tr><td colSpan={5} className="p-8 text-center text-gray-500 text-[13px]">No results found</td></tr>
+                    <tr><td colSpan={5} className="p-8 text-center text-gray-500 text-[13px]">No results found. Upload a result PDF above to get started.</td></tr>
                   ) : results.map(r => (
                     <tr key={r.id} className="hover:bg-gray-50/80 transition-colors">
                       <td className="px-5 py-4 font-bold text-gray-900 text-[13px]">{SUBJECTS.find(s=>s.slug===r.subjectSlug)?.name || r.subjectSlug}</td>

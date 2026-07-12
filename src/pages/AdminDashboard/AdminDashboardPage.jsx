@@ -22,7 +22,6 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../../config/api';
-import SyllabusTab from './SyllabusTab';
 import ResultsTab from './ResultsTab';
 
 const PRIMARY_BLUE = '#007BFF';
@@ -50,7 +49,12 @@ const adminFetch = (url, options = {}) => {
 
 export default function AdminDashboardPage() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState(() => localStorage.getItem('adminActiveTab') || 'overview');
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    localStorage.setItem('adminActiveTab', tab);
+  };
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
@@ -179,7 +183,7 @@ export default function AdminDashboardPage() {
           
           <nav className="flex-1 py-6 px-4 space-y-1.5 overflow-y-auto">
             <button 
-              onClick={() => setActiveTab('overview')}
+              onClick={() => handleTabChange('overview')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-sm text-[13px] font-bold transition-colors ${activeTab === 'overview' ? 'bg-[#EFF6FF] text-[#1D4ED8] border border-blue-100' : 'text-gray-600 hover:bg-gray-50 border border-transparent'}`}
             >
               <Building2 size={16} strokeWidth={2.5} /> Overview
@@ -192,13 +196,7 @@ export default function AdminDashboardPage() {
             </button>
 
             <button 
-              onClick={() => setActiveTab('syllabus')}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-sm text-[13px] font-bold transition-colors ${activeTab === 'syllabus' ? 'bg-[#EFF6FF] text-[#1D4ED8] border border-blue-100' : 'text-gray-600 hover:bg-gray-50 border border-transparent'}`}
-            >
-              <BookOpen size={16} strokeWidth={2.5} /> Syllabus
-            </button>
-            <button 
-              onClick={() => setActiveTab('results')}
+              onClick={() => handleTabChange('results')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-sm text-[13px] font-bold transition-colors ${activeTab === 'results' ? 'bg-[#EFF6FF] text-[#1D4ED8] border border-blue-100' : 'text-gray-600 hover:bg-gray-50 border border-transparent'}`}
             >
               <FileText size={16} strokeWidth={2.5} /> Results
@@ -235,12 +233,11 @@ export default function AdminDashboardPage() {
             {[
               { key: 'overview', label: 'Overview', icon: Building2 },
               { key: 'approvals', label: 'Approvals', icon: CreditCard },
-              { key: 'syllabus', label: 'Syllabus', icon: BookOpen },
               { key: 'results', label: 'Results', icon: FileText },
             ].map(tab => (
               <button
                 key={tab.key}
-                onClick={() => tab.key === 'approvals' ? navigate('/admin/approvals') : setActiveTab(tab.key)}
+                onClick={() => tab.key === 'approvals' ? navigate('/admin/approvals') : handleTabChange(tab.key)}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded text-[11px] font-bold whitespace-nowrap transition-colors ${activeTab === tab.key ? 'bg-[#EFF6FF] text-[#1D4ED8]' : 'text-gray-500'}`}
               >
                 <tab.icon size={13} strokeWidth={2.5} /> {tab.label}
@@ -456,7 +453,6 @@ export default function AdminDashboardPage() {
             </>
           )}
 
-          {activeTab === 'syllabus' && <SyllabusTab />}
           {activeTab === 'results' && <ResultsTab />}
         </main>
       </div>

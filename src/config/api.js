@@ -2,7 +2,9 @@
  * Centralized API configuration.
  * Change API_BASE_URL here instead of hardcoding it in every fetch call.
  */
-export const API_BASE_URL = 'https://olympiad-backend-ko0e.onrender.com';
+export const API_BASE_URL = import.meta.env.DEV 
+  ? 'http://localhost:5000' 
+  : 'https://olympiad-backend-ko0e.onrender.com';
 
 /**
  * Default fetch options for all API calls.

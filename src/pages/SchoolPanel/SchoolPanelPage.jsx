@@ -466,6 +466,7 @@ export default function SchoolPanelPage() {
         if (res.ok) {
           const data = await res.json();
           if (data.isListLocked !== undefined) setIsListLocked(data.isListLocked);
+          if (data.paymentStatus !== undefined) setPaymentStatus(data.paymentStatus);
           
           if (data.students && data.students.length > 0) {
             const grouped = {};
