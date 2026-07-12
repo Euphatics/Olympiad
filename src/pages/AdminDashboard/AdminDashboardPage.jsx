@@ -22,9 +22,8 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../../config/api';
-import ExamDatesTab from './ExamDatesTab';
 import SyllabusTab from './SyllabusTab';
-import PapersTab from './PapersTab';
+import ResultsTab from './ResultsTab';
 
 const PRIMARY_BLUE = '#007BFF';
 const HEADING_COL  = '#1F2937';
@@ -191,12 +190,7 @@ export default function AdminDashboardPage() {
             >
               <CreditCard size={16} strokeWidth={2} /> Approvals
             </button>
-            <button 
-              onClick={() => setActiveTab('dates')}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-sm text-[13px] font-bold transition-colors ${activeTab === 'dates' ? 'bg-[#EFF6FF] text-[#1D4ED8] border border-blue-100' : 'text-gray-600 hover:bg-gray-50 border border-transparent'}`}
-            >
-              <Calendar size={16} strokeWidth={2.5} /> Exam Dates
-            </button>
+
             <button 
               onClick={() => setActiveTab('syllabus')}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-sm text-[13px] font-bold transition-colors ${activeTab === 'syllabus' ? 'bg-[#EFF6FF] text-[#1D4ED8] border border-blue-100' : 'text-gray-600 hover:bg-gray-50 border border-transparent'}`}
@@ -204,10 +198,10 @@ export default function AdminDashboardPage() {
               <BookOpen size={16} strokeWidth={2.5} /> Syllabus
             </button>
             <button 
-              onClick={() => setActiveTab('papers')}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-sm text-[13px] font-bold transition-colors ${activeTab === 'papers' ? 'bg-[#EFF6FF] text-[#1D4ED8] border border-blue-100' : 'text-gray-600 hover:bg-gray-50 border border-transparent'}`}
+              onClick={() => setActiveTab('results')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-sm text-[13px] font-bold transition-colors ${activeTab === 'results' ? 'bg-[#EFF6FF] text-[#1D4ED8] border border-blue-100' : 'text-gray-600 hover:bg-gray-50 border border-transparent'}`}
             >
-              <FileText size={16} strokeWidth={2.5} /> Previous Papers
+              <FileText size={16} strokeWidth={2.5} /> Results
             </button>
           </nav>
 
@@ -241,9 +235,8 @@ export default function AdminDashboardPage() {
             {[
               { key: 'overview', label: 'Overview', icon: Building2 },
               { key: 'approvals', label: 'Approvals', icon: CreditCard },
-              { key: 'dates', label: 'Dates', icon: Calendar },
               { key: 'syllabus', label: 'Syllabus', icon: BookOpen },
-              { key: 'papers', label: 'Papers', icon: FileText },
+              { key: 'results', label: 'Results', icon: FileText },
             ].map(tab => (
               <button
                 key={tab.key}
@@ -463,9 +456,8 @@ export default function AdminDashboardPage() {
             </>
           )}
 
-          {activeTab === 'dates' && <ExamDatesTab />}
           {activeTab === 'syllabus' && <SyllabusTab />}
-          {activeTab === 'papers' && <PapersTab />}
+          {activeTab === 'results' && <ResultsTab />}
         </main>
       </div>
     </>

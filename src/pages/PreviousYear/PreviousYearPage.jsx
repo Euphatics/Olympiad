@@ -19,10 +19,10 @@ export default function PreviousYearPage() {
   return (
     <div className="min-h-screen bg-white pb-20 font-sans">
       <Helmet>
-        <title>Previous Year Papers – NTI Olympiad Past Papers</title>
+        <title>Results – NTI Olympiad</title>
         <meta
           name="description"
-          content="Access and download previous year question papers for NTI Mathematics, Science, English, IT, and Finance Olympiads."
+          content="Access and view official results for NTI Mathematics, Science, English, IT, and Finance Olympiads."
         />
         <link rel="canonical" href="https://ntiolympiad.in/previous-year" />
       </Helmet>
@@ -30,7 +30,7 @@ export default function PreviousYearPage() {
       <Breadcrumb
         items={[
           { label: 'Home', path: '/' },
-          { label: 'Previous Year Papers' },
+          { label: 'Results' },
         ]}
       />
 
@@ -38,12 +38,11 @@ export default function PreviousYearPage() {
         {/* Hero Section */}
         <div className="w-full border-b-2 border-gray-300 pb-5 mb-8 text-left">
           <SectionHeading level="h1" className="font-normal text-gray-900 mb-3">
-            NTI Olympiad Previous Year Papers
+            NTI Olympiad Results
           </SectionHeading>
           <p className="text-[15px] text-gray-600 leading-relaxed max-w-4xl">
-            Boost your exam preparation by solving authentic, official previous year question papers. 
-            Gain a solid understanding of the question formats, difficulty levels, and optimize your 
-            exam-taking strategies for the upcoming testing events.
+            View the official results and rankings for all NTI Olympiad subjects. 
+            Select your subject below to access the performance outcomes for different classes and years.
           </p>
         </div>
 
@@ -72,7 +71,7 @@ export default function PreviousYearPage() {
                       to={ROUTES.subjectPreviousYear(sub.slug)}
                       className={`inline-block w-full text-center py-2 px-3 rounded-none text-[13px] font-semibold transition-colors duration-150 ${sub.btnClass}`}
                     >
-                      View Papers &rarr;
+                      View Results &rarr;
                     </Link>
                   ) : (
                     <span className="inline-block w-full text-center py-2 px-3 rounded-none text-[13px] font-medium bg-gray-100 text-gray-400 border-2 border-gray-200">
@@ -85,43 +84,11 @@ export default function PreviousYearPage() {
           </div>
         </div>
 
-        {/* Why Solve Past Papers Section */}
-        <div className="mb-12 text-left max-w-4xl">
-          <h2 className="text-[22px] font-normal text-gray-800 mb-4 border-b-2 border-gray-300 pb-2">
-            Why solve previous years' papers?
-          </h2>
-          <ul className="space-y-3.5 text-[14.5px] text-gray-600 leading-relaxed">
-            <li className="flex items-start gap-2">
-              <span className="text-[#007BFF] font-bold mt-0.5">&bull;</span>
-              <div>
-                <strong className="text-gray-900 font-semibold">Understand Exam Pattern:</strong> Identify the distribution of marks, question weightage across syllabus sections, and structure of Achievers sections.
-              </div>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-[#007BFF] font-bold mt-0.5">&bull;</span>
-              <div>
-                <strong className="text-gray-900 font-semibold">Pinpoint Weak Areas:</strong> Regular practice highlights conceptual gaps, telling you exactly which chapters require further revisions.
-              </div>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-[#007BFF] font-bold mt-0.5">&bull;</span>
-              <div>
-                <strong className="text-gray-900 font-semibold">Improve Speed:</strong> Refine time-allocation tactics by simulating actual examination time limits of 60 minutes.
-              </div>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-[#007BFF] font-bold mt-0.5">&bull;</span>
-              <div>
-                <strong className="text-gray-900 font-semibold">Improve Accuracy:</strong> Build confidence and reduce minor conceptual errors by checking answers against structured guidelines.
-              </div>
-            </li>
-          </ul>
-        </div>
 
         {/* Quick Links Section */}
         <div className="mb-12 text-left max-w-4xl">
           <h2 className="text-[22px] font-normal text-gray-800 mb-4 border-b-2 border-gray-300 pb-2">
-            Quick Subject Links
+            Quick Result Links
           </h2>
           <div className="flex flex-col gap-3">
             {ALL_SUBJECTS.filter((s) => s.active).map((sub) => (
@@ -130,7 +97,7 @@ export default function PreviousYearPage() {
                 to={ROUTES.subjectPreviousYear(sub.slug)}
                 className="text-[14px] text-[#007BFF] hover:underline flex items-center gap-1.5 font-medium"
               >
-                &raquo; Previous Year Questions of {sub.name} ({sub.abbr})
+                &raquo; Results of {sub.name} ({sub.abbr})
               </Link>
             ))}
           </div>
@@ -140,29 +107,26 @@ export default function PreviousYearPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left border-t-2 border-gray-300 pt-8">
           <div>
             <h3 className="text-[17px] font-semibold text-gray-950 mb-3">
-              Benefits of Past Papers
+              Benefits of Viewing Results
             </h3>
             <p className="text-[13.5px] text-gray-600 leading-relaxed">
-              Practicing previous year documents gives children authentic exposure to testing patterns. It builds 
-              confidence, helps in managing time, and enables student diagnostics before national-level finals.
+              Viewing past results allows students to benchmark their performance against top achievers and understand the competitive landscape of the NTI Olympiads.
             </p>
           </div>
           <div>
             <h3 className="text-[17px] font-semibold text-gray-950 mb-3">
-              Preparation Tips
+              Result Analysis
             </h3>
             <p className="text-[13.5px] text-gray-600 leading-relaxed">
-              We recommend solving the past year mock files within a strict 60-minute duration. Check incorrect answers 
-              against solutions sheets, study topic patterns, and focus revision efforts on higher-weightage sections.
+              We recommend analyzing the results to set realistic goals for upcoming Olympiads. Consistent performance tracking helps in identifying areas for improvement.
             </p>
           </div>
           <div>
             <h3 className="text-[17px] font-semibold text-gray-950 mb-3">
-              Exam Coverage
+              Official Recognition
             </h3>
             <p className="text-[13.5px] text-gray-600 leading-relaxed">
-              NTI practice sets cover syllabus contents aligned with leading school curriculums (CBSE, ICSE, and state boards) 
-              tailored explicitly from Class 1 to Class 10 levels.
+              All results published here are official and verified by the NTI Olympiad committee, ensuring complete transparency in our evaluation process.
             </p>
           </div>
         </div>

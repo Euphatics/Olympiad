@@ -4,13 +4,34 @@ import { useParams, Link } from 'react-router-dom';
 import { getSubjectBySlug, CLASS_LEVELS } from '../../config/subjects';
 import { ROUTES } from '../../config/routes';
 import { Breadcrumb, PageContainer, SectionHeading } from '../../components/ui';
-
-const YEARS = ['2025-26', '2024-25', '2023-24'];
+import { API_BASE_URL } from '../../config/api';
 
 export default function SubjectPreviousYearPage() {
   const { subjectSlug } = useParams();
   const subject = getSubjectBySlug(subjectSlug);
   const [activeClass, setActiveClass] = useState(CLASS_LEVELS[0].slug);
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch results from backend
+  useEffect(() => {
+    const fetchResults = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/results`);
+        if (res.ok) {
+          const data = await res.json();
+          // Filter results for this specific subject
+          const subjectResults = data.results.filter(r => r.subjectSlug === subjectSlug);
+          setResults(subjectResults);
+        }
+      } catch (err) {
+        console.error('Failed to fetch results', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (subject) fetchResults();
+  }, [subject, subjectSlug]);
 
   // Scrollspy observer logic for highlighting active sidebar class item on scroll
   useEffect(() => {
@@ -55,7 +76,7 @@ export default function SubjectPreviousYearPage() {
       <div className="min-h-screen flex items-center justify-center bg-white font-sans text-left">
         <div className="text-center p-8 bg-gray-50 border border-gray-200 rounded-none max-w-sm shadow-sm">
           <h1 className="text-xl font-medium text-gray-800 mb-2">Subject Not Found</h1>
-          <p className="text-gray-500 text-sm mb-4">The past papers for this subject could not be located.</p>
+          <p className="text-gray-500 text-sm mb-4">The results for this subject could not be located.</p>
           <Link to={ROUTES.previousYear} className="text-[#007BFF] hover:underline font-medium">
             &larr; Back to All Subjects
           </Link>
@@ -75,15 +96,15 @@ export default function SubjectPreviousYearPage() {
   return (
     <div className="min-h-screen bg-white pb-20 font-sans text-left">
       <Helmet>
-        <title>{`NTI ${subject.abbr} Previous Year Papers – Class 1 to 10`}</title>
-        <meta name="description" content={`Download NTI ${subject.name} (${subject.abbr}) previous year question papers for classes 1 to 10.`} />
+        <title>{`NTI ${subject.abbr} Results – Class 1 to 10`}</title>
+        <meta name="description" content={`View NTI ${subject.name} (${subject.abbr}) results for classes 1 to 10.`} />
         <link rel="canonical" href={`https://ntiolympiad.in/previous-year/${subject.slug}`} />
       </Helmet>
 
       <Breadcrumb items={[
         { label: 'Home', path: '/' },
-        { label: 'Previous Year Papers', path: ROUTES.previousYear },
-        { label: `${subject.abbr} Papers` }
+        { label: 'Results', path: ROUTES.previousYear },
+        { label: `${subject.abbr} Results` }
       ]} />
 
       <PageContainer className="py-8">
@@ -93,13 +114,12 @@ export default function SubjectPreviousYearPage() {
             &larr; Back to All Subjects
           </Link>
           <SectionHeading level="h1" className="font-normal text-gray-900">
-            NTI {subject.name} ({subject.abbr}) Previous Year Papers
+            NTI {subject.name} ({subject.abbr}) Results
           </SectionHeading>
         </div>
 
         <p className="text-[15px] text-gray-600 leading-relaxed max-w-4xl mb-8">
-          Strengthen your examination preparation by solving authentic, grade-specific previous year question sheets. 
-          Select your class level below to open the practice files inside the interactive PDF viewer.
+          View official result links for different classes and years below. Select your class level to see the published results.
         </p>
 
         {/* Sidebar + Content Layout */}
@@ -128,61 +148,62 @@ export default function SubjectPreviousYearPage() {
             </div>
           </div>
 
-          {/* Right Papers Content Area: Single parent div container, no rounded corners, divide-y separators */}
+          {/* Right Content Area */}
           <div className="flex-1 min-w-0 border border-gray-200 bg-white shadow-sm divide-y-2 divide-gray-300 rounded-none">
-            {CLASS_LEVELS.map((cls) => (
-              <div 
-                key={cls.slug} 
-                id={cls.slug} 
-                className="scroll-mt-28 p-6"
-              >
-                {/* Section Header */}
-                <div className="pb-3.5 mb-4 flex items-center justify-between">
-                  <div>
-                    <h3 className="text-[17px] font-bold text-gray-900">{cls.name}</h3>
-                    <span className="text-xs text-gray-400 font-medium block mt-0.5">
-                      {cls.number <= 5 ? 'Primary Division' : 'Secondary Division'}
+            {CLASS_LEVELS.map((cls) => {
+              const classResults = results.filter(r => r.classSlug === cls.slug);
+              
+              return (
+                <div 
+                  key={cls.slug} 
+                  id={cls.slug} 
+                  className="scroll-mt-28 p-6"
+                >
+                  {/* Section Header */}
+                  <div className="pb-3.5 mb-4 flex items-center justify-between">
+                    <div>
+                      <h3 className="text-[17px] font-bold text-gray-900">{cls.name}</h3>
+                      <span className="text-xs text-gray-400 font-medium block mt-0.5">
+                        {cls.number <= 5 ? 'Primary Division' : 'Secondary Division'}
+                      </span>
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-none bg-gray-100 text-gray-500 border border-gray-200">
+                      {cls.number <= 5 ? 'Primary' : 'Secondary'}
                     </span>
                   </div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-none bg-gray-100 text-gray-500 border border-gray-200">
-                    {cls.number <= 5 ? 'Primary' : 'Secondary'}
-                  </span>
-                </div>
 
-                {/* Years Paper Selectors */}
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-3">
-                      Previous Papers
-                    </h4>
-                    <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-[14px]">
-                      {YEARS.map((year) => (
-                        <Link
-                          key={year}
-                          to={ROUTES.previousYearDetail(subject.slug, cls.slug, year)}
-                          className="text-[#007BFF] hover:underline font-medium inline-flex items-center gap-1.5"
-                        >
-                          <span className="text-gray-400 font-normal">○</span>
-                          <span>{year} NTI {subject.abbr} Practice Paper</span>
-                        </Link>
-                      ))}
+                  {/* Results List */}
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-3">
+                        Published Results
+                      </h4>
+                      {loading ? (
+                        <p className="text-sm text-gray-500 italic">Loading results...</p>
+                      ) : classResults.length > 0 ? (
+                        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-[14px]">
+                          {classResults.map((result) => (
+                            <a
+                              key={result.id}
+                              href={result.resultUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-[#007BFF] hover:underline font-medium inline-flex items-center gap-1.5"
+                            >
+                              <span className="text-gray-400 font-normal">○</span>
+                              <span>{result.year} Result</span>
+                            </a>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-[13px] text-gray-400">No results published for this class yet.</p>
+                      )}
                     </div>
                   </div>
 
-                  {/* Syllabus link */}
-                  <div className="border-t border-gray-100 pt-3.5 mt-2">
-                    <Link
-                      to={ROUTES.syllabusClass(subject.slug, cls.slug)}
-                      className="text-[#007BFF] hover:underline text-[13px] font-semibold inline-flex items-center gap-1"
-                    >
-                      <span>View Class Syllabus</span>
-                      <span className="font-normal">&rarr;</span>
-                    </Link>
-                  </div>
                 </div>
-
-              </div>
-            ))}
+              );
+            })}
           </div>
 
         </div>
