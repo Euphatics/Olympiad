@@ -19,6 +19,7 @@ export const ROUTES = {
   schoolPanel: '/school-panel',
   prepGuide: '/prep-guide',
   adminDashboard: '/admin',
+  adminLogin: '/admin/login',
   adminApprovals: '/admin/approvals',
 
   // Syllabus

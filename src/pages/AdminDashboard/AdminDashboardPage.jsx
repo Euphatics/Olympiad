@@ -8,13 +8,20 @@ import {
   Filter, 
   CheckCircle2,
   Clock,
-  MoreVertical,
   Calendar,
   BookOpen,
   FileText,
-  CreditCard
+  CreditCard,
+  LogOut,
+  XCircle,
+  Trash2,
+  ChevronDown,
+  RefreshCw,
+  AlertCircle,
+  ShieldCheck
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../../config/api';
 import ExamDatesTab from './ExamDatesTab';
 import SyllabusTab from './SyllabusTab';
 import PapersTab from './PapersTab';
@@ -27,28 +34,131 @@ const BG_SECTION   = '#F9FAFB';
 const ICON_BG      = '#EFF6FF';
 const ICON_COL     = '#1D4ED8';
 
-const mockSchools = [
-  { id: 'SCH-001', name: 'Delhi Public School', principal: 'Dr. R.K. Sharma', email: 'principal@dps.edu.in', region: 'North Zone', studentCount: 1250, status: 'verified', date: '2026-07-01' },
-  { id: 'SCH-002', name: 'Springdales School', principal: 'Mrs. Anita Singh', email: 'info@springdales.com', region: 'North Zone', studentCount: 840, status: 'pending', date: '2026-07-03' },
-  { id: 'SCH-003', name: 'St. Xavier\'s Collegiate School', principal: 'Fr. John D\'Souza', email: 'contact@stxaviers.org', region: 'East Zone', studentCount: 1560, status: 'verified', date: '2026-07-04' },
-  { id: 'SCH-004', name: 'Kendriya Vidyalaya', principal: 'Mr. P.K. Das', email: 'admin@kv.gov.in', region: 'Central Zone', studentCount: 2100, status: 'verified', date: '2026-07-05' },
-  { id: 'SCH-005', name: 'National Public School', principal: 'Ms. Geeta Rao', email: 'info@nps.edu', region: 'South Zone', studentCount: 920, status: 'pending', date: '2026-07-06' }
-];
+/** Helper: get admin token from localStorage */
+const getToken = () => localStorage.getItem('adminToken') || '';
+
+/** Helper: authenticated fetch */
+const adminFetch = (url, options = {}) => {
+  return fetch(url, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+      ...(options.headers || {}),
+    },
+  });
+};
 
 export default function AdminDashboardPage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
   const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
 
-  const totalSchools = mockSchools.length;
-  const totalStudents = mockSchools.reduce((acc, school) => acc + school.studentCount, 0);
-  const pendingApprovals = mockSchools.filter(s => s.status === 'pending').length;
+  // Data states
+  const [stats, setStats] = useState({ totalSchools: 0, totalStudents: 0, pendingApprovals: 0, verifiedSchools: 0, pendingPayments: 0 });
+  const [schools, setSchools] = useState([]);
+  const [loadingStats, setLoadingStats] = useState(true);
+  const [loadingSchools, setLoadingSchools] = useState(true);
+  const [error, setError] = useState('');
 
-  const filteredSchools = mockSchools.filter(school =>
-    school.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    school.region.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    school.id.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Fetch dashboard stats
+  const fetchStats = async () => {
+    try {
+      const res = await adminFetch(`${API_BASE_URL}/api/admin/stats`);
+      if (!res.ok) {
+        if (res.status === 401) { handleLogout(); return; }
+        throw new Error('Failed to fetch stats');
+      }
+      const data = await res.json();
+      setStats(data);
+    } catch (err) {
+      console.error('Stats error:', err);
+    } finally {
+      setLoadingStats(false);
+    }
+  };
+
+  // Fetch schools list
+  const fetchSchools = async () => {
+    setLoadingSchools(true);
+    try {
+      const params = new URLSearchParams();
+      if (searchTerm) params.set('search', searchTerm);
+      if (statusFilter) params.set('status', statusFilter);
+
+      const res = await adminFetch(`${API_BASE_URL}/api/admin/schools?${params.toString()}`);
+      if (!res.ok) {
+        if (res.status === 401) { handleLogout(); return; }
+        throw new Error('Failed to fetch schools');
+      }
+      const data = await res.json();
+      setSchools(data.schools);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoadingSchools(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchStats();
+    fetchSchools();
+  }, []);
+
+  // Re-fetch schools when filter/search changes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchSchools();
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [searchTerm, statusFilter]);
+
+  // Handle school status update
+  const handleStatusUpdate = async (schoolId, newStatus) => {
+    if (!window.confirm(`Are you sure you want to ${newStatus.toLowerCase()} this school?`)) return;
+
+    try {
+      const res = await adminFetch(`${API_BASE_URL}/api/admin/schools/${schoolId}/status`, {
+        method: 'PATCH',
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (!res.ok) throw new Error(`Failed to ${newStatus.toLowerCase()} school`);
+
+      // Refresh data
+      fetchStats();
+      fetchSchools();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  // Handle school deletion
+  const handleDeleteSchool = async (schoolId, schoolName) => {
+    if (!window.confirm(`Are you sure you want to delete "${schoolName}" and all its data? This cannot be undone.`)) return;
+
+    try {
+      const res = await adminFetch(`${API_BASE_URL}/api/admin/schools/${schoolId}`, {
+        method: 'DELETE',
+      });
+
+      if (!res.ok) throw new Error('Failed to delete school');
+
+      fetchStats();
+      fetchSchools();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  // Logout
+  const handleLogout = () => {
+    localStorage.removeItem('adminAuth');
+    localStorage.removeItem('adminToken');
+    navigate('/admin/login');
+  };
 
   return (
     <>
@@ -56,12 +166,15 @@ export default function AdminDashboardPage() {
         <title>Admin Dashboard – NTI Olympiad</title>
       </Helmet>
 
-      <div className="flex min-h-[calc(100vh-64px)] bg-[#F8FAFC] text-left">
+      <div className="flex min-h-screen bg-[#F8FAFC] text-left">
         
         {/* Left Sidebar */}
         <aside className="w-64 flex-shrink-0 bg-white border-r hidden md:flex flex-col z-10" style={{ borderColor: BORDER_COL }}>
           <div className="p-6 border-b" style={{ borderColor: BORDER_COL }}>
-            <h2 className="text-xl font-extrabold tracking-tight" style={{ color: HEADING_COL }}>Admin Panel</h2>
+            <div className="flex items-center gap-2.5 mb-1">
+              <ShieldCheck size={20} style={{ color: ICON_COL }} strokeWidth={2.5} />
+              <h2 className="text-xl font-extrabold tracking-tight" style={{ color: HEADING_COL }}>Admin Panel</h2>
+            </div>
             <p className="text-[11px] font-bold mt-1 uppercase tracking-widest" style={{ color: PRIMARY_BLUE }}>NTI Olympiad</p>
           </div>
           
@@ -97,10 +210,51 @@ export default function AdminDashboardPage() {
               <FileText size={16} strokeWidth={2.5} /> Previous Papers
             </button>
           </nav>
+
+          {/* Logout at bottom */}
+          <div className="p-4 border-t" style={{ borderColor: BORDER_COL }}>
+            <button 
+              onClick={handleLogout}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-sm text-[13px] font-semibold text-red-600 hover:bg-red-50 transition-colors border border-transparent"
+            >
+              <LogOut size={16} strokeWidth={2} /> Logout
+            </button>
+          </div>
         </aside>
 
         {/* Main Content Area */}
         <main className="flex-1 flex flex-col overflow-y-auto w-full">
+
+          {/* Mobile header with logout */}
+          <div className="md:hidden bg-white border-b px-4 py-3 flex items-center justify-between" style={{ borderColor: BORDER_COL }}>
+            <div className="flex items-center gap-2">
+              <ShieldCheck size={18} style={{ color: ICON_COL }} strokeWidth={2.5} />
+              <span className="text-sm font-bold" style={{ color: HEADING_COL }}>Admin Panel</span>
+            </div>
+            <button onClick={handleLogout} className="text-red-600 text-xs font-semibold flex items-center gap-1">
+              <LogOut size={14} /> Logout
+            </button>
+          </div>
+
+          {/* Mobile tab bar */}
+          <div className="md:hidden bg-white border-b px-2 py-2 flex gap-1 overflow-x-auto" style={{ borderColor: BORDER_COL }}>
+            {[
+              { key: 'overview', label: 'Overview', icon: Building2 },
+              { key: 'approvals', label: 'Approvals', icon: CreditCard },
+              { key: 'dates', label: 'Dates', icon: Calendar },
+              { key: 'syllabus', label: 'Syllabus', icon: BookOpen },
+              { key: 'papers', label: 'Papers', icon: FileText },
+            ].map(tab => (
+              <button
+                key={tab.key}
+                onClick={() => tab.key === 'approvals' ? navigate('/admin/approvals') : setActiveTab(tab.key)}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded text-[11px] font-bold whitespace-nowrap transition-colors ${activeTab === tab.key ? 'bg-[#EFF6FF] text-[#1D4ED8]' : 'text-gray-500'}`}
+              >
+                <tab.icon size={13} strokeWidth={2.5} /> {tab.label}
+              </button>
+            ))}
+          </div>
+
           {activeTab === 'overview' && (
             <>
               <div className="bg-white border-b px-8 py-6 flex items-center justify-between" style={{ borderColor: BORDER_COL }}>
@@ -108,6 +262,9 @@ export default function AdminDashboardPage() {
                   <h1 className="text-2xl font-extrabold tracking-tight" style={{ color: HEADING_COL }}>School Enrollments</h1>
                   <p className="text-sm mt-1" style={{ color: MUTED_COL }}>Monitor and manage registered schools and overall student participation counts.</p>
                 </div>
+                <button onClick={() => { fetchStats(); fetchSchools(); }} className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded transition-colors" title="Refresh">
+                  <RefreshCw size={18} strokeWidth={2} />
+                </button>
               </div>
 
               <div className="p-8 max-w-full">
@@ -117,7 +274,9 @@ export default function AdminDashboardPage() {
                     <Building2 size={26} style={{ color: '#6B7280' }} strokeWidth={1.5} className="flex-shrink-0" />
                     <div>
                       <p className="text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1">Total Schools</p>
-                      <p className="text-2xl font-extrabold text-gray-900 leading-none">{totalSchools}</p>
+                      <p className="text-2xl font-extrabold text-gray-900 leading-none">
+                        {loadingStats ? '—' : stats.totalSchools}
+                      </p>
                     </div>
                   </div>
 
@@ -125,7 +284,9 @@ export default function AdminDashboardPage() {
                     <Users size={26} style={{ color: '#6B7280' }} strokeWidth={1.5} className="flex-shrink-0" />
                     <div>
                       <p className="text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1">Total Students</p>
-                      <p className="text-2xl font-extrabold text-gray-900 leading-none">{totalStudents.toLocaleString()}</p>
+                      <p className="text-2xl font-extrabold text-gray-900 leading-none">
+                        {loadingStats ? '—' : stats.totalStudents.toLocaleString()}
+                      </p>
                     </div>
                   </div>
 
@@ -133,15 +294,19 @@ export default function AdminDashboardPage() {
                     <Clock size={26} style={{ color: '#F59E0B' }} strokeWidth={1.5} className="flex-shrink-0" />
                     <div>
                       <p className="text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1">Pending Approvals</p>
-                      <p className="text-2xl font-extrabold text-gray-900 leading-none">{pendingApprovals}</p>
+                      <p className="text-2xl font-extrabold text-gray-900 leading-none">
+                        {loadingStats ? '—' : stats.pendingApprovals}
+                      </p>
                     </div>
                   </div>
 
                   <div className="bg-white rounded-sm border p-5 flex items-center gap-4 transition-shadow hover:shadow-md" style={{ borderColor: BORDER_COL }}>
-                    <MapPin size={26} style={{ color: '#6B7280' }} strokeWidth={1.5} className="flex-shrink-0" />
+                    <CheckCircle2 size={26} style={{ color: '#10B981' }} strokeWidth={1.5} className="flex-shrink-0" />
                     <div>
-                      <p className="text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1">Active Regions</p>
-                      <p className="text-2xl font-extrabold text-gray-900 leading-none">4</p>
+                      <p className="text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1">Approved Schools</p>
+                      <p className="text-2xl font-extrabold text-gray-900 leading-none">
+                        {loadingStats ? '—' : stats.verifiedSchools}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -165,62 +330,134 @@ export default function AdminDashboardPage() {
                         </div>
                         <input
                           type="text"
-                          placeholder="Search by school, ID or region..."
+                          placeholder="Search by school name, email or username..."
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
                           className="w-full pl-9 pr-3 py-2 text-[13px] border rounded-sm outline-none transition-colors border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                         />
                       </div>
-                      <button className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-sm text-[13px] font-semibold hover:bg-gray-50 transition-colors text-gray-700 bg-white">
-                        <Filter size={15} /> Filter
-                      </button>
+                      <div className="relative">
+                        <button 
+                          onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+                          className={`flex items-center gap-2 px-3 py-2 border rounded-sm text-[13px] font-semibold hover:bg-gray-50 transition-colors bg-white ${statusFilter ? 'border-blue-400 text-blue-700' : 'border-gray-300 text-gray-700'}`}
+                        >
+                          <Filter size={15} /> {statusFilter || 'Filter'} <ChevronDown size={13} />
+                        </button>
+                        {showFilterDropdown && (
+                          <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-sm shadow-lg z-20 min-w-[150px]">
+                            <button onClick={() => { setStatusFilter(''); setShowFilterDropdown(false); }} className="w-full text-left px-4 py-2.5 text-[13px] hover:bg-gray-50 font-medium text-gray-600">All</button>
+                            <button onClick={() => { setStatusFilter('PENDING'); setShowFilterDropdown(false); }} className="w-full text-left px-4 py-2.5 text-[13px] hover:bg-gray-50 font-medium text-amber-700">Pending</button>
+                            <button onClick={() => { setStatusFilter('APPROVED'); setShowFilterDropdown(false); }} className="w-full text-left px-4 py-2.5 text-[13px] hover:bg-gray-50 font-medium text-emerald-700">Approved</button>
+                            <button onClick={() => { setStatusFilter('REJECTED'); setShowFilterDropdown(false); }} className="w-full text-left px-4 py-2.5 text-[13px] hover:bg-gray-50 font-medium text-red-700">Rejected</button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
 
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left text-sm whitespace-nowrap">
-                      <thead className="border-b bg-gray-50/50" style={{ borderColor: BORDER_COL }}>
-                        <tr>
-                          <th className="px-5 py-4 font-bold text-gray-700 uppercase tracking-wider text-[10px]">School Details</th>
-                          <th className="px-5 py-4 font-bold text-gray-700 uppercase tracking-wider text-[10px]">Contact Person</th>
-                          <th className="px-5 py-4 font-bold text-gray-700 uppercase tracking-wider text-[10px]">Region</th>
-                          <th className="px-5 py-4 font-bold text-gray-700 uppercase tracking-wider text-[10px] text-right">Student Count</th>
-                          <th className="px-5 py-4 font-bold text-gray-700 uppercase tracking-wider text-[10px] text-center border-l border-gray-200">Status</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-200">
-                        {filteredSchools.map((school) => (
-                          <tr key={school.id} className="hover:bg-gray-50/80 transition-colors">
-                            <td className="px-5 py-4">
-                              <p className="text-[13px] font-bold text-gray-900">{school.name}</p>
-                              <p className="text-[11px] text-gray-500 font-medium mt-0.5">ID: {school.id}</p>
-                            </td>
-                            <td className="px-5 py-4">
-                              <p className="text-[13px] font-semibold text-gray-800">{school.principal}</p>
-                              <p className="text-[11px] text-gray-500 font-medium mt-0.5">{school.email}</p>
-                            </td>
-                            <td className="px-5 py-4">
-                              <span className="text-[13px] font-medium text-gray-700">{school.region}</span>
-                            </td>
-                            <td className="px-5 py-4 text-right">
-                              <span className="text-[14px] font-bold text-gray-900">{school.studentCount.toLocaleString()}</span>
-                            </td>
-                            <td className="px-5 py-4 text-center border-l border-gray-200">
-                              {school.status === 'verified' ? (
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                  <CheckCircle2 size={12} strokeWidth={2.5} /> Verified
-                                </span>
-                              ) : (
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-[10px] font-bold uppercase tracking-wider bg-amber-50 text-amber-700 border border-amber-200">
-                                  <Clock size={12} strokeWidth={2.5} /> Pending
-                                </span>
-                              )}
-                            </td>
+                  {loadingSchools ? (
+                    <div className="p-12 text-center">
+                      <RefreshCw className="animate-spin text-gray-400 mx-auto mb-3" size={24} />
+                      <p className="text-sm text-gray-500">Loading schools...</p>
+                    </div>
+                  ) : error ? (
+                    <div className="p-12 text-center">
+                      <AlertCircle className="text-red-400 mx-auto mb-3" size={24} />
+                      <p className="text-sm text-red-500">{error}</p>
+                    </div>
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-sm whitespace-nowrap">
+                        <thead className="border-b bg-gray-50/50" style={{ borderColor: BORDER_COL }}>
+                          <tr>
+                            <th className="px-5 py-4 font-bold text-gray-700 uppercase tracking-wider text-[10px]">School Details</th>
+                            <th className="px-5 py-4 font-bold text-gray-700 uppercase tracking-wider text-[10px]">Coordinator</th>
+                            <th className="px-5 py-4 font-bold text-gray-700 uppercase tracking-wider text-[10px]">Contact</th>
+                            <th className="px-5 py-4 font-bold text-gray-700 uppercase tracking-wider text-[10px] text-right">Students</th>
+                            <th className="px-5 py-4 font-bold text-gray-700 uppercase tracking-wider text-[10px] text-center">Status</th>
+                            <th className="px-5 py-4 font-bold text-gray-700 uppercase tracking-wider text-[10px] text-center border-l border-gray-200">Actions</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200">
+                          {schools.length === 0 ? (
+                            <tr>
+                              <td colSpan={6} className="text-center py-12 text-gray-500 text-[13px]">No schools found.</td>
+                            </tr>
+                          ) : schools.map((school) => (
+                            <tr key={school.id} className="hover:bg-gray-50/80 transition-colors">
+                              <td className="px-5 py-4">
+                                <p className="text-[13px] font-bold text-gray-900">{school.schoolName}</p>
+                                <p className="text-[11px] text-gray-500 font-medium mt-0.5">ID: {school.id} · {school.username}</p>
+                              </td>
+                              <td className="px-5 py-4">
+                                {school.coordinator ? (
+                                  <>
+                                    <p className="text-[13px] font-semibold text-gray-800">{school.coordinator.name}</p>
+                                    <p className="text-[11px] text-gray-500 font-medium mt-0.5">{school.coordinator.designation}</p>
+                                  </>
+                                ) : (
+                                  <span className="text-[12px] text-gray-400 italic">No coordinator</span>
+                                )}
+                              </td>
+                              <td className="px-5 py-4">
+                                <p className="text-[13px] font-medium text-gray-700">{school.email}</p>
+                                {school.coordinator?.phone && (
+                                  <p className="text-[11px] text-gray-500 mt-0.5">{school.coordinator.phone}</p>
+                                )}
+                              </td>
+                              <td className="px-5 py-4 text-right">
+                                <span className="text-[14px] font-bold text-gray-900">{school.studentCount.toLocaleString()}</span>
+                              </td>
+                              <td className="px-5 py-4 text-center">
+                                {school.status === 'APPROVED' ? (
+                                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                    <CheckCircle2 size={12} strokeWidth={2.5} /> Approved
+                                  </span>
+                                ) : school.status === 'REJECTED' ? (
+                                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-[10px] font-bold uppercase tracking-wider bg-red-50 text-red-700 border border-red-200">
+                                    <XCircle size={12} strokeWidth={2.5} /> Rejected
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-[10px] font-bold uppercase tracking-wider bg-amber-50 text-amber-700 border border-amber-200">
+                                    <Clock size={12} strokeWidth={2.5} /> Pending
+                                  </span>
+                                )}
+                              </td>
+                              <td className="px-5 py-4 border-l border-gray-200">
+                                <div className="flex items-center justify-center gap-1.5">
+                                  {school.status === 'PENDING' && (
+                                    <>
+                                      <button
+                                        onClick={() => handleStatusUpdate(school.id, 'APPROVED')}
+                                        className="px-2.5 py-1.5 bg-emerald-600 text-white rounded text-[11px] font-medium hover:bg-emerald-700 transition"
+                                        title="Approve"
+                                      >
+                                        Approve
+                                      </button>
+                                      <button
+                                        onClick={() => handleStatusUpdate(school.id, 'REJECTED')}
+                                        className="px-2.5 py-1.5 bg-red-600 text-white rounded text-[11px] font-medium hover:bg-red-700 transition"
+                                        title="Reject"
+                                      >
+                                        Reject
+                                      </button>
+                                    </>
+                                  )}
+                                  <button
+                                    onClick={() => handleDeleteSchool(school.id, school.schoolName)}
+                                    className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                                    title="Delete school"
+                                  >
+                                    <Trash2 size={14} strokeWidth={2} />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
                 </div>
               </div>
             </>
