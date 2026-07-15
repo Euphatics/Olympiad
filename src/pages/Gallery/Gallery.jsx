@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 
@@ -67,6 +67,13 @@ const GALLERY_DATA = [
 
 export default function Gallery() {
   const [activeIndex, setActiveIndex] = useState(null); // null = grid view, number = viewer
+  const viewerRef = useRef(null);
+
+  useEffect(() => {
+    if (activeIndex !== null && viewerRef.current) {
+      viewerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [activeIndex]);
 
   // Keyboard navigation (only when viewer is open)
   const handleKey = useCallback((e) => {
@@ -114,7 +121,7 @@ export default function Gallery() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Title */}
-        <h1 id="gallery-heading" className="text-3xl lg:text-4xl font-bold text-gray-800 mb-1">
+        <h1 ref={viewerRef} id="gallery-heading" className="text-3xl lg:text-4xl font-bold text-gray-800 mb-1 scroll-mt-24">
           NTI Awards Gallery
         </h1>
         <div className="h-[2px] bg-gradient-to-r from-[#007BFF] to-transparent mb-16"></div>
@@ -135,7 +142,7 @@ export default function Gallery() {
               {/* Left Arrow */}
               <button
                 onClick={goPrev}
-                className="flex-shrink-0 w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-colors cursor-pointer"
+                className="flex-shrink-0 w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-gray-700 transition-colors cursor-pointer shadow-md"
                 aria-label="Previous photo"
               >
                 <ChevronLeft size={28} />
@@ -144,7 +151,7 @@ export default function Gallery() {
               {/* Photo + Info */}
               <div className="flex-1 flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-10">
                 {/* Selected Photo */}
-                <div className="flex-shrink-0 w-full sm:w-[480px] rounded-xl overflow-hidden border-[3px] border-[#40E0D0] shadow-lg">
+                <div className="flex-shrink-0 w-full sm:w-[480px] rounded-xl overflow-hidden border-[3px] border-[#007BFF] shadow-lg">
                   <img
                     src={current.image}
                     alt={`${current.name} – ${current.school}`}
@@ -174,7 +181,7 @@ export default function Gallery() {
               {/* Right Arrow */}
               <button
                 onClick={goNext}
-                className="flex-shrink-0 w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-colors cursor-pointer"
+                className="flex-shrink-0 w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-gray-700 transition-colors cursor-pointer shadow-md"
                 aria-label="Next photo"
               >
                 <ChevronRight size={28} />
@@ -183,22 +190,21 @@ export default function Gallery() {
           </div>
         )}
 
-        {/* ─── Photo Grid (always visible) ─── */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 lg:gap-4">
           {GALLERY_DATA.map((photo, i) => (
             <button
               key={photo.id}
               onClick={() => setActiveIndex(i)}
-              className={`overflow-hidden rounded-lg border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#007BFF] focus:ring-offset-2 ${
+              className={`w-[200px] h-[200px] sm:w-[240px] sm:h-[240px] lg:w-[280px] lg:h-[280px] overflow-hidden rounded-lg border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#007BFF] focus:ring-offset-2 ${
                 i === activeIndex
-                  ? 'border-[#40E0D0] shadow-lg scale-[1.03]'
+                  ? 'border-[#007BFF] shadow-lg scale-[1.03]'
                   : 'border-gray-200 hover:border-gray-400 hover:shadow-md'
               }`}
             >
               <img
                 src={photo.image}
                 alt={photo.name}
-                className="w-full h-[120px] sm:h-[140px] lg:h-[160px] object-cover"
+                className="w-full h-full object-cover"
                 loading="lazy"
               />
             </button>

@@ -82,9 +82,9 @@ export default function ExamDatesPage() {
              <h3 className="text-lg font-bold text-gray-900 uppercase tracking-wider mb-6 border-b pb-4">Detailed Timeline</h3>
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {dates.filter(d => d.section !== 'Academic Session Window' && d.section !== 'Registration').map(item => (
-                  <div key={item.id} className="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
-                    <p className="text-[11px] text-gray-500 font-bold uppercase tracking-wider mb-1">{item.description}</p>
-                    <p className="text-lg font-bold text-[#1E3A8A]">{item.date_value}</p>
+                  <div key={item.id}>
+                    <p className="text-[11px] text-gray-400 font-bold uppercase tracking-wider mb-1.5">{item.description}</p>
+                    <p className="text-2xl lg:text-3xl font-bold text-[#1E3A8A]">{item.date_value}</p>
                   </div>
                 ))}
              </div>
