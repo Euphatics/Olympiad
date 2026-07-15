@@ -2,6 +2,7 @@ import React from 'react';
 import { Info, ClipboardCheck, Monitor, Award, Phone } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { Breadcrumb } from '../../components/ui';
 
 /* ── Icon map for category headers ── */
 const categoryIcons = {
@@ -193,11 +194,15 @@ function FAQCategory({ category, searchQuery }) {
     return (
         <div className="w-full">
             {/* Category header */}
-            <div className="w-full flex items-center gap-4 px-2 py-4">
-                {categoryIcons[category.id] && React.createElement(categoryIcons[category.id], { size: 22, color: category.color, strokeWidth: 2 })}
-                <h3
-                    className="text-lg lg:text-xl font-bold tracking-wide text-gray-900 mb-1"
-                >
+            <div
+                className="w-full flex items-center gap-4 px-5 py-4 mb-4 rounded-xl border"
+                style={{
+                    backgroundColor: `${category.color}15`,
+                    borderColor: `${category.color}30`
+                }}
+            >
+                {categoryIcons[category.id] && React.createElement(categoryIcons[category.id], { size: 22, color: category.color, strokeWidth: 2.5 })}
+                <h3 className="text-lg lg:text-xl font-bold tracking-wide text-gray-900">
                     {category.title}
                 </h3>
             </div>
@@ -237,12 +242,17 @@ export default function FAQ() {
     );
 
     return (
-        <section className="w-full bg-[#f9fafb] py-8 lg:py-14 border-b border-gray-200">
-            <Helmet>
+        <>
+            <Breadcrumb items={[
+                { label: 'Home', path: '/' },
+                { label: 'Frequently Asked Questions' }
+            ]} />
+            <section className="w-full bg-[#f9fafb] py-8 lg:py-14 border-b border-gray-200">
+                <Helmet>
                 <title>Frequently Asked Questions – NTI Olympiad</title>
                 <meta name="description" content="Find answers to common questions about NTI Olympiad registrations, marking schemes, syllabi, and student performance rankings." />
                 <link rel="canonical" href="https://ntiolympiad.in/faq" />
-                
+
                 {/* Open Graph / Facebook */}
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="Frequently Asked Questions – NTI Olympiad" />
@@ -259,20 +269,20 @@ export default function FAQ() {
 
                 {/* FAQPage JSON-LD Schema */}
                 <script type="application/ld+json">
-                  {JSON.stringify({
-                    "@context": "https://schema.org",
-                    "@type": "FAQPage",
-                    "mainEntity": faqCategories.flatMap(category => 
-                      category.items.map(item => ({
-                        "@type": "Question",
-                        "name": item.q,
-                        "acceptedAnswer": {
-                          "@type": "Answer",
-                          "text": item.a
-                        }
-                      }))
-                    )
-                  })}
+                    {JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "FAQPage",
+                        "mainEntity": faqCategories.flatMap(category =>
+                            category.items.map(item => ({
+                                "@type": "Question",
+                                "name": item.q,
+                                "acceptedAnswer": {
+                                    "@type": "Answer",
+                                    "text": item.a
+                                }
+                            }))
+                        )
+                    })}
                 </script>
             </Helmet>
             <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-12">
@@ -399,5 +409,6 @@ export default function FAQ() {
 
             </div>
         </section>
+        </>
     );
 }

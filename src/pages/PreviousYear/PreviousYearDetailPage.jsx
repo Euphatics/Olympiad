@@ -180,9 +180,6 @@ ${questions.map((q, i) => `Q${i + 1}. ${q.q}\n${q.options.join('\n')}\n${type ==
       <PageContainer className="py-8">
         {/* Header */}
         <div className="w-full border-b border-gray-300 pb-4 mb-8 text-left">
-          <Link to={ROUTES.subjectPreviousYear(subject.slug)} className="text-xs text-[#007BFF] hover:underline block mb-2 font-semibold">
-            &larr; Back to {subject.abbr} list
-          </Link>
           <SectionHeading level="h1" className="font-normal text-gray-900">
             NTI {subject.abbr} Previous Year Paper - {classLevel.name}
           </SectionHeading>
