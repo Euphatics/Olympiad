@@ -77,8 +77,8 @@ export default function SubjectPreviousYearPage() {
         <div className="text-center p-8 bg-gray-50 border border-gray-200 rounded-none max-w-sm shadow-sm">
           <h1 className="text-xl font-medium text-gray-800 mb-2">Subject Not Found</h1>
           <p className="text-gray-500 text-sm mb-4">The results for this subject could not be located.</p>
-          <Link to={ROUTES.previousYear} className="text-[#007BFF] hover:underline font-medium">
-            &larr; Back to All Subjects
+          <Link to={ROUTES.previousYear} className="px-6 py-2 bg-[#007BFF] text-white rounded-md hover:bg-blue-600 transition-colors inline-block text-sm font-medium">
+            Go back to all subjects
           </Link>
         </div>
       </div>
@@ -110,9 +110,6 @@ export default function SubjectPreviousYearPage() {
       <PageContainer className="py-8">
         {/* Header Block */}
         <div className="w-full border-b-2 border-gray-300 pb-4 mb-6">
-          <Link to={ROUTES.previousYear} className="text-xs text-[#007BFF] hover:underline block mb-2 font-semibold">
-            &larr; Back to All Subjects
-          </Link>
           <SectionHeading level="h1" className="font-normal text-gray-900">
             NTI {subject.name} ({subject.abbr}) Results
           </SectionHeading>
