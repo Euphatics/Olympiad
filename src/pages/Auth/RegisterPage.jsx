@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Eye, EyeOff, Check, UserPlus } from 'lucide-react';
-import { FloatingLabel } from 'flowbite-react';
+import { Eye, EyeOff, ArrowRight, FlaskConical, Cpu, Settings, Calculator, Trophy, BookOpen, Check } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../config/routes';
 import { API_BASE_URL } from '../../config/api';
 
 export default function RegisterPage() {
@@ -85,17 +85,6 @@ export default function RegisterPage() {
     }
   };
 
-  const renderError = (fieldName) => {
-    if (touched[fieldName] && errors[fieldName]) {
-      return (
-        <p className="text-[12px] text-red-600 mt-1.5 font-medium">
-          {errors[fieldName]}
-        </p>
-      );
-    }
-    return null;
-  };
-
   const criteria = [
     { label: '8+ characters', met: formData.password.length >= 8 },
     { label: 'At least 1 number', met: /[0-9]/.test(formData.password) },
@@ -103,102 +92,625 @@ export default function RegisterPage() {
   ];
 
   return (
-    <>
+    <div className="login-page">
       <Helmet>
         <title>Register | NTI Olympiad</title>
       </Helmet>
       
-      <div className="min-h-screen bg-gray-50 pt-[80px] pb-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
-        <div className="w-full max-w-xl mt-8">
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-100/50 overflow-hidden">
-            {/* Header Area */}
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 px-8 py-10 text-white relative overflow-hidden">
-              <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-10 mix-blend-overlay"></div>
-              <div className="relative z-10 flex items-center justify-between">
-                <div>
-                  <h1 className="text-3xl font-extrabold mb-3 tracking-tight">School Registration</h1>
-                  <p className="text-blue-100 font-medium text-[15px] flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-300"></span>
-                    Join the NTI Olympiad Network
-                  </p>
+      {/* Background layer */}
+      <div className="login-blue-bg" />
+
+      {/* Content layer */}
+      <div className="login-content">
+
+        {/* ───────── LEFT SIDE ───────── */}
+        <div className="login-left">
+          <div className="login-visual-panel">
+            {/* Animated glowing blobs */}
+            <div className="blob blob-1"></div>
+            <div className="blob blob-2"></div>
+            <div className="blob blob-3"></div>
+
+            {/* Main Visual Container */}
+            <div className="visual-container">
+              {/* Orbiting Icons */}
+              <div className="orbit-item item-1">
+                <FlaskConical size={26} color="#fff" strokeWidth={2.5} />
+              </div>
+              <div className="orbit-item item-2">
+                <Cpu size={24} color="#fff" strokeWidth={2.5} />
+              </div>
+              <div className="orbit-item item-3">
+                <BookOpen size={28} color="#fff" strokeWidth={2.5} />
+              </div>
+              <div className="orbit-item item-4">
+                <Calculator size={26} color="#fff" strokeWidth={2.5} />
+              </div>
+
+              {/* Center Glass Sphere */}
+              <div className="center-glass">
+                <Trophy size={60} color="#FBBF24" className="trophy-icon" strokeWidth={2} />
+              </div>
+            </div>
+
+            {/* Typography */}
+            <div className="visual-text">
+              <h2>NTI OLYMPIAD</h2>
+              <p>Challenge your reasoning, benchmark your performance, and achieve national excellence.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* ───────── RIGHT SIDE ───────── */}
+        <div className="login-right">
+          <div className="login-card">
+
+            {/* Header */}
+            <div className="login-header">
+              <div className="login-brand-left">
+                <span>NATIONAL TALENT</span>
+                <span>IDENTIFICATION</span>
+              </div>
+
+              <div className="login-brand-right">
+                <div className="login-circles">
+                  <div className="circle circle-red"><FlaskConical size={18} color="#fff" /></div>
+                  <div className="circle circle-green"><Cpu size={18} color="#fff" /></div>
+                  <div className="circle circle-blue"><Settings size={18} color="#fff" /></div>
+                  <div className="circle circle-yellow"><Calculator size={18} color="#fff" /></div>
                 </div>
-                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm hidden sm:flex">
-                  <UserPlus className="w-8 h-8 text-white" />
+                <div className="login-logo-text">
+                  <strong>NTI</strong> OLYMPIAD
                 </div>
               </div>
             </div>
 
-            <div className="p-8 sm:p-10">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <FloatingLabel variant="outlined" label="School Name" name="schoolName" value={formData.schoolName} onChange={handleChange} onBlur={handleBlur} color={touched.schoolName && errors.schoolName ? "error" : "default"} />
-                  {renderError('schoolName')}
-                </div>
-                <div>
-                  <FloatingLabel variant="outlined" label="Official Email" name="email" type="email" value={formData.email} onChange={handleChange} onBlur={handleBlur} color={touched.email && errors.email ? "error" : "default"} />
-                  {renderError('email')}
-                </div>
-                <div>
-                  <FloatingLabel variant="outlined" label="Username" name="username" value={formData.username} onChange={handleChange} onBlur={handleBlur} color={touched.username && errors.username ? "error" : "default"} />
-                  {renderError('username')}
-                </div>
-                <div>
-                  <div className="relative">
-                    <FloatingLabel variant="outlined" label="Password" name="password" type={showPassword ? "text" : "password"} value={formData.password} onChange={handleChange} onBlur={handleBlur} color={touched.password && errors.password ? "error" : "default"} />
-                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100 transition-colors">
-                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </button>
-                  </div>
-                  {renderError('password')}
-                  <div className="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
-                    <p className="text-[13px] font-semibold text-gray-700 mb-3">Password requirements:</p>
-                    <ul className="space-y-2.5">
-                      {criteria.map((c, i) => (
-                        <li key={i} className={`flex items-center gap-2.5 text-[13px] ${c.met ? 'text-green-600 font-medium' : 'text-gray-500'}`}>
-                          {c.met ? <Check className="w-4 h-4" /> : <div className="w-1.5 h-1.5 rounded-full bg-gray-300 ml-1.5 mr-1" />}
-                          {c.label}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+            {/* Center Title */}
+            <div className="login-center-title">
+              <h2>REGISTER</h2>
+              <p>Create a school account to join the NTI network.</p>
+            </div>
 
-                <div className="pt-6 border-t border-gray-100">
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="login-form">
+              <div className="login-field">
+                <label>SCHOOL NAME <span className="asterisk">*</span></label>
+                <input
+                  type="text"
+                  name="schoolName"
+                  placeholder="Enter School Name"
+                  value={formData.schoolName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  style={touched.schoolName && errors.schoolName ? { borderColor: '#EF4444' } : {}}
+                />
+                {touched.schoolName && errors.schoolName && (
+                  <span className="error-text">{errors.schoolName}</span>
+                )}
+              </div>
+
+              <div className="login-field">
+                <label>OFFICIAL EMAIL <span className="asterisk">*</span></label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter Official Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  style={touched.email && errors.email ? { borderColor: '#EF4444' } : {}}
+                />
+                {touched.email && errors.email && (
+                  <span className="error-text">{errors.email}</span>
+                )}
+              </div>
+
+              <div className="login-field">
+                <label>USERNAME <span className="asterisk">*</span></label>
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Choose a Username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  style={touched.username && errors.username ? { borderColor: '#EF4444' } : {}}
+                />
+                {touched.username && errors.username && (
+                  <span className="error-text">{errors.username}</span>
+                )}
+              </div>
+
+              <div className="login-field">
+                <label>PASSWORD <span className="asterisk">*</span></label>
+                <div className="password-wrap">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    placeholder="Enter your Password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    style={touched.password && errors.password ? { borderColor: '#EF4444' } : {}}
+                  />
                   <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full flex items-center justify-center gap-2 px-8 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/20 transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="eye-btn"
                   >
-                    {isSubmitting ? (
-                      <>
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        Registering...
-                      </>
-                    ) : (
-                      'Create Account'
-                    )}
+                    {showPassword ? <EyeOff size={18} color="#9CA3AF" /> : <Eye size={18} color="#9CA3AF" />}
                   </button>
                 </div>
-              </form>
-              <div className="mt-6 text-center">
-                <p className="text-[14px] text-gray-600">
-                  Already have an account?{' '}
-                  <Link to="/login" className="text-blue-600 font-semibold hover:underline">
-                    Login here
-                  </Link>
-                </p>
+                {touched.password && errors.password && (
+                  <span className="error-text">{errors.password}</span>
+                )}
               </div>
+
+              <div className="password-criteria">
+                <p className="criteria-title">Password requirements:</p>
+                <ul className="criteria-list">
+                  {criteria.map((c, i) => (
+                    <li key={i} className={c.met ? 'met' : ''}>
+                      {c.met ? <Check size={14} className="check-icon" /> : <span className="dot" />}
+                      {c.label}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="submit-wrap" style={{ marginTop: '16px' }}>
+                <button type="submit" disabled={isSubmitting} className="submit-btn" style={{ width: '100%', justifyContent: 'center' }}>
+                  {isSubmitting ? 'REGISTERING...' : 'CREATE ACCOUNT'} 
+                  {!isSubmitting && <ArrowRight size={18} />}
+                </button>
+              </div>
+            </form>
+
+            <div className="login-footer">
+              <p className="mt-3 text-[#4B5563]">
+                Already have an account? <Link to="/login" className="font-semibold text-[#1976D2] hover:underline">Click here to log in</Link>
+              </p>
             </div>
+
           </div>
         </div>
       </div>
 
       <style>{`
-        .register-page { min-height: 100vh; background: #0f4c9c; font-family: 'Inter', sans-serif; }
-        .input-wrapper input, .input-wrapper select, .input-wrapper textarea { border-radius: 6px !important; border-color: #cbd5e1 !important; }
-        .input-wrapper input:focus, .input-wrapper select:focus, .input-wrapper textarea:focus { border-color: #3b82f6 !important; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important; }
-        .section-header h3 { font-size: 15px; font-weight: 700; color: #1e293b; text-transform: uppercase; margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0; }
+        .login-page {
+          position: relative;
+          width: 100%;
+          min-height: calc(100vh - 64px);
+          font-family: 'Inter', sans-serif;
+        }
+
+        .login-blue-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: #0f4c9c;
+          z-index: 0;
+        }
+
+        .login-content {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          width: 100%;
+          max-width: 1240px;
+          margin: 0 auto;
+          min-height: calc(100vh - 64px);
+        }
+
+        /* ── LEFT ── */
+        .login-left {
+          flex: 0 0 45%;
+          padding: 64px 32px 80px 48px;
+          display: flex;
+          align-items: flex-start;
+          justify-content: flex-end;
+        }
+
+        .login-visual-panel {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding-bottom: 20px;
+          z-index: 2;
+        }
+
+        /* Blobs */
+        .blob {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(40px);
+          opacity: 0.5;
+          animation: floatBlob 8s infinite alternate ease-in-out;
+          z-index: -1;
+        }
+        .blob-1 { top: 15%; left: 15%; width: 160px; height: 160px; background: #60A5FA; }
+        .blob-2 { top: 25%; right: 15%; width: 140px; height: 140px; background: #34D399; animation-delay: -2s; }
+        .blob-3 { bottom: 25%; left: 25%; width: 180px; height: 180px; background: #818CF8; animation-delay: -4s; }
+
+        @keyframes floatBlob {
+          0% { transform: translate(0, 0) scale(1); }
+          100% { transform: translate(20px, -20px) scale(1.1); }
+        }
+
+        /* Visual Container */
+        .visual-container {
+          position: relative;
+          width: 280px;
+          height: 280px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 40px;
+        }
+
+        /* Center Glass */
+        .center-glass {
+          width: 130px;
+          height: 130px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 0 20px rgba(255, 255, 255, 0.05);
+          z-index: 10;
+        }
+        .trophy-icon {
+          filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.6));
+        }
+
+        /* Orbit Items */
+        .orbit-item {
+          position: absolute;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 18px;
+          box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+          animation: floatIcon 6s infinite alternate ease-in-out;
+        }
+
+        .item-1 {
+          top: 5%; left: 0%; width: 56px; height: 56px;
+          background: linear-gradient(135deg, #F87171, #DC2626);
+          --rot: -10;
+        }
+        .item-2 {
+          top: 10%; right: 5%; width: 50px; height: 50px;
+          background: linear-gradient(135deg, #34D399, #059669);
+          --rot: 15;
+          animation-delay: -1.5s;
+        }
+        .item-3 {
+          bottom: 10%; left: 5%; width: 64px; height: 64px;
+          background: linear-gradient(135deg, #60A5FA, #2563EB);
+          --rot: -5;
+          animation-delay: -3s;
+        }
+        .item-4 {
+          bottom: 15%; right: 0%; width: 54px; height: 54px;
+          background: linear-gradient(135deg, #FBBF24, #D97706);
+          --rot: 10;
+          animation-delay: -4.5s;
+        }
+
+        @keyframes floatIcon {
+          0% { transform: translateY(0px) rotate(calc(var(--rot) * 1deg)); }
+          100% { transform: translateY(-15px) rotate(calc(var(--rot) * 1deg + 5deg)); }
+        }
+
+        .visual-text {
+          text-align: center;
+          color: #fff;
+          z-index: 10;
+        }
+        .visual-text h2 {
+          font-family: 'Lora', serif;
+          font-size: 32px;
+          font-weight: 800;
+          letter-spacing: 1px;
+          margin: 0 0 12px 0;
+          text-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+        .visual-text p {
+          font-family: 'Inter', sans-serif;
+          font-size: 15px;
+          line-height: 1.6;
+          color: rgba(255,255,255,0.9);
+          max-width: 340px;
+          margin: 0 auto;
+        }
+
+        /* ── RIGHT ── */
+        .login-right {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          padding: 64px 48px;
+        }
+
+        .login-card {
+          width: 100%;
+          max-width: 560px;
+          background: #ffffff;
+          border-radius: 12px;
+          padding: 40px;
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .login-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 32px;
+        }
+
+        .login-brand-left {
+          display: flex;
+          flex-direction: column;
+          font-family: 'Montserrat', 'Inter', sans-serif;
+          font-weight: 700;
+          font-size: 14px;
+          letter-spacing: 1.5px;
+          color: #1F2937;
+          line-height: 1.3;
+        }
+
+        .login-brand-right {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .login-circles {
+          display: flex;
+          gap: 6px;
+          margin-bottom: 6px;
+        }
+
+        .circle {
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .circle-red { background-color: #E53935; }
+        .circle-green { background-color: #4CAF50; }
+        .circle-blue { background-color: #2196F3; }
+        .circle-yellow { background-color: #FF9800; }
+
+        .login-logo-text {
+          font-family: 'Montserrat', 'Inter', sans-serif;
+          font-size: 13px;
+          font-weight: 600;
+          color: #1F2937;
+          letter-spacing: 0.5px;
+        }
+
+        .login-center-title {
+          text-align: center;
+          margin-bottom: 32px;
+        }
+
+        .login-center-title h2 {
+          font-size: 32px;
+          font-weight: 400;
+          color: #374151;
+          margin: 0 0 12px 0;
+          letter-spacing: 1px;
+        }
+
+        .login-center-title p {
+          font-size: 14px;
+          color: #9CA3AF;
+          margin: 0;
+        }
+
+        .login-form {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .login-field {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .login-field label {
+          font-size: 11.5px;
+          font-weight: 700;
+          color: #4B5563;
+          letter-spacing: 0.5px;
+        }
+
+        .asterisk {
+          color: #EF4444;
+          margin-left: 2px;
+        }
+
+        .login-field input[type="text"],
+        .login-field input[type="email"],
+        .login-field input[type="password"] {
+          width: 100%;
+          padding: 12px 14px;
+          font-size: 14px;
+          border: 1px solid #D1D5DB;
+          border-radius: 6px;
+          outline: none;
+          transition: border-color 0.2s, box-shadow 0.2s;
+          font-family: 'Inter', sans-serif;
+        }
+
+        .login-field input::placeholder {
+          color: #9CA3AF;
+        }
+
+        .login-field input:focus {
+          border-color: #1976D2;
+          box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
+          
+        .error-text {
+          font-size: 12px;
+          color: #EF4444;
+          font-weight: 500;
+          margin-top: 2px;
+        }
+
+        .password-wrap {
+          position: relative;
+        }
+
+        .password-wrap input {
+          padding-right: 40px;
+        }
+
+        .eye-btn {
+          position: absolute;
+          right: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+          background: none;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          padding: 4px;
+        }
+
+        .password-criteria {
+          background: #F9FAFB;
+          border: 1px solid #E5E7EB;
+          border-radius: 8px;
+          padding: 16px;
+          margin-top: -4px;
+        }
+
+        .criteria-title {
+          font-size: 12px;
+          font-weight: 600;
+          color: #4B5563;
+          margin: 0 0 10px 0;
+        }
+
+        .criteria-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .criteria-list li {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 12px;
+          color: #9CA3AF;
+        }
+
+        .criteria-list li.met {
+          color: #059669;
+          font-weight: 500;
+        }
+
+        .check-icon {
+          color: #059669;
+        }
+
+        .dot {
+          width: 4px;
+          height: 4px;
+          background: #D1D5DB;
+          border-radius: 50%;
+          margin-left: 5px;
+          margin-right: 5px;
+        }
+
+        .submit-wrap {
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        .submit-btn {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 24px;
+          background: #1976D2;
+          color: #fff;
+          font-size: 14px;
+          font-weight: 600;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: all 0.2s;
+          letter-spacing: 0.5px;
+        }
+
+        .submit-btn:disabled {
+          background: #93C5FD;
+          cursor: not-allowed;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+          background: #1565C0;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
+        }
+
+        .login-footer {
+          margin-top: 32px;
+          font-size: 13px;
+          color: #6B7280;
+          text-align: center;
+        }
+
+        @media (max-width: 768px) {
+          .login-content {
+            flex-direction: column;
+          }
+          .login-left, .login-right {
+            flex: none;
+            width: 100%;
+            padding: 24px;
+          }
+          .login-left > div {
+            margin: 0 auto;
+          }
+          .login-card {
+            margin: 0 auto;
+            padding: 32px 24px;
+          }
+          .login-header {
+            flex-direction: column;
+            gap: 24px;
+            align-items: center;
+            text-align: center;
+          }
+        }
       `}</style>
-    </>
+    </div>
   );
 }
