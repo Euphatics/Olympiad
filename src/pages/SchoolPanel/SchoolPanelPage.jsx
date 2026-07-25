@@ -25,6 +25,7 @@ import {
 import { PageContainer } from '../../components/ui';
 import { SUBJECTS } from '../../config/subjects';
 import { API_BASE_URL } from '../../config/api';
+import CompleteProfileWizard from './CompleteProfileWizard';
 
 /* ═══════════════════════════════════════════════════════════════
    SCHOOL INFO DISPLAY ITEMS
@@ -411,7 +412,7 @@ function ImportModal({ open, onClose, onImport, subjectLabel }) {
               <span className="font-semibold">Expected columns:</span>{' '}
               Standard/Class, Student's Name, Contact Number.
               Headers are matched flexibly — variations like "Name", "Class", "Phone" etc. work too.
-              Supports <span className="font-semibold">.csv</span>, <span className="font-semibold">.xlsx</span>, and <span className="font-semibold">.xls</span> files.
+              Supports <span className="font-semibold">.xlsx</span> and <span className="font-semibold">.xls</span> files.
             </p>
           </div>
         </div>
@@ -428,6 +429,7 @@ export default function SchoolPanelPage() {
   /* ── Logged-in user (from localStorage) ──────────────────── */
   const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
   const schoolId = storedUser.id || 1; // Fallback to 1 for dev/testing if not logged in
+  const [isProfileComplete, setIsProfileComplete] = useState(storedUser.isProfileComplete || false);
 
   /* ── Active subject tab ─────────────────────────────────── */
   const [activeSubject, setActiveSubject] = useState(SUBJECT_TABS[0].key);
@@ -574,6 +576,23 @@ export default function SchoolPanelPage() {
 
   const totalFee = totalStudents * 150; // Assuming ₹150 per student
   const isEditingDisabled = isListLocked || paymentStatus === 'pending' || paymentStatus === 'verified';
+
+  if (!isProfileComplete) {
+    return (
+      <div className="min-h-screen bg-gray-50 pt-[80px] pb-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+        <div className="w-full max-w-4xl">
+          <CompleteProfileWizard 
+            schoolId={schoolId} 
+            onComplete={() => {
+              const updatedUser = { ...storedUser, isProfileComplete: true };
+              localStorage.setItem('user', JSON.stringify(updatedUser));
+              setIsProfileComplete(true);
+            }} 
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
