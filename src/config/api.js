@@ -4,7 +4,7 @@
  */
 export const API_BASE_URL = import.meta.env.DEV 
   ? 'http://localhost:5000' 
-  : 'https://olympiad-backend-ko0e.onrender.com';
+  : 'https://olympiad-backend-yzd4.onrender.com';
 
 /**
  * Default fetch options for all API calls.
