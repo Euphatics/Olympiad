@@ -370,10 +370,284 @@ export default function RegisterPage() {
       </div>
 
       <style>{`
-        .register-page { min-height: 100vh; background: #0f4c9c; font-family: 'Inter', sans-serif; }
-        .input-wrapper input, .input-wrapper select, .input-wrapper textarea { border-radius: 6px !important; border-color: #cbd5e1 !important; }
-        .input-wrapper input:focus, .input-wrapper select:focus, .input-wrapper textarea:focus { border-color: #3b82f6 !important; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important; }
-        .section-header h3 { font-size: 15px; font-weight: 700; color: #1e293b; text-transform: uppercase; margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0; }
+        /* ── Page shell ── */
+        .register-page {
+          position: relative;
+          width: 100%;
+          min-height: calc(100vh - 64px);
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+          background: #0f4c9c;
+        }
+
+        /* ── Academic Background ── */
+        .register-bg {
+          display: none;
+        }
+        
+        .bg-pattern {
+          display: none;
+        }
+
+        .register-content {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          width: 100%;
+          max-width: 100%;
+          margin: 0;
+          min-height: calc(100vh - 64px);
+        }
+
+        /* ── LEFT ── */
+        .register-left {
+          flex: 1;
+          padding: 64px 48px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+        }
+
+        .register-info-card {
+          width: 100%;
+          max-width: 480px;
+          display: flex;
+          flex-direction: column;
+          margin-right: 0;
+          gap: 2rem;
+        }
+
+        /* ── RIGHT ── */
+        .register-right {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          padding: 64px 48px;
+        }
+
+        .register-form-card {
+          width: 100%;
+          max-width: 560px;
+          background: #ffffff;
+          border-radius: 12px;
+          padding: 40px;
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* ──────────────────────────────────────
+           FORM STYLES (RIGHT PANEL)
+        ────────────────────────────────────── */
+        
+        .section-header {
+          border-bottom: 1px solid #e2e8f0;
+          padding-bottom: 10px;
+          margin-bottom: 24px;
+        }
+        
+        .section-header h3 {
+          font-size: 14px;
+          font-weight: 700;
+          color: #475569;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+
+        .input-wrapper {
+          position: relative;
+        }
+        
+        .input-wrapper textarea:focus,
+        .input-wrapper input:focus, 
+        .input-wrapper select:focus {
+          border-color: #3b82f6 !important;
+          box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important;
+        }
+        
+        .input-wrapper input, .input-wrapper select {
+          border-radius: 6px !important;
+          border-color: #cbd5e1 !important;
+          background-color: #ffffff !important;
+          font-weight: 500 !important;
+          color: #1e293b !important;
+          transition: all 0.2s ease !important;
+        }
+        
+        .input-wrapper label {
+          color: #64748b;
+          font-weight: 500;
+        }
+
+        /* ──────────────────────────────────────
+           LEFT PANEL STYLES
+        ────────────────────────────────────── */
+        .rgs-logo {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          user-select: none;
+        }
+        .rgs-logo-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 6px;
+          background: #ffffff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .rgs-logo-icon span {
+          font-family: 'Georgia', serif;
+          font-weight: 700;
+          font-size: 20px;
+          color: #0f172a;
+        }
+        .rgs-logo-text {
+          font-family: 'Inter', sans-serif;
+          font-size: 24px;
+          font-weight: 700;
+          color: #ffffff;
+          letter-spacing: 0.5px;
+        }
+        .rgs-logo-sub {
+          font-weight: 400;
+          color: rgba(255, 255, 255, 0.8);
+          margin-left: 6px;
+        }
+
+        /* Title */
+        .rgs-main-title {
+          font-size: 28px;
+          font-weight: 700;
+          letter-spacing: -0.01em;
+          color: #ffffff;
+          margin: 0 0 10px 0;
+          line-height: 1.3;
+        }
+        .rgs-sub-title {
+          font-size: 17px;
+          font-weight: 400;
+          color: rgba(255, 255, 255, 0.8);
+          margin: 0;
+        }
+
+        /* Divider */
+        .rgs-divider {
+          width: 40px;
+          height: 3px;
+          background: #3b82f6;
+          margin-top: 16px;
+          border-radius: 2px;
+        }
+        .rgs-divider--bottom {
+          width: 100%;
+          height: 1px;
+          background: rgba(255,255,255,0.4);
+          margin: 0;
+        }
+
+        /* Timeline list */
+        .rgs-timeline {
+          display: flex;
+          flex-direction: column;
+          position: relative;
+        }
+        .rgs-timeline::before {
+          content: '';
+          position: absolute;
+          left: 13px;
+          top: 14px;
+          bottom: 14px;
+          width: 2px;
+          background: rgba(255, 255, 255, 0.1);
+        }
+        .rgs-timeline-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 20px;
+          position: relative;
+          margin-bottom: 24px;
+        }
+        .rgs-timeline-item:last-child {
+          margin-bottom: 0;
+        }
+        .rgs-timeline-marker {
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          background: #111827;
+          border: none;
+          color: #ffffff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 13px;
+          font-weight: 600;
+          z-index: 1;
+          flex-shrink: 0;
+        }
+        .rgs-timeline-content {
+          padding-top: 2px;
+        }
+        .rgs-step-title {
+          font-size: 16px;
+          font-weight: 600;
+          color: #ffffff;
+          margin: 0 0 4px 0;
+        }
+        .rgs-step-desc {
+          font-size: 14px;
+          color: rgba(255, 255, 255, 0.65);
+          line-height: 1.5;
+          margin: 0;
+        }
+
+        /* Contact info */
+        .rgs-contact {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+        .rgs-contact-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .rgs-contact-value {
+          font-size: 15px;
+          color: rgba(255, 255, 255, 0.85);
+          font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+          .register-content {
+            flex-direction: column;
+          }
+          .register-left {
+            flex: none;
+            width: 100%;
+            padding: 40px 20px 20px;
+            justify-content: center;
+          }
+          .register-right {
+            flex: none;
+            width: 100%;
+            padding: 20px 20px 40px;
+            justify-content: center;
+          }
+          .register-info-card, .register-form-card {
+            margin: 0 auto;
+          }
+        }
+        @media (max-width: 640px) {
+          .register-form-card {
+            padding: 24px;
+          }
+          .rgs-timeline-item {
+            gap: 16px;
+          }
+        }
       `}</style>
     </div>
   );
