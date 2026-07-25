@@ -192,6 +192,13 @@ export default function RegisterPage() {
           </div>
         </div>
       </div>
-    </>
+
+      <style>{`
+        .register-page { min-height: 100vh; background: #0f4c9c; font-family: 'Inter', sans-serif; }
+        .input-wrapper input, .input-wrapper select, .input-wrapper textarea { border-radius: 6px !important; border-color: #cbd5e1 !important; }
+        .input-wrapper input:focus, .input-wrapper select:focus, .input-wrapper textarea:focus { border-color: #3b82f6 !important; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important; }
+        .section-header h3 { font-size: 15px; font-weight: 700; color: #1e293b; text-transform: uppercase; margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0; }
+      `}</style>
+    </div>
   );
 }
