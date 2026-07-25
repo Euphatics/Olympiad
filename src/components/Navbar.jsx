@@ -340,8 +340,15 @@ export default function Navbar({ onSelect = () => { } }) {
                 Gallery
               </Link>
 
-
-            </div>
+              {/* Results */}
+              <Link
+                id="nav-results"
+                to="/results"
+                onClick={() => select('Results', 'Results')}
+                className="py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200"
+              >
+                Results
+              </Link>
 
             {/* ─── DESKTOP AUTH BUTTONS ─── */}
             <div className="hidden lg:flex items-center gap-3">
@@ -564,8 +571,14 @@ export default function Navbar({ onSelect = () => { } }) {
             Gallery
           </Link>
 
-
-        </div>
+          {/* ── Results ── */}
+          <Link
+            to="/results"
+            onClick={() => select('Results', 'Results')}
+            className="w-full text-left block px-3 py-3 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+          >
+            Results
+          </Link>
 
         {/* Footer Auth */}
         <div className="px-5 py-4 border-t border-gray-100">

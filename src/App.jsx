@@ -18,6 +18,7 @@ const SyllabusPYQs = lazy(() => import('./pages/Syllabus/SyllabusPYQs'));
 const SyllabusDetail = lazy(() => import('./pages/Syllabus/SyllabusDetail'));
 const SyllabusClassPage = lazy(() => import('./pages/Syllabus/SyllabusClassPage'));
 const AwardsPage = lazy(() => import('./pages/Awards/AwardsPage'));
+const ResultsPage = lazy(() => import('./pages/Results/ResultsPage'));
 const SubjectRankersPage = lazy(() => import('./pages/Rankers/SubjectRankersPage'));
 const RankersListPage = lazy(() => import('./pages/Rankers/RankersListPage'));
 const PreviousYearPage = lazy(() => import('./pages/PreviousYear/PreviousYearPage'));
@@ -100,6 +101,7 @@ function App() {
         <Route path="/previous-year/:subjectSlug" element={<SubjectPreviousYearPage />} />
         <Route path="/previous-year/:subjectSlug/:classSlug/:year" element={<PreviousYearDetailPage />} />
         <Route path="/awards" element={<AwardsPage />} />
+        <Route path="/results" element={<ResultsPage />} />
         <Route path="/school-panel" element={<SchoolPanelPage />} />
         <Route path="/subject-rankers" element={
           <SubjectRankersPage 

@@ -11,6 +11,7 @@ export const ROUTES = {
   gallery: '/gallery',
   markingScheme: '/marking-scheme',
   awards: '/awards',
+  results: '/results',
   login: '/login',
   register: '/register',
   forgotPassword: '/forgot-password',
