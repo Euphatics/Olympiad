@@ -198,7 +198,7 @@ const DecorationSVG = ({ deco, color }) => {
 
 const subjects = [
   {
-    name: 'Mathematics',
+    name: 'National Mathematics Olympiad (NMO)',
     color: '#4F46E5', // Indigo-600
     decorColor: '#818CF8', // Indigo-400
     bgGradient: 'linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%)',
@@ -222,7 +222,7 @@ const subjects = [
     )
   },
   {
-    name: 'Information Technology',
+    name: 'National Information Technology Olympiad (NIO)',
     color: '#0D9488', // Teal-600
     decorColor: '#2DD4BF', // Teal-400
     bgGradient: 'linear-gradient(135deg, #F0FDFA 0%, #CCFBF1 100%)',
@@ -244,7 +244,7 @@ const subjects = [
     )
   },
   {
-    name: 'Science',
+    name: 'National Science Olympiad (NSO)',
     color: '#059669', // Emerald-600
     decorColor: '#34D399', // Emerald-400
     bgGradient: 'linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%)',
@@ -266,7 +266,7 @@ const subjects = [
     )
   },
   {
-    name: 'English',
+    name: 'National English Olympiad (NEO)',
     color: '#7C3AED', // Violet-600
     decorColor: '#A78BFA', // Violet-400
     bgGradient: 'linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%)',
@@ -290,7 +290,7 @@ const subjects = [
     )
   },
   {
-    name: 'Finance',
+    name: 'National Finance Olympiad (NFO)',
     color: '#E11D48', // Rose-600
     decorColor: '#FB7185', // Rose-400
     bgGradient: 'linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 100%)',

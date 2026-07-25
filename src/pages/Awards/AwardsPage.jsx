@@ -130,12 +130,12 @@ export default function AwardsPage() {
             </div>
           </div>
 
-          {/* Right Papers Content Area: Single parent div container, no rounded corners, bold divide-y-2 separators */}
-          <div className="flex-1 min-w-0 border-2 border-gray-300 bg-white shadow-sm divide-y-2 divide-gray-300 rounded-none">
+          {/* Right Papers Content Area */}
+          <div className="flex-1 w-full space-y-12 min-w-0 pb-10">
             
             {/* Section 1: Key Guidelines */}
-            <div id="guidelines" className="scroll-mt-28 p-6 space-y-4">
-              <div className="flex items-center gap-2 mb-2">
+            <div id="guidelines" className="scroll-mt-28 space-y-4">
+              <div className="flex items-center gap-2 mb-4 border-b-2 border-[#007BFF] pb-2">
                 <BookOpen size={18} className="text-gray-500" />
                 <h3 className="text-[17px] font-bold text-gray-900">Key Guidelines for NTI Olympiad Awards</h3>
               </div>
@@ -177,8 +177,8 @@ export default function AwardsPage() {
             </div>
 
             {/* Section 2: Student Ranks & Prizes */}
-            <div id="student-awards" className="scroll-mt-28 p-6 space-y-4">
-              <div className="flex items-center gap-2 mb-2">
+            <div id="student-awards" className="scroll-mt-28 space-y-4">
+              <div className="flex items-center gap-2 mb-4 border-b-2 border-[#007BFF] pb-2">
                 <Medal size={18} className="text-gray-500" />
                 <h3 className="text-[17px] font-bold text-gray-900">NTI Olympiads Awards for Students</h3>
               </div>
@@ -194,53 +194,49 @@ export default function AwardsPage() {
                       <tr className="bg-gray-50 border-b-2 border-gray-300">
                         <th className="py-3 px-4 text-[12px] font-bold text-gray-900 uppercase tracking-wider w-16">Sl No.</th>
                         <th className="py-3 px-4 text-[12px] font-bold text-gray-900 uppercase tracking-wider">Ranking Criteria</th>
-                        <th className="py-3 px-4 text-[12px] font-bold text-gray-900 uppercase tracking-wider w-24">Grades</th>
+                        <th className="py-3 px-4 text-[12px] font-bold text-gray-900 uppercase tracking-wider whitespace-nowrap">Grades</th>
                         <th className="py-3 px-4 text-[12px] font-bold text-gray-900 uppercase tracking-wider">Awards</th>
                       </tr>
                     </thead>
                     <tbody className="text-[13px] text-gray-600 divide-y-2 divide-gray-200">
                       <tr>
                         <td className="py-4 px-4 font-semibold text-gray-900">1</td>
-                        <td className="py-4 px-4 font-normal">International rankers from 1st to 3rd positions globally</td>
-                        <td className="py-4 px-4 font-normal">Grades 1-10</td>
-                        <td className="py-4 px-4 leading-relaxed font-normal">
-                          <strong className="text-gray-900 block font-semibold">Rank 1: Gold Medal + Certificate of Excellence + Cash Prize</strong>
-                          <strong className="text-gray-900 block font-semibold">Rank 2: Silver Medal + Certificate of Excellence + Cash Prize</strong>
-                          <strong className="text-gray-900 block font-semibold">Rank 3: Bronze Medal + Certificate of Excellence + Cash Prize</strong>
+                        <td className="py-4 px-4 font-normal">First Place</td>
+                        <td className="py-4 px-4 font-normal whitespace-nowrap">Grades 1-10</td>
+                        <td className="py-4 px-4 font-normal">
+                          Cash + Medal + Tablet
                         </td>
                       </tr>
                       <tr>
                         <td className="py-4 px-4 font-semibold text-gray-900">2</td>
-                        <td className="py-4 px-4 font-normal">Zonal rankers from 1st to 3rd positions in each zone</td>
-                        <td className="py-4 px-4 font-normal">Grades 1-10</td>
-                        <td className="py-4 px-4 leading-relaxed font-normal">
-                          <strong className="text-gray-900 block font-semibold">Zonal Rank 1: Zonal Gold Medal + Certificate of Excellence</strong>
-                          <strong className="text-gray-900 block font-semibold">Zonal Rank 2: Zonal Silver Medal + Certificate of Excellence</strong>
-                          <strong className="text-gray-900 block font-semibold">Zonal Rank 3: Zonal Bronze Medal + Certificate of Excellence</strong>
+                        <td className="py-4 px-4 font-normal">Second Place</td>
+                        <td className="py-4 px-4 font-normal whitespace-nowrap">Grades 1-10</td>
+                        <td className="py-4 px-4 font-normal">
+                          Cash + Medal
                         </td>
                       </tr>
                       <tr>
                         <td className="py-4 px-4 font-semibold text-gray-900">3</td>
-                        <td className="py-4 px-4 font-normal">Top 10% students</td>
-                        <td className="py-4 px-4 font-normal">Grades 1-10</td>
-                        <td className="py-4 px-4 font-semibold text-[#007BFF]">
-                          Medal of Distinction + Merit Certificate
+                        <td className="py-4 px-4 font-normal">Third Place</td>
+                        <td className="py-4 px-4 font-normal whitespace-nowrap">Grades 1-10</td>
+                        <td className="py-4 px-4 font-normal">
+                          Cash + Medal
                         </td>
                       </tr>
                       <tr>
                         <td className="py-4 px-4 font-semibold text-gray-900">4</td>
-                        <td className="py-4 px-4 font-normal">Top 25% students</td>
-                        <td className="py-4 px-4 font-normal">Grades 1-10</td>
+                        <td className="py-4 px-4 font-normal">All other participants (Rest)</td>
+                        <td className="py-4 px-4 font-normal whitespace-nowrap">Grades 1-10</td>
                         <td className="py-4 px-4 font-normal">
-                          Commendation Certificate
+                          Certificate of Participation (Physical)
                         </td>
                       </tr>
                       <tr>
                         <td className="py-4 px-4 font-semibold text-gray-900">5</td>
-                        <td className="py-4 px-4 font-normal">All other participants</td>
-                        <td className="py-4 px-4 font-normal">Grades 1-10</td>
+                        <td className="py-4 px-4 font-normal">Participating Schools</td>
+                        <td className="py-4 px-4 font-normal">-</td>
                         <td className="py-4 px-4 font-normal">
-                          Digital Participation Certificate
+                          School Participation Certificate Frame
                         </td>
                       </tr>
                     </tbody>
@@ -250,8 +246,8 @@ export default function AwardsPage() {
             </div>
 
             {/* Section 3: School Excellence */}
-            <div id="school-awards" className="scroll-mt-28 p-6 space-y-4">
-              <div className="flex items-center gap-2 mb-2">
+            <div id="school-awards" className="scroll-mt-28 space-y-4">
+              <div className="flex items-center gap-2 mb-4 border-b-2 border-[#007BFF] pb-2">
                 <Trophy size={18} className="text-gray-500" />
                 <h3 className="text-[17px] font-bold text-gray-900">Categories of School Excellence</h3>
               </div>
@@ -261,7 +257,7 @@ export default function AwardsPage() {
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                <div className="border-2 border-gray-300 p-5 rounded-none flex flex-col justify-between bg-white shadow-sm">
+                <div className="flex flex-col justify-between">
                   <div>
                     <h4 className="font-bold text-gray-900 text-[14.5px] mb-2">Best Performing School</h4>
                     <p className="text-[12.5px] text-gray-500 leading-relaxed font-normal mb-4">
@@ -275,7 +271,7 @@ export default function AwardsPage() {
                   </div>
                 </div>
 
-                <div className="border-2 border-gray-300 p-5 rounded-none flex flex-col justify-between bg-white shadow-sm">
+                <div className="flex flex-col justify-between">
                   <div>
                     <h4 className="font-bold text-gray-900 text-[14.5px] mb-2">Maximum Participation Award</h4>
                     <p className="text-[12.5px] text-gray-500 leading-relaxed font-normal mb-4">
@@ -289,7 +285,7 @@ export default function AwardsPage() {
                   </div>
                 </div>
 
-                <div className="border-2 border-gray-300 p-5 rounded-none flex flex-col justify-between bg-white shadow-sm">
+                <div className="flex flex-col justify-between">
                   <div>
                     <h4 className="font-bold text-gray-900 text-[14.5px] mb-2">District Topper School</h4>
                     <p className="text-[12.5px] text-gray-500 leading-relaxed font-normal mb-4">
@@ -306,8 +302,8 @@ export default function AwardsPage() {
             </div>
 
             {/* Section 4: Educator Recognition */}
-            <div id="educator-awards" className="scroll-mt-28 p-6 space-y-4">
-              <div className="flex items-center gap-2 mb-2">
+            <div id="educator-awards" className="scroll-mt-28 space-y-4">
+              <div className="flex items-center gap-2 mb-4 border-b-2 border-[#007BFF] pb-2">
                 <GraduationCap size={18} className="text-gray-500" />
                 <h3 className="text-[17px] font-bold text-gray-900">Additional Recognition for Educators</h3>
               </div>
@@ -316,7 +312,7 @@ export default function AwardsPage() {
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                <div className="border-2 border-gray-300 p-5 rounded-none bg-gray-50/20">
+                <div>
                   <h4 className="text-[14.5px] font-bold text-gray-900 mb-1.5 flex items-center gap-2">
                     <Award size={16} className="text-[#007BFF]" />
                     Principal's Leadership Award
@@ -326,7 +322,7 @@ export default function AwardsPage() {
                   </p>
                 </div>
 
-                <div className="border-2 border-gray-300 p-5 rounded-none bg-gray-50/20">
+                <div>
                   <h4 className="text-[14.5px] font-bold text-gray-900 mb-1.5 flex items-center gap-2">
                     <Users size={16} className="text-[#007BFF]" />
                     Best Coordinator Award
