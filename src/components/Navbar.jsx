@@ -349,6 +349,7 @@ export default function Navbar({ onSelect = () => { } }) {
               >
                 Results
               </Link>
+            </div>
 
             {/* ─── DESKTOP AUTH BUTTONS ─── */}
             <div className="hidden lg:flex items-center gap-3">
@@ -579,6 +580,7 @@ export default function Navbar({ onSelect = () => { } }) {
           >
             Results
           </Link>
+        </div>
 
         {/* Footer Auth */}
         <div className="px-5 py-4 border-t border-gray-100">
