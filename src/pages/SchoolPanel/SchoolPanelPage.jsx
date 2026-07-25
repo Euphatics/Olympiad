@@ -224,14 +224,8 @@ function ImportModal({ open, onClose, onImport, subjectLabel }) {
       };
       reader.readAsArrayBuffer(file);
     } else {
-      // Read as text for CSV
-      const reader = new FileReader();
-      reader.onload = (ev) => processCSV(ev.target.result, file.name);
-      reader.onerror = () => {
-        setStatus({ type: 'error', msg: 'Failed to read the file.' });
-        setLoading(false);
-      };
-      reader.readAsText(file);
+      setStatus({ type: 'error', msg: 'Only Excel files (.xlsx, .xls) are supported.' });
+      setLoading(false);
     }
   };
 
@@ -334,14 +328,14 @@ function ImportModal({ open, onClose, onImport, subjectLabel }) {
                   </div>
                   <div className="text-center">
                     <p className="text-sm font-semibold" style={{ color: BODY_COL }}>Click to upload a file</p>
-                    <p className="text-xs mt-1" style={{ color: MUTED_COL }}>.csv, .xlsx, or .xls files</p>
+                    <p className="text-xs mt-1" style={{ color: MUTED_COL }}>.xlsx or .xls files only</p>
                   </div>
                 </label>
                 <input
                   ref={fileRef}
                   id="csv-upload"
                   type="file"
-                  accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                  accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
                   onChange={handleFileChange}
                   className="hidden"
                 />
