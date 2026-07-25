@@ -199,6 +199,6 @@ export default function RegisterPage() {
         .input-wrapper input:focus, .input-wrapper select:focus, .input-wrapper textarea:focus { border-color: #3b82f6 !important; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15) !important; }
         .section-header h3 { font-size: 15px; font-weight: 700; color: #1e293b; text-transform: uppercase; margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0; }
       `}</style>
-    </div>
+    </>
   );
 }
