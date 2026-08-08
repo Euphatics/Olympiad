@@ -1,22 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { CheckCircle, XCircle, Clock, ExternalLink, ArrowLeft, RefreshCw, ShieldCheck, LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '../../config/api';
-
-/** Helper: get admin token from localStorage */
-const getToken = () => localStorage.getItem('adminToken') || '';
-
-/** Helper: authenticated fetch */
-const adminFetch = (url, options = {}) => {
-  return fetch(url, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${getToken()}`,
-      ...(options.headers || {}),
-    },
-  });
-};
+import { API_BASE_URL, secureFetch } from '../../config/api';
+import { handleSessionExpiration } from '../../utils/security';
 
 export default function AdminPaymentsPage() {
   const navigate = useNavigate();
@@ -26,18 +12,13 @@ export default function AdminPaymentsPage() {
 
   const fetchPayments = async () => {
     try {
-      const res = await adminFetch(`${API_BASE_URL}/api/admin/payments`);
+      const res = await secureFetch(`${API_BASE_URL}/api/admin/payments`);
       if (!res.ok) {
-        if (res.status === 401) {
-          localStorage.removeItem('adminAuth');
-          localStorage.removeItem('adminToken');
-          navigate('/admin/login');
-          return;
-        }
+        if (handleSessionExpiration(res, navigate)) return;
         throw new Error('Failed to fetch payments');
       }
       const data = await res.json();
-      setPayments(data.payments);
+      setPayments(data.payments || []);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -53,7 +34,7 @@ export default function AdminPaymentsPage() {
     if (!window.confirm(`Are you sure you want to mark this payment as ${status}?`)) return;
 
     try {
-      const res = await adminFetch(`${API_BASE_URL}/api/admin/payments/${paymentId}/verify`, {
+      const res = await secureFetch(`${API_BASE_URL}/api/admin/payments/${paymentId}/verify`, {
         method: 'POST',
         body: JSON.stringify({ status, adminNotes: '' }),
       });

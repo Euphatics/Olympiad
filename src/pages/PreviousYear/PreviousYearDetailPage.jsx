@@ -1,11 +1,13 @@
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams, Link } from 'react-router-dom';
+import { ExternalLink, Download, FileText, Printer, CheckCircle } from 'lucide-react';
 import { getSubjectBySlug, getClassBySlug, CLASS_LEVELS } from '../../config/subjects';
 import { syllabusData } from '../../data/syllabusData';
 import { ROUTES } from '../../config/routes';
 import { Breadcrumb, PageContainer, Button, SectionHeading } from '../../components/ui';
+import { API_BASE_URL } from '../../config/api';
 
-// Mock question generator helper based on subject slug and class slug
 const getSampleQuestions = (subjectSlug, classSlug) => {
   const label = classSlug ? classSlug.toUpperCase().replace('-', ' ') : 'CLASS';
   switch (subjectSlug) {
@@ -105,9 +107,43 @@ const getSampleQuestions = (subjectSlug, classSlug) => {
 
 export default function PreviousYearDetailPage() {
   const { subjectSlug, classSlug, year } = useParams();
+  const [publishedPyq, setPublishedPyq] = useState(null);
 
   const subject = getSubjectBySlug(subjectSlug);
   const classLevel = getClassBySlug(classSlug);
+
+  useEffect(() => {
+    const loadPyqs = async () => {
+      let pyqList = [];
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/pyqs`);
+        if (res.ok) {
+          const data = await res.json();
+          pyqList = data.pyqs || [];
+        }
+      } catch (err) {
+        console.warn('API pyqs load warning:', err);
+      }
+
+      if (!pyqList.length) {
+        try {
+          const local = localStorage.getItem('nti_pyqs_backup_v1');
+          if (local) pyqList = JSON.parse(local);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      const match = pyqList.find(
+        p => p.subjectSlug === subjectSlug && p.classSlug === classSlug && String(p.year) === String(year)
+      );
+      if (match) setPublishedPyq(match);
+    };
+
+    if (subjectSlug && classSlug) {
+      loadPyqs();
+    }
+  }, [subjectSlug, classSlug, year]);
 
   if (!subject || !classLevel) {
     return (
@@ -123,12 +159,18 @@ export default function PreviousYearDetailPage() {
     );
   }
 
-  // Load topics dynamically from syllabusData
   const classSyllabus = syllabusData[subjectSlug]?.[classSlug];
   const topics = classSyllabus?.sections?.syllabus?.content || [];
   const questions = getSampleQuestions(subjectSlug, classSlug);
 
+  const pdfUrl = publishedPyq?.paperUrl;
+
   const handleDownload = (type) => {
+    if (pdfUrl) {
+      window.open(pdfUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
     let textContent = `========================================================================
                  NTI OLYMPIAD OFFICIAL PRACTICE PAPER (${type})
 ========================================================================
@@ -190,111 +232,152 @@ ${questions.map((q, i) => `Q${i + 1}. ${q.q}\n${q.options.join('\n')}\n${type ==
           {/* Main PDF Viewer and Actions column */}
           <div className="lg:col-span-3 space-y-6">
             
-            {/* Mock PDF Viewer Container */}
+            {/* Real PDF Viewer Container */}
             <div className="border-2 border-gray-300 rounded-none overflow-hidden shadow-sm bg-gray-50 flex flex-col">
               
               {/* PDF Header bar */}
               <div className="bg-gray-100 px-4 py-3 flex items-center justify-between border-b-2 border-gray-300">
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-none bg-red-100 flex items-center justify-center text-red-700 font-bold text-xs">
+                  <div className="w-6 h-6 rounded-none bg-red-600 text-white font-bold text-xs flex items-center justify-center">
                     PDF
                   </div>
-                  <span className="text-[13px] font-medium text-gray-700 truncate max-w-xs sm:max-w-md">
+                  <span className="text-[13px] font-semibold text-gray-800 truncate max-w-xs sm:max-w-md">
                     NTI_{subject.abbr}_{classLevel.name.replace(/\s+/g, '_')}_PYQ_{year}.pdf
                   </span>
                 </div>
-                <div className="text-[12px] font-semibold text-gray-500 bg-white border-2 border-gray-300 px-2 py-0.5 rounded-none">
-                  Year {year}
+                <div className="flex items-center gap-2">
+                  {pdfUrl && (
+                    <a
+                      href={pdfUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-xs font-semibold text-blue-600 hover:text-blue-800 bg-white border border-blue-300 px-2.5 py-1 rounded-none flex items-center gap-1"
+                    >
+                      <ExternalLink size={12} /> Open Fullscreen
+                    </a>
+                  )}
+                  <div className="text-[12px] font-semibold text-gray-600 bg-white border border-gray-300 px-2 py-0.5 rounded-none">
+                    Year {year}
+                  </div>
                 </div>
               </div>
 
-              {/* PDF Content Sheet */}
-              <div className="bg-white border-b-2 border-gray-300 p-6 min-h-[400px] max-h-[600px] overflow-y-auto custom-scroll font-serif leading-relaxed text-sm text-gray-800">
-                
-                {/* Header block */}
-                <div className="text-center border-b-2 border-double border-gray-300 pb-4 mb-6">
-                  <h3 className="text-lg font-bold uppercase text-gray-900">
-                    National Testing Initiative
-                  </h3>
-                  <p className="text-xs uppercase text-gray-500 tracking-wider">
-                    {subject.name} Olympiad ({subject.abbr}) &bull; {classLevel.name}
-                  </p>
-                  <p className="text-xs font-semibold text-gray-600 mt-1">
-                    Previous Year Practice Sheet &bull; Academic Year {year}
-                  </p>
-                </div>
+              {/* PDF Viewer Sheet */}
+              <div className="bg-white border-b-2 border-gray-300 min-h-[450px]">
+                {pdfUrl ? (
+                  <div className="relative w-full h-[650px]">
+                    <object
+                      data={`${pdfUrl}#toolbar=1`}
+                      type="application/pdf"
+                      className="w-full h-full"
+                    >
+                      <iframe
+                        src={`${pdfUrl}#toolbar=1`}
+                        className="w-full h-full border-0"
+                        title={`NTI ${subject.abbr} PYQ ${year}`}
+                      >
+                        <div className="p-8 text-center text-gray-600">
+                          <p className="mb-4 text-sm font-semibold">Your browser does not support inline PDF viewing.</p>
+                          <a
+                            href={pdfUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="px-4 py-2 bg-blue-600 text-white rounded text-xs font-bold inline-flex items-center gap-2"
+                          >
+                            <Download size={14} /> Download PDF Document
+                          </a>
+                        </div>
+                      </iframe>
+                    </object>
+                  </div>
+                ) : (
+                  /* Interactive PDF Practice Paper Renderer Fallback */
+                  <div className="p-6 min-h-[400px] max-h-[600px] overflow-y-auto custom-scroll font-serif leading-relaxed text-sm text-gray-800">
+                    <div className="text-center border-b-2 border-double border-gray-300 pb-4 mb-6">
+                      <h3 className="text-lg font-bold uppercase text-gray-900 tracking-wide">
+                        National Testing Initiative
+                      </h3>
+                      <p className="text-xs uppercase text-gray-500 tracking-wider mt-0.5">
+                        {subject.name} Olympiad ({subject.abbr}) &bull; {classLevel.name}
+                      </p>
+                      <p className="text-xs font-semibold text-gray-600 mt-1">
+                        Previous Year Practice Sheet &bull; Academic Year {year}
+                      </p>
+                    </div>
 
-                {/* Info parameters */}
-                <div className="grid grid-cols-2 gap-4 text-xs font-sans text-gray-600 bg-gray-50 p-3 rounded mb-6 border border-gray-100">
-                  <div>
-                    <strong>Time Allowed:</strong> 60 Minutes
-                  </div>
-                  <div>
-                    <strong>Total Questions:</strong> 50 Questions
-                  </div>
-                  <div>
-                    <strong>Total Marks:</strong> 100 Marks
-                  </div>
-                  <div>
-                    <strong>Negative Marking:</strong> None
-                  </div>
-                </div>
+                    <div className="grid grid-cols-2 gap-4 text-xs font-sans text-gray-600 bg-gray-50 p-3.5 rounded mb-6 border border-gray-200">
+                      <div><strong>Time Allowed:</strong> 60 Minutes</div>
+                      <div><strong>Total Questions:</strong> 50 Questions</div>
+                      <div><strong>Total Marks:</strong> 100 Marks</div>
+                      <div><strong>Negative Marking:</strong> None</div>
+                    </div>
 
-                {/* Topics Covered */}
-                {topics.length > 0 && (
-                  <div className="mb-6 font-sans text-[13px]">
-                    <h4 className="font-bold text-gray-900 mb-2 border-b border-gray-200 pb-1">
-                      Assessed Syllabus Topics
-                    </h4>
-                    <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-gray-600">
-                      {topics.map((t, index) => (
-                        <span key={index} className="flex items-center gap-1">
-                          &bull; {t}
-                        </span>
+                    {topics.length > 0 && (
+                      <div className="mb-6 font-sans text-[13px]">
+                        <h4 className="font-bold text-gray-900 mb-2 border-b border-gray-200 pb-1 uppercase tracking-wider text-[11px]">
+                          Assessed Syllabus Topics
+                        </h4>
+                        <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-gray-600">
+                          {topics.map((t, index) => (
+                            <span key={index} className="flex items-center gap-1">
+                              &bull; {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="space-y-6 font-sans">
+                      <h4 className="font-bold text-gray-900 mb-3 uppercase tracking-wider text-[12px] border-b border-gray-200 pb-1">
+                        Section A — Conceptual Understanding & Problem Solving
+                      </h4>
+                      {questions.map((q, i) => (
+                        <div key={i} className="space-y-2">
+                          <p className="font-semibold text-gray-950 text-[14px]">
+                            Q{i + 1}. {q.q}
+                          </p>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pl-3">
+                            {q.options.map((opt, idx) => (
+                              <div key={idx} className="text-gray-700 text-[13.5px]">
+                                {opt}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       ))}
                     </div>
                   </div>
                 )}
-
-                {/* Mock Paper Body questions */}
-                <div className="space-y-6 font-sans">
-                  <h4 className="font-bold text-gray-900 mb-3 uppercase tracking-wider text-[13px] border-b border-gray-200 pb-1">
-                    Section A - Conceptual Understanding
-                  </h4>
-                  {questions.map((q, i) => (
-                    <div key={i} className="space-y-2">
-                      <p className="font-semibold text-gray-950">
-                        Q{i + 1}. {q.q}
-                      </p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pl-3">
-                        {q.options.map((opt, idx) => (
-                          <div key={idx} className="text-gray-600 text-[13.5px]">
-                            {opt}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
               </div>
 
             </div>
 
             {/* Centered / Left Download Buttons */}
-            <div className="flex flex-wrap gap-4 pt-2">
+            <div className="flex flex-wrap items-center gap-4 pt-2">
               <Button
                 variant="secondary"
                 onClick={() => handleDownload('Question Paper')}
+                className="flex items-center gap-2"
               >
-                Download Question Paper (PDF)
+                <Download size={16} />
+                {pdfUrl ? 'Download Question Paper PDF' : 'Download Question Paper'}
               </Button>
               <Button
                 variant="secondary"
                 onClick={() => handleDownload('Answer Key')}
+                className="flex items-center gap-2"
               >
+                <FileText size={16} />
                 Download Answer Key & Solutions
               </Button>
+              {!pdfUrl && (
+                <button
+                  onClick={() => window.print()}
+                  className="px-4 py-2 border border-gray-300 text-gray-700 font-semibold rounded-none hover:bg-gray-50 text-[13px] flex items-center gap-1.5 transition-colors"
+                >
+                  <Printer size={15} /> Print Practice Sheet
+                </button>
+              )}
             </div>
 
           </div>

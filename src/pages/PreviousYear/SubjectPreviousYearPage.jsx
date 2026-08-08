@@ -169,31 +169,47 @@ export default function SubjectPreviousYearPage() {
                     </span>
                   </div>
 
-                  {/* Results List */}
+                  {/* Results & Question Papers List */}
                   <div className="space-y-4">
                     <div>
-                      <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-3">
-                        Published Results
+                      <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-2">
+                        Question Papers & Practice Sheets
+                      </h4>
+                      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[13.5px] mb-4">
+                        {[2025, 2024, 2023].map((y) => (
+                          <Link
+                            key={y}
+                            to={ROUTES.previousYearDetail(subject.slug, cls.slug, y)}
+                            className="text-[#007BFF] hover:underline font-semibold inline-flex items-center gap-1.5 bg-blue-50/60 border border-blue-200 px-3 py-1 rounded-sm"
+                          >
+                            <span>{y} Question Paper (PDF) &rarr;</span>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-2">
+                        Published Exam Results
                       </h4>
                       {loading ? (
-                        <p className="text-sm text-gray-500 italic">Loading results...</p>
+                        <p className="text-xs text-gray-500 italic">Loading results...</p>
                       ) : classResults.length > 0 ? (
-                        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-[14px]">
+                        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[13.5px]">
                           {classResults.map((result) => (
                             <a
                               key={result.id}
                               href={result.resultUrl}
                               target="_blank"
                               rel="noreferrer"
-                              className="text-[#007BFF] hover:underline font-medium inline-flex items-center gap-1.5"
+                              className="text-emerald-700 hover:underline font-medium inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-sm text-xs"
                             >
-                              <span className="text-gray-400 font-normal">○</span>
-                              <span>{result.year} Result</span>
+                              <span>{result.year} Result Sheet PDF</span>
                             </a>
                           ))}
                         </div>
                       ) : (
-                        <p className="text-[13px] text-gray-400">No results published for this class yet.</p>
+                        <p className="text-[12.5px] text-gray-400 italic">Official results will be updated post examination.</p>
                       )}
                     </div>
                   </div>

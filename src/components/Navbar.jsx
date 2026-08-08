@@ -313,19 +313,19 @@ export default function Navbar({ onSelect = () => { } }) {
                   }`}>
                   <div className="bg-white rounded-xl border border-gray-200/80 shadow-xl shadow-gray-900/8 py-1.5 min-w-[190px]">
                     <div className="h-[2.5px] bg-gradient-to-r from-royal-600 to-royal-800 mx-3 rounded-full mb-1.5" />
-                    {PREPARATION_ITEMS.map((item) => (
-                      <Link
-                        key={item}
-                        to={item === 'PYQs' ? ROUTES.previousYear : item === 'Prep Guide' ? ROUTES.prepGuide : '#'}
-                        onClick={(e) => {
-                          if (item !== 'PYQs' && item !== 'Prep Guide') e.preventDefault();
-                          select('Preparations', item);
-                        }}
-                        className="w-full text-left px-4 py-2.5 text-[13px] font-medium text-gray-600 hover:bg-royal-50 hover:text-royal-800 transition-colors duration-150 block"
-                      >
-                        {item}
-                      </Link>
-                    ))}
+                    {PREPARATION_ITEMS.map((item) => {
+                      const itemPath = item === 'PYQs' ? ROUTES.previousYear : item === 'Prep Guide' ? ROUTES.prepGuide : item === 'Prep Books' ? ROUTES.awards : '#';
+                      return (
+                        <Link
+                          key={item}
+                          to={itemPath}
+                          onClick={() => select('Preparations', item)}
+                          className="w-full text-left px-4 py-2.5 text-[13px] font-medium text-gray-600 hover:bg-royal-50 hover:text-royal-800 transition-colors duration-150 block"
+                        >
+                          {item}
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -511,19 +511,19 @@ export default function Navbar({ onSelect = () => { } }) {
             <div className={`overflow-hidden transition-all duration-300 ${mobAccordion === 'preparations' ? 'max-h-[400px] opacity-100 mt-1' : 'max-h-0 opacity-0'
               }`}>
               <div className="ml-3 border-l-2 border-royal-100 pl-2 space-y-0.5 pb-2">
-                {PREPARATION_ITEMS.map((item) => (
-                  <Link
-                    key={item}
-                    to={item === 'PYQs' ? ROUTES.previousYear : item === 'Prep Guide' ? ROUTES.prepGuide : '#'}
-                    onClick={(e) => {
-                      if (item !== 'PYQs' && item !== 'Prep Guide') e.preventDefault();
-                      select('Preparations', item);
-                    }}
-                    className="w-full text-left px-3 py-2.5 rounded-lg text-[13px] font-medium text-gray-600 hover:bg-royal-50 hover:text-royal-800 transition-colors duration-150 block"
-                  >
-                    {item}
-                  </Link>
-                ))}
+                {PREPARATION_ITEMS.map((item) => {
+                  const itemPath = item === 'PYQs' ? ROUTES.previousYear : item === 'Prep Guide' ? ROUTES.prepGuide : item === 'Prep Books' ? ROUTES.awards : '#';
+                  return (
+                    <Link
+                      key={item}
+                      to={itemPath}
+                      onClick={() => select('Preparations', item)}
+                      className="w-full text-left px-3 py-2.5 rounded-lg text-[13px] font-medium text-gray-600 hover:bg-royal-50 hover:text-royal-800 transition-colors duration-150 block"
+                    >
+                      {item}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </div>

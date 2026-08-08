@@ -21,8 +21,11 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '../../config/api';
+import { API_BASE_URL, secureFetch } from '../../config/api';
+import { sanitizeQueryParam, handleSessionExpiration } from '../../utils/security';
 import ResultsTab from './ResultsTab';
+import PYQSTab from './PYQSTab';
+import SyllabusTab from './SyllabusTab';
 
 const PRIMARY_BLUE = '#007BFF';
 const HEADING_COL  = '#1F2937';
@@ -31,21 +34,6 @@ const BORDER_COL   = '#E5E7EB';
 const BG_SECTION   = '#F9FAFB';
 const ICON_BG      = '#EFF6FF';
 const ICON_COL     = '#1D4ED8';
-
-/** Helper: get admin token from localStorage */
-const getToken = () => localStorage.getItem('adminToken') || '';
-
-/** Helper: authenticated fetch */
-const adminFetch = (url, options = {}) => {
-  return fetch(url, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${getToken()}`,
-      ...(options.headers || {}),
-    },
-  });
-};
 
 export default function AdminDashboardPage() {
   const navigate = useNavigate();
@@ -69,9 +57,9 @@ export default function AdminDashboardPage() {
   // Fetch dashboard stats
   const fetchStats = async () => {
     try {
-      const res = await adminFetch(`${API_BASE_URL}/api/admin/stats`);
+      const res = await secureFetch(`${API_BASE_URL}/api/admin/stats`);
       if (!res.ok) {
-        if (res.status === 401) { handleLogout(); return; }
+        if (handleSessionExpiration(res, navigate)) return;
         throw new Error('Failed to fetch stats');
       }
       const data = await res.json();
@@ -88,16 +76,17 @@ export default function AdminDashboardPage() {
     setLoadingSchools(true);
     try {
       const params = new URLSearchParams();
-      if (searchTerm) params.set('search', searchTerm);
+      const sanitized = sanitizeQueryParam(searchTerm);
+      if (sanitized) params.set('search', sanitized);
       if (statusFilter) params.set('status', statusFilter);
 
-      const res = await adminFetch(`${API_BASE_URL}/api/admin/schools?${params.toString()}`);
+      const res = await secureFetch(`${API_BASE_URL}/api/admin/schools?${params.toString()}`);
       if (!res.ok) {
-        if (res.status === 401) { handleLogout(); return; }
+        if (handleSessionExpiration(res, navigate)) return;
         throw new Error('Failed to fetch schools');
       }
       const data = await res.json();
-      setSchools(data.schools);
+      setSchools(data.schools || []);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -123,7 +112,7 @@ export default function AdminDashboardPage() {
     if (!window.confirm(`Are you sure you want to ${newStatus.toLowerCase()} this school?`)) return;
 
     try {
-      const res = await adminFetch(`${API_BASE_URL}/api/admin/schools/${schoolId}/status`, {
+      const res = await secureFetch(`${API_BASE_URL}/api/admin/schools/${schoolId}/status`, {
         method: 'PATCH',
         body: JSON.stringify({ status: newStatus }),
       });
@@ -143,7 +132,7 @@ export default function AdminDashboardPage() {
     if (!window.confirm(`Are you sure you want to delete "${schoolName}" and all its data? This cannot be undone.`)) return;
 
     try {
-      const res = await adminFetch(`${API_BASE_URL}/api/admin/schools/${schoolId}`, {
+      const res = await secureFetch(`${API_BASE_URL}/api/admin/schools/${schoolId}`, {
         method: 'DELETE',
       });
 
@@ -201,6 +190,18 @@ export default function AdminDashboardPage() {
             >
               <FileText size={16} strokeWidth={2.5} /> Results
             </button>
+            <button 
+              onClick={() => handleTabChange('pyqs')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-sm text-[13px] font-bold transition-colors ${activeTab === 'pyqs' ? 'bg-[#EFF6FF] text-[#1D4ED8] border border-blue-100' : 'text-gray-600 hover:bg-gray-50 border border-transparent'}`}
+            >
+              <BookOpen size={16} strokeWidth={2.5} /> Previous Papers
+            </button>
+            <button 
+              onClick={() => handleTabChange('syllabus')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-sm text-[13px] font-bold transition-colors ${activeTab === 'syllabus' ? 'bg-[#EFF6FF] text-[#1D4ED8] border border-blue-100' : 'text-gray-600 hover:bg-gray-50 border border-transparent'}`}
+            >
+              <Calendar size={16} strokeWidth={2.5} /> Syllabus
+            </button>
           </nav>
 
           {/* Logout at bottom */}
@@ -234,6 +235,8 @@ export default function AdminDashboardPage() {
               { key: 'overview', label: 'Overview', icon: Building2 },
               { key: 'approvals', label: 'Approvals', icon: CreditCard },
               { key: 'results', label: 'Results', icon: FileText },
+              { key: 'pyqs', label: 'Previous Papers', icon: BookOpen },
+              { key: 'syllabus', label: 'Syllabus', icon: Calendar },
             ].map(tab => (
               <button
                 key={tab.key}
@@ -454,6 +457,8 @@ export default function AdminDashboardPage() {
           )}
 
           {activeTab === 'results' && <ResultsTab />}
+          {activeTab === 'pyqs' && <PYQSTab />}
+          {activeTab === 'syllabus' && <SyllabusTab />}
         </main>
       </div>
     </>

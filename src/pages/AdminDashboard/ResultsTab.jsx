@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Trash2, ExternalLink, Upload, FileText } from 'lucide-react';
 import { SUBJECTS } from '../../config/subjects';
-import { API_BASE_URL } from '../../config/api';
+import { API_BASE_URL, secureFetch } from '../../config/api';
+import { validatePDFMagicBytes } from '../../utils/security';
 
 const HEADING_COL  = '#1F2937';
 const MUTED_COL    = '#9CA3AF';
@@ -21,16 +22,6 @@ const CLASS_LEVELS = [
   { slug: 'class-10', name: 'Class 10' }
 ];
 
-const getToken = () => localStorage.getItem('adminToken') || '';
-const adminFetch = (url, options = {}) => fetch(url, {
-  ...options,
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${getToken()}`,
-    ...(options.headers || {}),
-  },
-});
-
 export default function ResultsTab() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -48,10 +39,10 @@ export default function ResultsTab() {
   const fetchResults = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE_URL}/api/results`);
+      const res = await secureFetch(`${API_BASE_URL}/api/results`);
       if (!res.ok) throw new Error('Failed to fetch results');
       const data = await res.json();
-      setResults(data.results);
+      setResults(data.results || []);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -69,7 +60,20 @@ export default function ResultsTab() {
     if (!file) return;
 
     if (file.type !== 'application/pdf') {
-      alert('Please select a PDF file');
+      alert('Please select a valid PDF file');
+      return;
+    }
+
+    if (file.size > 15 * 1024 * 1024) {
+      alert('File size exceeds maximum limit of 15MB.');
+      return;
+    }
+
+    // Binary Magic Bytes Validation (%PDF- / 0x25 0x50 0x44 0x46 0x2D)
+    const isValidPdfHeader = await validatePDFMagicBytes(file);
+    if (!isValidPdfHeader) {
+      alert('Security Alert: Selected file is corrupted or not an authentic PDF document.');
+      e.target.value = '';
       return;
     }
 
@@ -78,9 +82,8 @@ export default function ResultsTab() {
       const formData = new FormData();
       formData.append('file', file);
 
-      const res = await fetch(`${API_BASE_URL}/api/upload?folder=olympiad/results`, {
+      const res = await secureFetch(`${API_BASE_URL}/api/upload?folder=olympiad/results`, {
         method: 'POST',
-        credentials: 'include',
         body: formData,
       });
 
@@ -95,7 +98,6 @@ export default function ResultsTab() {
       alert(err.message || 'Upload failed');
     } finally {
       setUploading(false);
-      // Reset the file input so the same file can be re-selected
       e.target.value = '';
     }
   };
@@ -108,7 +110,7 @@ export default function ResultsTab() {
     }
     setSaving(true);
     try {
-      const res = await adminFetch(`${API_BASE_URL}/api/admin/results`, {
+      const res = await secureFetch(`${API_BASE_URL}/api/admin/results`, {
         method: 'POST',
         body: JSON.stringify(newResult),
       });
@@ -125,7 +127,7 @@ export default function ResultsTab() {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this result?')) return;
     try {
-      const res = await adminFetch(`${API_BASE_URL}/api/admin/results/${id}`, {
+      const res = await secureFetch(`${API_BASE_URL}/api/admin/results/${id}`, {
         method: 'DELETE',
       });
       if (!res.ok) throw new Error('Failed to delete result');
